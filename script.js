@@ -192,26 +192,25 @@ function activateWithKey() {
 
 function renderCertificate() {
     const d = shioDatabase[finalWinner];
-    document.getElementById('cert-user-name').innerText = userInfo.name;
-    document.getElementById('shio-title').innerText = finalWinner;
-    document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
     
-    // RENDER DESKRIPSI LENGKAP
-    document.getElementById('shio-long-desc').innerHTML = `
-        <p class="mb-2 text-justify">${d.desc}</p>
-        <p class="mb-1"><strong>KEKUATAN:</strong> ${d.kekuatan}</p>
-        <p class="mb-1"><strong>KELEMAHAN:</strong> ${d.kelemahan}</p>
-        <p class="mt-2 text-blue-900 font-bold uppercase border-t border-slate-100 pt-1 text-[9px]">Strategi Action Plan:</p>
-        <p>${d.action}</p>
-    `;
+    // Header & Info Umum
+    [span_0](start_span)document.getElementById('cert-user-name').innerText = userInfo.name;[span_0](end_span)
+    [span_1](start_span)document.getElementById('shio-title').innerText = finalWinner;[span_1](end_span)
+    [span_2](start_span)document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;[span_2](end_span)
     
-    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(Math.random()*900000)+100000}`;
+    // Laporan Deskripsi (Lebih Padat & Panjang)
+    [span_3](start_span)document.getElementById('shio-long-desc').innerText = d.desc;[span_3](end_span)
+    [span_4](start_span)document.getElementById('shio-plus').innerText = d.kekuatan;[span_4](end_span)
+    [span_5](start_span)document.getElementById('shio-minus').innerText = d.kelemahan;[span_5](end_span)
+    [span_6](start_span)document.getElementById('shio-action').innerText = d.action;[span_6](end_span)
     
-    // RENDER ATRIBUT DETAIL
-    document.getElementById('shio-details').innerHTML = `
-        <li class="mb-1 border-b pb-1"><strong>GAYA KERJA:</strong><br>${d.gayaKerja}</li>
-        <li class="mb-1 text-amber-700 font-bold italic">PARTNER IDEAL:<br>${d.pasangan}</li>
-    `;
-    document.getElementById('certificate-area').style.display = "block";
+    // Atribut Detail
+    [span_7](start_span)document.getElementById('shio-gaya').innerText = d.gayaKerja;[span_7](end_span)
+    [span_8](start_span)document.getElementById('shio-partner').innerText = d.pasangan;[span_8](end_span)
+    
+    // Footer & ID
+    [span_9](start_span)document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });[span_9](end_span)
+    [span_10](start_span)document.getElementById('cert-id').innerText = `ARAYA-SHIO-${Math.floor(Math.random()*9000)+1000}`;[span_10](end_span)
+    
+    [span_11](start_span)document.getElementById('certificate-area').style.display = "block";[span_11](end_span)
 }
