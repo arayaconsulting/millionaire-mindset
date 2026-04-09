@@ -114,11 +114,9 @@ const shioDatabase = {
 // --- CORE LOGIC ---
 
 function startQuiz() {
-    // 1. Ambil elemen input secara spesifik
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
     
-    // 2. Pastikan elemen ditemukan sebelum mengambil nilainya
     if (!nameEl || !phoneEl) {
         console.error("Elemen input tidak ditemukan di HTML!");
         return;
@@ -127,25 +125,21 @@ function startQuiz() {
     const nameValue = nameEl.value.trim();
     const phoneValue = phoneEl.value.trim();
     
-    // 3. Validasi: Jangan biarkan kosong
     if (nameValue === "" || phoneValue === "") {
         alert("Mohon isi Nama Lengkap dan Nomor WhatsApp untuk melanjutkan.");
         return;
     }
     
-    // 4. Simpan ke variabel Global userInfo
     userInfo.name = nameValue;
     userInfo.phone = phoneValue;
     
-    // 5. Perpindahan Tampilan (Section Control)
     const regSection = document.getElementById('register-section');
     const quizSection = document.getElementById('quiz-section');
     
     if (regSection && quizSection) {
-        regSection.classList.add('hidden'); // Sembunyikan form
-        quizSection.classList.remove('hidden'); // Tampilkan kuesioner
+        regSection.classList.add('hidden');
+        quizSection.classList.remove('hidden');
         
-        // 6. Reset kuis ke awal dan tampilkan soal pertama
         currentQuestion = 0;
         userAnswers = [];
         showQuestion();
@@ -194,41 +188,39 @@ async function calculateAndSync() {
 
 function activateWithKey() {
     if(!document.getElementById('license-key').value) return alert("Mohon masukkan kode aktivasi!");
-    renderCertificate();
     document.getElementById('paywall-section').classList.add('hidden');
     document.getElementById('final-result-section').classList.remove('hidden');
 }
 
-function renderCertificate() {
+// LOGIKA DOWNLOAD PDF OTOMATIS (MODE DIRECT DOWNLOAD)
+function downloadPDF() {
+    // 1. Jalankan pengisian data ke elemen sertifikat tersembunyi
     const d = shioDatabase[finalWinner];
-    
-    // Isi data ke elemen sertifikat
     document.getElementById('cert-user-name').innerText = userInfo.name;
     document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
     document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
     document.getElementById('shio-long-desc').innerHTML = `<p>${d.desc}</p><p style="margin-top:10px"><strong>ACTION:</strong> ${d.action}</p>`;
-    
-    // Atribut Karakter (Bullet points)
     document.getElementById('shio-details').innerHTML = `
-        <li style="margin-bottom:5px"><strong>KEKUATAN:</strong> ${d.kekuatan}</li>
-        <li style="margin-bottom:5px"><strong>KELEMAHAN:</strong> ${d.kelemahan}</li>
-        <li style="margin-bottom:5px"><strong>GAYA KERJA:</strong> ${d.gayaKerja}</li>
-        <li style="margin-bottom:5px"><strong>PARTNER:</strong> ${d.pasangan}</li>
+        <li style="margin-bottom:8px"><strong>KEKUATAN:</strong> ${d.kekuatan}</li>
+        <li style="margin-bottom:8px"><strong>KELEMAHAN:</strong> ${d.kelemahan}</li>
+        <li style="margin-bottom:8px"><strong>GAYA KERJA:</strong> ${d.gayaKerja}</li>
+        <li style="margin-bottom:8px"><strong>PARTNER IDEAL:</strong> ${d.pasangan}</li>
     `;
-
     document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
     document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    // PENTING: Jangan ubah display: block di sini secara permanen agar tidak muncul di bawah tombol.
-    // Tampilan sertifikat akan otomatis diatur oleh @media print saat tombol download diklik.
-}
-
-// Fungsi download yang baru
-function downloadPDF() {
-    // Jalankan render dulu untuk memastikan data terbaru sudah masuk
-    renderCertificate();
+    // 2. Konfigurasi Otomatis Download PDF (Sama seperti DISC)
+    const element = document.getElementById('certificate-area');
+    const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
     
-    // Panggil jendela print browser
-    // Pastikan di pengaturan browser user memilih "Save as PDF" dan "Landscape"
-    window.print();
+    const opt = {
+        margin: 0,
+        filename: filename,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+    };
+
+    // 3. Jalankan Download menggunakan library html2pdf
+    html2pdf().set(opt).from(element).save();
 }
