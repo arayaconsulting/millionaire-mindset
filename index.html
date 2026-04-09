@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Araya Shio Kesuksesan</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Normal (Aplikasi) */
-        body { font-family: 'Inter', sans-serif; }
+        /* TAMPILAN APLIKASI UTAMA */
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .card { background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
         .input-field { width: 100%; padding: 0.85rem; border: 1px solid #e2e8f0; border-radius: 0.75rem; outline: none; transition: all 0.2s; }
@@ -17,62 +18,61 @@
         .btn-primary:hover { background: #172554; transform: translateY(-2px); }
         
         .no-print { display: block; }
-        #certificate-area { display: none; } /* Sembunyikan di layar aplikasi */
 
-        /* CSS KHUSUS PRINT (DOWNLOAD PDF) */
-        @media print {
-            /* Sembunyikan semua elemen aplikasi agar tidak ikut ter-download */
-            .no-print, header, section, footer, #app-container, .btn-primary {
-                display: none !important;
-            }
+        /* KONTTAINER TERSEMBUNYI KHUSUS UNTUK DOWNLOAD (Direct Download Mode) */
+        #certificate-wrapper {
+            position: absolute;
+            left: -9999px; /* Tersembunyi jauh dari layar agar tidak nampak di aplikasi */
+            top: 0;
+        }
 
-            /* Paksa Halaman Landscape */
-            @page {
-                size: A4 landscape;
-                margin: 0;
-            }
+        #certificate-area {
+            width: 297mm;  /* Ukuran standar A4 Landscape */
+            height: 210mm;
+            background: white;
+            padding: 10mm;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-            body {
-                background: none;
-                margin: 0;
-                padding: 0;
-            }
+        .cert-border-outer {
+            border: 12px solid #1e3a8a;
+            width: 100%;
+            height: 100%;
+            padding: 4px;
+            box-sizing: border-box;
+        }
 
-            #certificate-area {
-                display: block !important;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 297mm;  /* Lebar standar A4 Landscape */
-                height: 210mm; /* Tinggi standar A4 Landscape */
-                overflow: hidden; /* Mencegah halaman kedua */
-                background: white;
-                box-sizing: border-box;
-            }
+        .cert-border-inner {
+            border: 2px solid #b45309;
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            position: relative;
+            background: white;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
 
-            /* Border Sertifikat Agar Pas */
-            .cert-wrapper {
-                width: 100%;
-                height: 100%;
-                padding: 10mm; /* Margin dalam sertifikat */
-                box-sizing: border-box;
-            }
+        .watermark-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            opacity: 0.06;
+            z-index: 0;
+        }
 
-            .cert-border-outer {
-                border: 15px solid #1e3a8a;
-                height: 100%;
-                padding: 5px;
-                box-sizing: border-box;
-            }
-
-            .cert-border-inner {
-                border: 2px solid #b45309;
-                height: 100%;
-                padding: 30px;
-                position: relative;
-                box-sizing: border-box;
-                background: white;
-            }
+        .cert-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
@@ -130,64 +130,63 @@
             <h2 class="text-2xl font-bold mb-2 text-slate-900 uppercase">Verifikasi Berhasil</h2>
             <p class="text-slate-500 text-sm mb-8">Laporan Analisis Premium Anda siap diunduh dalam format PDF.</p>
             <button onclick="downloadPDF()" class="btn-primary uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 Download Sertifikat (PDF)
             </button>
             <p class="text-[9px] text-slate-400 mt-8 uppercase italic opacity-50">© 2026 Araya Consulting - All Rights Reserved</p>
         </section>
     </div>
 
-    <div id="certificate-area">
-        <div class="cert-wrapper">
+    <div id="certificate-wrapper">
+        <div id="certificate-area">
             <div class="cert-border-outer">
                 <div class="cert-border-inner">
-                    <img src="logo.png" class="watermark-bg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; width: 60%; z-index: 0;">
+                    <img src="logo.png" class="watermark-bg">
                     
-                    <div class="flex-container" style="display: flex; flex-direction: column; height: 100%; position: relative; z-index: 1;">
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
-                            <img src="logo.png" style="height: 70px;">
+                    <div class="cert-content">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <img src="logo.png" style="height: 75px;">
                             <div style="text-align: right;">
-                                <h1 style="font-family: 'Playfair Display', serif; font-size: 28pt; color: #1e3a8a; margin: 0; text-transform: uppercase;">Certificate of Analysis</h1>
-                                <p style="color: #b45309; font-weight: bold; letter-spacing: 3px; font-size: 10pt; margin: 0;">THE MILLIONAIRE MINDSET SPECTRUM</p>
+                                <h1 style="font-family: 'Playfair Display', serif; font-size: 26pt; color: #1e3a8a; margin: 0; text-transform: uppercase; font-weight: 700;">Certificate of Analysis</h1>
+                                <p style="color: #b45309; font-weight: 800; letter-spacing: 4px; font-size: 10pt; margin: 5px 0 0 0;">THE MILLIONAIRE MINDSET SPECTRUM</p>
                             </div>
                         </div>
 
-                        <div style="text-align: center; margin-bottom: 20px;">
-                            <p style="font-style: italic; color: #64748b; margin-bottom: 5px;">Sertifikat ini secara resmi diberikan kepada:</p>
-                            <h2 id="cert-user-name" style="font-family: 'Playfair Display', serif; font-size: 36pt; border-bottom: 2px solid #1e3a8a; display: inline-block; padding: 0 50px; margin: 0; text-transform: uppercase;"></h2>
+                        <div style="text-align: center; margin-top: 40px;">
+                            <p style="font-style: italic; color: #64748b; font-size: 12pt; margin: 0;">Sertifikat ini secara resmi diberikan kepada:</p>
+                            <h2 id="cert-user-name" style="font-family: 'Playfair Display', serif; font-size: 42pt; border-bottom: 3px solid #1e3a8a; display: inline-block; padding: 0 60px 5px 60px; margin: 15px 0 0 0; text-transform: uppercase; font-weight: 700;"></h2>
                         </div>
 
-                        <div style="background: #1e3a8a; color: white; padding: 15px; border-radius: 0 0 50px 0; margin-bottom: 20px;">
-                            <p style="color: #fbbf24; font-size: 10pt; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">Hasil Profil Dominan:</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <h3 id="shio-title" style="font-family: 'Playfair Display', serif; font-size: 32pt; margin: 0; letter-spacing: 2px;"></h3>
-                                <p id="shio-slogan" style="font-style: italic; font-size: 11pt; max-width: 400px; text-align: right; margin: 0;"></p>
+                        <div style="background: #1e3a8a; color: white; padding: 20px 30px; border-radius: 0 0 60px 0; margin-top: 35px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="color: #fbbf24; font-size: 9pt; text-transform: uppercase; font-weight: 800; margin: 0; letter-spacing: 1px;">Hasil Profil Dominan:</p>
+                                <h3 id="shio-title" style="font-family: 'Playfair Display', serif; font-size: 38pt; margin: 5px 0 0 0; letter-spacing: 3px; font-weight: 700;"></h3>
                             </div>
+                            <p id="shio-slogan" style="font-style: italic; font-size: 12pt; max-width: 450px; text-align: right; margin: 0; line-height: 1.4; color: #e2e8f0;"></p>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; flex-grow: 1;">
-                            <div style="font-size: 9.5pt; line-height: 1.4; text-align: justify;">
-                                <h4 style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-weight: bold;">Analisis Strategis Bisnis</h4>
-                                <div id="shio-long-desc" style="margin-top: 10px;"></div>
+                        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; margin-top: 30px; flex-grow: 1;">
+                            <div style="text-align: justify;">
+                                <h4 style="color: #1e3a8a; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; text-transform: uppercase; font-size: 11pt; font-weight: 800; margin-bottom: 12px;">Analisis Strategis Bisnis</h4>
+                                <div id="shio-long-desc" style="font-size: 10pt; line-height: 1.5; color: #334155;"></div>
                             </div>
                             
-                            <div style="display: flex; flex-direction: column; justify-content: space-between;">
-                                <div style="font-size: 9pt;">
-                                    <h4 style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-weight: bold;">Atribut Karakter Sukses</h4>
-                                    <ul id="shio-details" style="list-style: none; padding: 0; margin-top: 10px;"></ul>
-                                </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <h4 style="color: #1e3a8a; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; text-transform: uppercase; font-size: 11pt; font-weight: 800; margin-bottom: 12px;">Atribut Karakter Sukses</h4>
+                                <ul id="shio-details" style="list-style: none; padding: 0; margin: 0; font-size: 9.5pt; color: #475569; line-height: 1.6;"></ul>
 
-                                <div style="text-align: center; margin-top: auto;">
-                                    <img src="ttd.png" style="height: 60px; margin-bottom: -10px;">
-                                    <div style="width: 200px; height: 1px; background: black; margin: 5px auto;"></div>
-                                    <p style="font-weight: bold; font-size: 10pt; margin: 0;">ALI MAHFUD</p>
-                                    <p style="font-size: 8pt; color: #64748b; margin: 0;">Founder Araya Consulting</p>
-                                    <div style="font-family: monospace; font-size: 7pt; color: #cbd5e1; margin-top: 10px;">
-                                        ID: <span id="cert-id"></span> | Date: <span id="cert-date"></span>
-                                    </div>
+                                <div style="margin-top: auto; text-align: center; padding-bottom: 10px;">
+                                    <img src="ttd.png" style="height: 85px; margin-bottom: -15px;">
+                                    <div style="width: 220px; height: 1.5px; background: #1e3a8a; margin: 0 auto;"></div>
+                                    <p style="font-weight: 800; font-size: 11pt; margin: 8px 0 0 0; color: #1e3a8a;">ALI MAHFUD</p>
+                                    <p style="font-size: 8.5pt; color: #64748b; margin: 2px 0 0 0; font-weight: 600; text-transform: uppercase;">Founder Araya Consulting</p>
                                 </div>
                             </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: 10px; font-family: monospace; font-size: 7.5pt; color: #94a3b8;">
+                            <span>REPORT ID: <span id="cert-id"></span></span>
+                            <span>DATE: <span id="cert-date"></span></span>
                         </div>
                     </div>
                 </div>
