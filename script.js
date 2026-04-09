@@ -1,4 +1,4 @@
-// URL DATABASE GOOGLE APPS SCRIPT TERBARU
+// URL DATABASE GOOGLE APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWkeAOVXyqa9M4L7Od6DLDR2MvQiiQqFVXJktPjlRmmCCDLwqRKTWoqaE42CFJ8MfT/exec";
 
 // DATABASE PERTANYAAN (25 SOAL ORIGINAL DARI BUKU "TAJIR MELINTIR")
@@ -47,26 +47,50 @@ let userAnswers = [];
 let userInfo = { name: "", phone: "" };
 let finalWinner = "";
 
-// FUNGSI NAVIGASI & LOGIKA
+// LOGIKA NAVIGASI
 function startQuiz() {
-    const name = document.getElementById('user-name').value;
-    const phone = document.getElementById('user-phone').value;
-    if(!name || !phone) return alert("Mohon isi Nama dan WhatsApp!");
-    userInfo = { name, phone };
+    const nameInput = document.getElementById('user-name');
+    const phoneInput = document.getElementById('user-phone');
+    
+    // Validasi Input
+    if(!nameInput.value || !phoneInput.value) {
+        return alert("Mohon lengkapi Nama dan Nomor WhatsApp!");
+    }
+    
+    // Simpan Info User
+    userInfo.name = nameInput.value;
+    userInfo.phone = phoneInput.value;
+    
+    // Pindah Tampilan
     document.getElementById('register-section').classList.add('hidden');
     document.getElementById('quiz-section').classList.remove('hidden');
+    
+    // Mulai Tampilkan Soal
     showQuestion();
 }
 
 function showQuestion() {
     const q = questions[currentQuestion];
-    document.getElementById('question-text').innerText = `"${q.q}"`;
-    document.getElementById('progress-text').innerText = `PERTANYAAN ${currentQuestion + 1} / 25`;
-    document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / 25) * 100}%`;
+    const questionTextEl = document.getElementById('question-text');
+    const progressTextEl = document.getElementById('progress-text');
+    const progressBarEl = document.getElementById('progress-bar');
     const container = document.getElementById('options-container');
+    
+    if(!questionTextEl || !container) return;
+
+    questionTextEl.innerText = `"${q.q}"`;
+    progressTextEl.innerText = `PERTANYAAN ${currentQuestion + 1} / 25`;
+    progressBarEl.style.width = `${((currentQuestion + 1) / 25) * 100}%`;
+    
     container.innerHTML = "";
     
-    const opts = [{t:q.a, m:q.map[0]}, {t:q.b, m:q.map[1]}, {t:q.c, m:q.map[2]}, {t:q.d, m:q.map[3]}];
+    const opts = [
+        {t: q.a, m: q.map[0]}, 
+        {t: q.b, m: q.map[1]}, 
+        {t: q.c, m: q.map[2]}, 
+        {t: q.d, m: q.map[3]}
+    ];
+
     opts.forEach(o => {
         const btn = document.createElement('button');
         btn.className = "w-full text-left p-4 border border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition bg-white shadow-sm";
@@ -76,53 +100,89 @@ function showQuestion() {
     });
 }
 
-function selectOption(m) {
-    userAnswers.push(m);
-    if(currentQuestion < 24) { currentQuestion++; showQuestion(); }
-    else {
-        const counts = {}; userAnswers.forEach(x => counts[x] = (counts[x] || 0) + 1);
-        finalWinner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-        document.getElementById('quiz-section').classList.add('hidden');
-        document.getElementById('user-display-name').innerText = userInfo.name;
-        document.getElementById('paywall-section').classList.remove('hidden');
+function selectOption(shio) {
+    userAnswers.push(shio);
+    if(currentQuestion < 24) { 
+        currentQuestion++; 
+        showQuestion(); 
+    } else {
+        processResults();
     }
 }
 
+function processResults() {
+    // Hitung Pemenang
+    const counts = {}; 
+    userAnswers.forEach(x => counts[x] = (counts[x] || 0) + 1);
+    finalWinner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+    
+    // Pindah ke Paywall
+    document.getElementById('quiz-section').classList.add('hidden');
+    document.getElementById('user-display-name').innerText = userInfo.name;
+    document.getElementById('paywall-section').classList.remove('hidden');
+}
+
 async function activateWithKey() {
-    const key = document.getElementById('license-key').value.trim().toUpperCase();
+    const keyInput = document.getElementById('license-key');
+    const key = keyInput.value.trim().toUpperCase();
     const btn = document.getElementById('btn-activate');
+    
     if (!key) return alert("Masukkan kode aktivasi!");
-    btn.disabled = true; btn.innerText = "Memvalidasi...";
+    
+    btn.disabled = true; 
+    btn.innerText = "Memvalidasi...";
 
     try {
         const valRes = await fetch(`${SCRIPT_URL}?action=validate&code=${key}`);
         const status = await valRes.text();
+        
         if (status === "VALID") {
+            // Simpan ke Google Sheet
             await fetch(`${SCRIPT_URL}?action=save&name=${encodeURIComponent(userInfo.name)}&phone=${userInfo.phone}&result=${finalWinner}&code=${key}`);
+            
             renderCertificate();
             document.getElementById('paywall-section').classList.add('hidden');
             document.getElementById('final-result-section').classList.remove('hidden');
         } else {
             alert("Kode tidak valid atau sudah digunakan.");
-            btn.disabled = false; btn.innerText = "BUKA AKSES SERTIFIKAT";
+            btn.disabled = false; 
+            btn.innerText = "BUKA AKSES SERTIFIKAT";
         }
     } catch (e) {
-        alert("Gagal terhubung ke database.");
-        btn.disabled = false; btn.innerText = "BUKA AKSES SERTIFIKAT";
+        alert("Gagal terhubung ke database. Silakan coba lagi.");
+        btn.disabled = false; 
+        btn.innerText = "BUKA AKSES SERTIFIKAT";
     }
 }
 
 function renderCertificate() {
     const d = shioDatabase[finalWinner];
-    document.getElementById('cert-user-name').innerText = userInfo.name;
-    document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
-    document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
-    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(Math.random()*900000) + 100000}`;
+    const nameEl = document.getElementById('cert-user-name');
+    const titleEl = document.getElementById('shio-title');
+    const sloganEl = document.getElementById('shio-slogan');
+    const dateEl = document.getElementById('cert-date');
+    const idEl = document.getElementById('cert-id');
+
+    if(nameEl) nameEl.innerText = userInfo.name;
+    if(titleEl) titleEl.innerText = finalWinner.toUpperCase();
+    if(sloganEl) sloganEl.innerText = `"${d.slogan}"`;
+    if(dateEl) dateEl.innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    if(idEl) idEl.innerText = `ARY-SHI-${Math.floor(Math.random()*900000) + 100000}`;
     
-    document.getElementById('shio-traits').innerHTML = `<li><strong>Kekuatan:</strong> ${d.kekuatan}</li><li><strong>Tantangan:</strong> ${d.kelemahan}</li><li><strong>Gaya Kerja:</strong> ${d.gayaKerja}</li>`;
-    document.getElementById('shio-analogy').innerHTML = `<p><strong>Posisi Tim:</strong><br>${d.posisiTim}</p><p class="mt-3"><strong>Fokus Waktu:</strong><br>${d.fokusWaktu}</p>`;
-    document.getElementById('shio-strategy').innerHTML = `<p><strong>Pasangan Ideal:</strong><br>${d.pasangan}</p><p class="mt-3"><strong>Action Plan:</strong><br>${d.action}</p>`;
+    document.getElementById('shio-traits').innerHTML = `
+        <li><strong>Kekuatan:</strong> ${d.kekuatan}</li>
+        <li><strong>Tantangan:</strong> ${d.kelemahan}</li>
+        <li><strong>Gaya Kerja:</strong> ${d.gayaKerja}</li>
+    `;
+    document.getElementById('shio-analogy').innerHTML = `
+        <p><strong>Posisi Tim:</strong><br>${d.posisiTim}</p>
+        <p class="mt-3"><strong>Fokus Waktu:</strong><br>${d.fokusWaktu}</p>
+    `;
+    document.getElementById('shio-strategy').innerHTML = `
+        <p><strong>Pasangan Ideal:</strong><br>${d.pasangan}</p>
+        <p class="mt-3"><strong>Action Plan:</strong><br>${d.action}</p>
+    `;
     document.getElementById('shio-models').innerHTML = d.models.map(m => `<li>${m}</li>`).join("");
+    
     document.getElementById('certificate').style.display = "block";
 }
