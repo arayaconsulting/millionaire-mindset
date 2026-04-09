@@ -12,29 +12,27 @@
 
     <div id="app-container" class="max-w-2xl mx-auto min-h-screen flex flex-col p-4">
         <header class="text-center py-10">
-            <img src="logo.png" alt="Logo Araya" class="h-16 mx-auto mb-4">
-            <div class="mb-2">
-                <span class="text-3xl font-bold text-blue-900 tracking-tighter italic">ARAYA</span>
-                <span class="text-xs block text-slate-400 tracking-[0.3em] uppercase">Consulting</span>
-            </div>
-            <h1 class="font-serif text-2xl text-blue-900 uppercase">Shio Kesuksesan</h1>
+            <img src="logo.png" alt="Logo Araya Consulting" class="h-20 mx-auto mb-6">
+            <h1 class="font-serif text-2xl text-blue-900 uppercase tracking-wide">Shio Kesuksesan</h1>
         </header>
 
         <section id="register-section" class="card">
-            <h2 class="text-xl font-bold mb-6">Mulai Asesmen</h2>
-            <input type="text" id="user-name" class="input-field" placeholder="Nama Lengkap">
-            <input type="tel" id="user-phone" class="input-field mt-4" placeholder="Nomor WhatsApp">
-            <button onclick="startQuiz()" class="btn-primary mt-6">MULAI TES SEKARANG</button>
+            <h2 class="text-xl font-bold mb-6 text-slate-900">Mulai Asesmen</h2>
+            <div class="space-y-4">
+                <input type="text" id="user-name" class="input-field" placeholder="Nama Lengkap">
+                <input type="tel" id="user-phone" class="input-field" placeholder="Nomor WhatsApp">
+                <button onclick="startQuiz()" class="btn-primary mt-4 uppercase tracking-widest">Mulai Tes Sekarang</button>
+            </div>
         </section>
 
         <section id="quiz-section" class="card hidden">
-            <div class="flex justify-between items-center mb-8">
-                <span id="progress-text" class="text-xs font-bold text-blue-800 uppercase">Pertanyaan 1 / 25</span>
-                <div class="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-blue-600 transition-all" style="width: 4%"></div>
+            <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+                <span id="progress-text" class="text-xs font-bold text-blue-800 uppercase tracking-tighter">Pertanyaan 1 / 25</span>
+                <div class="w-32 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-300" style="width: 4%"></div>
                 </div>
             </div>
-            <h3 id="question-text" class="text-lg font-medium leading-relaxed mb-10 italic text-slate-700"></h3>
+            <h3 id="question-text" class="text-lg font-medium leading-relaxed mb-10 italic text-slate-800"></h3>
             <div id="options-container" class="space-y-4"></div>
         </section>
 
@@ -56,11 +54,12 @@
         </section>
 
         <section id="final-result-section" class="card hidden text-center">
-            <div class="mb-6">
-                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <div class="mb-8">
+                <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 </div>
                 <h2 class="text-2xl font-bold text-slate-900">Akses Terbuka!</h2>
+                <p class="text-slate-500 text-sm mt-2">Sertifikat Anda telah berhasil diverifikasi.</p>
             </div>
             <button onclick="window.print()" class="btn-primary">DOWNLOAD SERTIFIKAT (PDF)</button>
         </section>
@@ -74,10 +73,7 @@
         <div class="cert-border">
             <div class="cert-content">
                 <header class="flex justify-between items-start">
-                    <div class="flex flex-col">
-                        <img src="logo.png" alt="Logo Araya" class="h-10 mb-1">
-                        <span class="text-[8px] uppercase tracking-widest text-slate-400">Consulting</span>
-                    </div>
+                    <img src="logo.png" alt="Logo Araya" class="h-12">
                     <div class="text-right">
                         <h1 class="text-2xl font-serif text-blue-900 uppercase tracking-wider">Certificate of Analysis</h1>
                         <p class="text-[10px] tracking-widest text-amber-600 uppercase font-bold">Shio Kesuksesan - Millionaire Mindset</p>
@@ -121,7 +117,7 @@
                     </div>
                     <div class="text-center">
                         <div class="signature-line h-12 flex items-center justify-center">
-                            <img src="ttd.png" alt="Tanda Tangan" class="h-14 opacity-90">
+                            <img src="ttd.png" alt="Tanda Tangan" class="h-14 opacity-95">
                         </div>
                         <p class="font-bold text-[10px] uppercase border-t border-slate-900 pt-1">Ali Mahfud</p>
                         <p class="text-[7px] uppercase tracking-widest text-slate-400">Founder Araya Consulting</p>
