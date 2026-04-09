@@ -4,124 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Araya Shio Kesuksesan</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
-<body class="bg-slate-50 text-slate-800">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .card { background: white; padding: 2rem; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+        .input-field { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.75rem; outline: none; }
+        .btn-primary { width: 100%; background: #1e3a8a; color: white; padding: 1rem; border-radius: 0.75rem; font-weight: bold; cursor: pointer; border: none; }
+        
+        /* Sertifikat disembunyikan dari layar */
+        #certificate-area { display: none; }
 
-    <div id="app-container" class="max-w-2xl mx-auto min-h-screen flex flex-col p-4">
+        /* Pengaturan Cetak PDF */
+        @media print {
+            body * { visibility: hidden; }
+            #certificate-area, #certificate-area * { visibility: visible; }
+            #certificate-area { display: block !important; position: absolute; left: 0; top: 0; width: 297mm; height: 210mm; }
+            @page { size: landscape; margin: 0; }
+        }
+
+        .cert-border-outer { border: 12px solid #1e3a8a; height: 100%; padding: 4px; box-sizing: border-box; }
+        .cert-border-inner { border: 2px solid #b45309; height: 100%; padding: 40px; position: relative; box-sizing: border-box; background: #fff; }
+        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.04; width: 50%; z-index: 0; }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div id="app-container" class="max-w-xl mx-auto min-h-screen flex flex-col p-6 no-print">
         <header class="text-center py-10">
-            <img src="logo.png" alt="Logo Araya Consulting" class="h-20 mx-auto mb-4">
-            <h1 class="font-serif text-2xl text-blue-900 uppercase tracking-widest">Shio Kesuksesan</h1>
+            <img src="logo.png" alt="Logo Araya" class="h-20 mx-auto mb-4">
+            <h1 class="font-serif text-3xl text-blue-900 uppercase tracking-widest">Shio Kesuksesan</h1>
         </header>
 
         <section id="register-section" class="card">
-            <h2 class="text-xl font-bold mb-6 text-slate-900">Mulai Asesmen</h2>
+            <h2 class="text-xl font-bold mb-6">Identitas Peserta</h2>
             <div class="space-y-4">
                 <input type="text" id="user-name" class="input-field" placeholder="Nama Lengkap">
-                <input type="tel" id="user-phone" class="input-field" placeholder="Nomor WhatsApp">
-                <button onclick="startQuiz()" class="btn-primary mt-4 uppercase tracking-widest">Mulai Tes Sekarang</button>
+                <input type="tel" id="user-phone" class="input-field" placeholder="WhatsApp">
+                <button onclick="startQuiz()" class="btn-primary uppercase tracking-widest">Mulai Analisis</button>
             </div>
         </section>
 
         <section id="quiz-section" class="card hidden">
-            <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
-                <span id="progress-text" class="text-xs font-bold text-blue-800 uppercase">Pertanyaan 1 / 25</span>
-                <div class="w-32 h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-300" style="width: 4%"></div>
+            <div class="flex justify-between items-center mb-8">
+                <span id="progress-text" class="text-xs font-bold text-blue-900 uppercase">Soal 1 / 25</span>
+                <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-blue-900 transition-all" style="width: 4%"></div>
                 </div>
             </div>
-            <h3 id="question-text" class="text-lg font-medium leading-relaxed mb-10 italic text-slate-800"></h3>
-            <div id="options-container" class="space-y-4"></div>
+            <h3 id="question-text" class="text-lg font-medium leading-relaxed mb-8 italic text-slate-700"></h3>
+            <div id="options-container" class="grid gap-3"></div>
         </section>
 
-        <section id="paywall-section" class="card hidden text-center border-dashed border-2 border-blue-200">
-            <h2 class="text-2xl font-bold text-blue-900 mb-2">Hasil Anda Sudah Siap!</h2>
-            <p class="text-slate-600 mb-8">Halo <span id="user-display-name" class="font-bold"></span>, peta spektrum kesuksesan Anda telah terpetakan.</p>
-            
-            <div class="bg-white p-6 rounded-xl shadow-inner mb-8 border border-slate-100">
-                <h3 class="font-bold text-blue-900 mb-4 uppercase text-sm tracking-widest text-center">Sertifikat Analisis Anda Sudah Siap!</h3>
-                <p class="text-xs text-slate-500 mb-6 leading-relaxed">Silakan masukkan Kode Aktivasi untuk membuka akses download sertifikat premium.</p>
-                <input type="text" id="license-key" class="input-field text-center font-mono uppercase tracking-widest" placeholder="Kode Aktivasi">
-                <button id="btn-activate" onclick="activateWithKey()" class="btn-primary mt-4">BUKA AKSES SERTIFIKAT</button>
+        <section id="paywall-section" class="card hidden text-center">
+            <h2 class="text-2xl font-bold text-blue-900 mb-2">Analisis Selesai!</h2>
+            <p class="text-slate-600 mb-8">Halo <span id="user-display-name" class="font-bold"></span>, profil sukses Anda telah terdata.</p>
+            <div class="bg-slate-50 p-6 rounded-2xl mb-6">
+                <input type="text" id="license-key" class="input-field text-center font-mono text-xl mb-4" placeholder="KODE AKTIVASI">
+                <button onclick="activateWithKey()" class="btn-primary">VERIFIKASI KODE</button>
             </div>
-
-            <p class="text-[10px] text-slate-400 mb-4 uppercase tracking-widest">Belum punya kode? Silakan klaim melalui:</p>
-            <a href="https://wa.me/6285232526003" target="_blank" class="btn-whatsapp inline-flex items-center gap-2 mx-auto">
-                Beli Kode via WhatsApp
-            </a>
+            <a href="https://wa.me/6285232526003" target="_blank" class="text-blue-900 font-bold text-sm underline">Dapatkan Kode Aktivasi</a>
         </section>
 
         <section id="final-result-section" class="card hidden text-center">
-            <div class="mb-8">
-                <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                </div>
-                <h2 class="text-2xl font-bold text-slate-900">Akses Terbuka!</h2>
+            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <button onclick="window.print()" class="btn-primary">DOWNLOAD SERTIFIKAT (PDF)</button>
+            <h2 class="text-2xl font-bold mb-6 text-slate-900">Akses Terbuka</h2>
+            <button onclick="window.print()" class="btn-primary uppercase tracking-widest">Download Sertifikat (PDF)</button>
         </section>
-
-        <footer class="py-10 text-center text-[10px] text-slate-400 uppercase tracking-widest">
-            © 2026 ARAYA CONSULTING - ALL RIGHTS RESERVED.
-        </footer>
     </div>
 
-    <div id="certificate" class="certificate-landscape">
-        <div class="cert-border">
-            <div class="cert-content">
-                <header class="flex justify-between items-start">
-                    <img src="logo.png" alt="Logo Araya" class="h-12">
+    <div id="certificate-area">
+        <div class="cert-border-outer">
+            <div class="cert-border-inner">
+                <img src="logo.png" class="watermark">
+                <div class="flex justify-between items-start relative z-10">
+                    <img src="logo.png" class="h-16">
                     <div class="text-right">
-                        <h1 class="text-2xl font-serif text-blue-900 uppercase tracking-wider">Certificate of Analysis</h1>
-                        <p class="text-[10px] tracking-widest text-amber-600 uppercase font-bold">Shio Kesuksesan - Millionaire Mindset</p>
-                    </div>
-                </header>
-
-                <div class="text-center mt-12">
-                    <p class="italic text-slate-500 text-xs mb-1">Sertifikat ini diberikan kepada:</p>
-                    <h2 id="cert-user-name" class="text-3xl font-serif font-bold text-slate-900 border-b border-slate-900 inline-block px-10 pb-1 uppercase tracking-tight"></h2>
-                </div>
-
-                <div class="shio-box mt-10 text-center py-4 bg-slate-50 border-y border-slate-100">
-                    <p class="text-[10px] uppercase font-bold text-blue-900 tracking-widest mb-1">Tipe Dominan Anda adalah</p>
-                    <h1 id="shio-title" class="text-5xl font-serif text-blue-950 uppercase tracking-wide"></h1>
-                    <p id="shio-slogan" class="italic text-slate-600 text-xs mt-1"></p>
-                </div>
-
-                <div class="grid grid-cols-4 gap-6 mt-10 border-t border-b border-slate-100 py-8">
-                    <div>
-                        <h4 class="title-cert">Karakter Bisnis</h4>
-                        <ul id="shio-traits" class="list-cert text-[10px]"></ul>
-                    </div>
-                    <div>
-                        <h4 class="title-cert">Analogi Peran</h4>
-                        <div id="shio-analogy" class="text-cert text-[10px]"></div>
-                    </div>
-                    <div>
-                        <h4 class="title-cert">Saran Kolaborasi</h4>
-                        <div id="shio-strategy" class="text-cert text-[10px]"></div>
-                    </div>
-                    <div>
-                        <h4 class="title-cert">Social Proof</h4>
-                        <ul id="shio-models" class="list-cert font-bold text-[10px]"></ul>
+                        <h1 class="font-serif text-3xl text-blue-900 uppercase">Certificate of Analysis</h1>
+                        <p class="text-amber-700 font-bold text-xs uppercase tracking-widest">The Millionaire Mindset Spectrum</p>
                     </div>
                 </div>
 
-                <footer class="mt-auto flex justify-between items-end">
-                    <div class="text-[9px] text-slate-400 font-mono">
-                        <p>ID: <span id="cert-id" class="text-slate-600"></span></p>
-                        <p>Tanggal: <span id="cert-date" class="text-slate-600"></span></p>
+                <div class="text-center mt-10 relative z-10">
+                    <p class="font-serif italic text-slate-500 text-sm">Sertifikat ini diberikan kepada:</p>
+                    <h2 id="cert-user-name" class="text-4xl font-serif text-slate-900 my-2 border-b-2 border-slate-900 inline-block px-12 pb-1 uppercase"></h2>
+                </div>
+
+                <div class="mt-8 bg-blue-900 text-white p-6 rounded-br-[40px] relative z-10 flex justify-between items-center">
+                    <div>
+                        <p class="text-amber-400 text-[10px] uppercase font-bold tracking-widest">Tipe Profil Dominan:</p>
+                        <h3 id="shio-title" class="text-4xl font-serif uppercase tracking-widest"></h3>
                     </div>
-                    <div class="text-center">
-                        <div class="signature-line h-12 flex items-center justify-center">
-                            <img src="ttd.png" alt="Tanda Tangan" class="h-14 opacity-95">
+                    <p id="shio-slogan" class="text-right italic text-blue-100 text-sm max-w-sm"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-10 mt-8 relative z-10">
+                    <div class="text-[10px] leading-relaxed text-slate-700 space-y-2">
+                        <h4 class="text-blue-900 font-bold uppercase border-b pb-1 mb-2">Laporan Strategi Bisnis</h4>
+                        <div id="shio-long-desc"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-[10px]">
+                            <h4 class="text-blue-900 font-bold uppercase border-b pb-1 mb-2 tracking-tighter">Atribut Sukses</h4>
+                            <ul id="shio-details" class="space-y-1 list-none p-0"></ul>
                         </div>
-                        <p class="font-bold text-[10px] uppercase border-t border-slate-900 pt-1">Ali Mahfud</p>
-                        <p class="text-[7px] uppercase tracking-widest text-slate-400">Founder Araya Consulting</p>
+                        <div class="text-center">
+                            <img src="ttd.png" class="h-14 mx-auto mb-1">
+                            <div class="w-32 h-px bg-slate-900 mx-auto"></div>
+                            <p class="font-bold text-[10px] mt-1">ALI MAHFUD</p>
+                            <p class="text-[8px] text-slate-400 uppercase">Founder Araya Consulting</p>
+                            <div class="mt-4 text-[8px] text-slate-300 font-mono">
+                                <p>ID: <span id="cert-id"></span></p>
+                                <p>DATE: <span id="cert-date"></span></p>
+                            </div>
+                        </div>
                     </div>
-                </footer>
+                </div>
             </div>
         </div>
     </div>
