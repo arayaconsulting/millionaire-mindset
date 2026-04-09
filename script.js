@@ -1,5 +1,5 @@
-// CONFIG DATABASE
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWkeAOVXyqa9M4L7Od6DLDR2MvQiiQqFVXJktPjlRmmCCDLwqRKTWoqaE42CFJ8MfT/exec";
+// CONFIG DATABASE - URL WEB APP TERBARU
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJUUd8I9VWfvXxbOq4GWwkZ6PHnYGYB9XlI9yuA20F3xiUysVPUuMzCFioEutYHvFk/exec";
 
 // GLOBAL STATE
 let currentQuestion = 0;
@@ -36,7 +36,7 @@ const questions = [
     { q: "Ketika menyelesaikan sebuah proyek, apa yang paling Anda nikmati?", a: "Merayakan keberhasilan", b: "Memberi selamat pada tim", c: "Menyelesaikan laporan", d: "Memulai proyek berikutnya", map: ["Star", "Supporter", "Lord", "Creator"] }
 ];
 
-[span_2](start_span)// DATA SHIO[span_2](end_span)
+// DATABASE HASIL (8 SHIO KESUKSESAN)
 const shioDatabase = {
     "Creator": { slogan: "Menciptakan Produk yang Inovatif", kekuatan: "Visi besar, inovatif, melompat antar ide.", kelemahan: "Kurang detail pada rutinitas.", gayaKerja: "Visioner / Individual Player.", posisiTim: "Striker / Penyerang", fokusWaktu: "Masa Depan (Future)", pasangan: "Mechanic & Supporter", action: "Delegasikan operasional rutin segera.", models: ["Bill Gates", "Walt Disney"] },
     "Star": { slogan: "Membangun Merek yang Kuat", kekuatan: "Personal branding kuat, magnet massa.", kelemahan: "Lemah dalam detail operasional.", gayaKerja: "Promotor / Individual Player.", posisiTim: "Winger (Penarik Perhatian)", fokusWaktu: "Masa Depan (Future)", pasangan: "Lord & Accumulator", action: "Gunakan karisma untuk menarik peluang.", models: ["Oprah Winfrey", "Anthony Robbins"] },
@@ -48,7 +48,8 @@ const shioDatabase = {
     "Mechanic": { slogan: "Membuat Sistem Terduplikasi", kekuatan: "Ahli SOP, rapi, teratur.", kelemahan: "Lambat memulai inovasi baru.", gayaKerja: "System Builder / Individual Player.", posisiTim: "Full Back", fokusWaktu: "Masa Lalu (Past)", pasangan: "Creator & Dealmaker", action: "Sempurnakan sistem bisnis.", models: ["Henry Ford", "Ray Kroc"] }
 };
 
-// CORE FUNCTIONS
+// --- LOGIKA APLIKASI ---
+
 function startQuiz() {
     const nameInput = document.getElementById('user-name');
     const phoneInput = document.getElementById('user-phone');
@@ -63,7 +64,6 @@ function startQuiz() {
     
     document.getElementById('register-section').classList.add('hidden');
     document.getElementById('quiz-section').classList.remove('hidden');
-    
     showQuestion();
 }
 
@@ -104,26 +104,42 @@ function selectOption(m) {
 }
 
 async function activateWithKey() {
-    const key = document.getElementById('license-key').value.trim().toUpperCase();
+    const keyInput = document.getElementById('license-key');
+    const key = keyInput.value.trim().toUpperCase();
     const btn = document.getElementById('btn-activate');
-    if (!key) return alert("Masukkan kode!");
     
-    btn.disabled = true; btn.innerText = "Memvalidasi...";
+    if (!key) return alert("Masukkan kode aktivasi!");
+    
+    btn.disabled = true; 
+    btn.innerText = "Memvalidasi...";
+
     try {
+        // 1. Validasi Kode ke Spreadsheet
         const valRes = await fetch(`${SCRIPT_URL}?action=validate&code=${key}`);
         const status = await valRes.text();
+        
         if (status === "VALID") {
-            await fetch(`${SCRIPT_URL}?action=save&name=${encodeURIComponent(userInfo.name)}&phone=${userInfo.phone}&result=${finalWinner}&code=${key}`);
-            renderCertificate();
-            document.getElementById('paywall-section').classList.add('hidden');
-            document.getElementById('final-result-section').classList.remove('hidden');
+            btn.innerText = "Menyimpan Data...";
+            
+            // 2. Simpan Data User ke Spreadsheet
+            const saveParams = `?action=save&name=${encodeURIComponent(userInfo.name)}&phone=${userInfo.phone}&result=${finalWinner}&code=${key}`;
+            const saveRes = await fetch(SCRIPT_URL + saveParams);
+            const saveStatus = await saveRes.text();
+
+            if (saveStatus === "SUCCESS") {
+                renderCertificate();
+                document.getElementById('paywall-section').classList.add('hidden');
+                document.getElementById('final-result-section').classList.remove('hidden');
+            }
         } else {
-            alert("Kode salah/terpakai.");
-            btn.disabled = false; btn.innerText = "BUKA AKSES";
+            alert("Kode tidak valid atau sudah digunakan.");
+            btn.disabled = false; 
+            btn.innerText = "BUKA AKSES SERTIFIKAT";
         }
-    } catch(e) {
-        alert("Gagal koneksi.");
-        btn.disabled = false;
+    } catch (e) {
+        alert("Gagal terhubung ke database. Pastikan Apps Script sudah di-deploy 'Anyone'.");
+        btn.disabled = false; 
+        btn.innerText = "BUKA AKSES SERTIFIKAT";
     }
 }
 
@@ -139,5 +155,6 @@ function renderCertificate() {
     document.getElementById('shio-analogy').innerHTML = `<p><strong>Posisi Tim:</strong> ${d.posisiTim}</p><p class="mt-2"><strong>Fokus:</strong> ${d.fokusWaktu}</p>`;
     document.getElementById('shio-strategy').innerHTML = `<p><strong>Partner:</strong> ${d.pasangan}</p><p class="mt-2"><strong>Action:</strong> ${d.action}</p>`;
     document.getElementById('shio-models').innerHTML = d.models.map(m => `<li>${m}</li>`).join("");
+    
     document.getElementById('certificate').style.display = "block";
 }
