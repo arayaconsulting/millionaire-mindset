@@ -1,4 +1,4 @@
-// CONFIG DATABASE - URL WEB APP TERBARU (Sistem AppendRow)
+// CONFIG DATABASE - URL WEB APP TERBARU
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCk61qRinMV13RGNA1nSJR8sjiMyEU6Kd7aId1k4wKqJ2oC8Nf6bF2OFBuZtrPe5yF/exec";
 
 // GLOBAL STATE
@@ -36,28 +36,89 @@ const questions = [
     { q: "Ketika menyelesaikan sebuah proyek, apa yang paling Anda nikmati?", a: "Merayakan keberhasilan", b: "Memberi selamat pada tim", c: "Menyelesaikan laporan", d: "Memulai proyek berikutnya", map: ["Star", "Supporter", "Lord", "Creator"] }
 ];
 
-// DATABASE SHIO KESUKSESAN
-const shioDatabase = {
-    "Creator": { slogan: "Menciptakan Produk yang Inovatif", kekuatan: "Visioner, inovatif, pemikir visi besar.", kelemahan: "Kurang detail pada operasional rutin.", gayaKerja: "Visioner / Individual Player.", posisiTim: "Striker (Penyerang)", fokusWaktu: "Masa Depan", pasangan: "Mechanic & Supporter", action: "Delegasikan rutinitas, fokus pada inovasi.", models: ["Bill Gates", "Walt Disney"] },
-    "Star": { slogan: "Membangun Merek yang Kuat", kekuatan: "Personal branding, magnet massa, karisma.", kelemahan: "Lemah dalam detail manajemen tim.", gayaKerja: "Promotor / Individual Player.", posisiTim: "Winger (Penarik Perhatian)", fokusWaktu: "Masa Depan", pasangan: "Lord & Accumulator", action: "Gunakan karisma untuk menarik peluang.", models: ["Oprah Winfrey", "Anthony Robbins"] },
-    "Supporter": { slogan: "Membangun Tim Performa Tinggi", kekuatan: "Leadership kuat, motivator, komunikatif.", kelemahan: "Sulit membuat sistem mandiri.", gayaKerja: "Team Player / Leader.", posisiTim: "Kapten Tim", fokusWaktu: "Masa Kini", pasangan: "Star & Lord", action: "Fokus pada manajemen orang.", models: ["Jack Welch", "Steve Case"] },
-    "Dealmaker": { slogan: "Menemukan Deal Menguntungkan", kekuatan: "Negosiator ulung, networking luas.", kelemahan: "Terjebak detail teknis panjang.", gayaKerja: "Connector / Individual Player.", posisiTim: "Playmaker", fokusWaktu: "Masa Kini", pasangan: "Lord & Mechanic", action: "Perbanyak networking.", models: ["Donald Trump", "Sandiaga Uno"] },
-    "Trader": { slogan: "Jual Beli di Waktu yang Tepat", kekuatan: "Peka tren pasar, taktis, pedagang alami.", kelemahan: "Gagal jika kehilangan momentum.", gayaKerja: "Speculator / Individual Player.", posisiTim: "Defensive Midfielder", fokusWaktu: "Masa Kini", pasangan: "Accumulator & Supporter", action: "Manfaatkan volatilitas pasar.", models: ["George Soros", "Jim Rogers"] },
-    "Accumulator": { slogan: "Membeli dan Koleksi Aset", kekuatan: "Sabar, disiplin, pencari keamanan.", kelemahan: "Lambat mengambil keputusan.", gayaKerja: "Safe Player / Individual Player.", posisiTim: "Goal Keeper", fokusWaktu: "Masa Lalu", pasangan: "Star & Dealmaker", action: "Tumpuk aset aman secara konsisten.", models: ["Warren Buffett", "Paul Allen"] },
-    "Lord": { slogan: "Menghasilkan Uang dari Aset", kekuatan: "Pengendali belakang layar, cermat, ahli angka.", kelemahan: "Kurang empati pada hubungan manusia.", gayaKerja: "Auditor / Individual Player.", posisiTim: "Central Back", fokusWaktu: "Masa Lalu", pasangan: "Creator & Supporter", action: "Kontrol arus kas dengan data.", models: ["Rockefeller", "Sergei Brin"] },
-    "Mechanic": { slogan: "Membuat Sistem Terduplikasi", kekuatan: "Ahli SOP, rapi, penyempurna jaringan.", kelemahan: "Lambat memulai inovasi radikal.", gayaKerja: "System Builder / Individual Player.", posisiTim: "Full Back", fokusWaktu: "Masa Lalu", pasangan: "Creator & Dealmaker", action: "Sempurnakan sistem agar bisnis otomatis.", models: ["Henry Ford", "Ray Kroc"] }
+// const shioDatabase = {
+    "Creator": { 
+        slogan: "Inovasi Strategis Melalui Visi Disrupsi Masa Depan", 
+        desc: "Anda memiliki profil 'disruptor' yang mampu melihat celah pasar sebelum orang lain menyadarinya. Kekuatan Anda bukan pada manajemen, melainkan pada penciptaan nilai (Value Creation). Kelemahan utama Anda adalah 'Shiny Object Syndrome'—terlalu cepat berpindah ide sebelum ide sebelumnya matang. Strategi sukses Anda adalah fokus pada R&D dan desain produk, namun Anda wajib memiliki operasional yang ketat di bawah kendali seorang Mechanic.",
+        kekuatan: "High-level vision, inovasi radikal, kemampuan memecahkan masalah kompleks.",
+        kelemahan: "Buruk dalam rutinitas, mudah bosan, seringkali mengabaikan profitabilitas jangka pendek.",
+        gayaKerja: "Visioner-Strategis. Membutuhkan ruang kreatif tanpa gangguan administratif.",
+        action: "Segera bangun sistem delegasi total untuk urusan teknis dan admin. Fokuslah menjadi 'Arsitek' bisnis, bukan 'Kuli' bisnis.",
+        pasangan: "Mechanic (untuk standarisasi) & Supporter (untuk manajemen manusia)."
+    },
+    "Star": { 
+        slogan: "Akselerasi Bisnis Melalui Otoritas dan Personal Branding", 
+        desc: "Kekuatan ekonomi Anda terletak pada persona dan kepercayaan publik. Anda sukses dengan cara 'menjadi wajah' dari bisnis Anda. Kelemahan terbesar Anda adalah ketergantungan pada ego dan kelelahan jika harus mengurus detail teknis sendirian. Strategi Anda adalah membangun ekosistem di mana orang lain mengelola produk, sementara Anda fokus menjadi magnet peluang dan pembuka pintu-pintu kerja sama besar.",
+        kekuatan: "Otoritas publik, karisma persuasif, kemampuan negosiasi panggung.",
+        kelemahan: "Kurang fokus pada detail internal, sangat terpengaruh oleh opini publik.",
+        gayaKerja: "Promotor-Magnetis. Unggul dalam membangun jaringan dan memengaruhi opini pasar.",
+        action: "Berhenti mencoba menjadi ahli teknis. Fokuslah pada PR, Marketing, dan menjaga kualitas branding Anda di mata publik.",
+        pasangan: "Lord (pengontrol arus kas) & Accumulator (penjaga keamanan aset)."
+    },
+    "Supporter": { 
+        slogan: "Leadership Performa Tinggi Melalui Harmoni Ekosistem", 
+        desc: "Anda adalah tipe pemimpin yang mampu menyatukan berbagai talenta menjadi mesin yang solid. Kekuatan Anda bukan pada produk, tapi pada 'budaya'. Kelemahan Anda adalah kecenderungan untuk terlalu kompromis demi menghindari konflik, yang terkadang menghambat ketegasan bisnis. Kesuksesan Anda datang dari pemilihan tim yang tepat dan menjaga moral organisasi agar tetap di level tertinggi.",
+        kekuatan: "Manajemen konflik, motivasi tim, loyalitas tinggi, komunikasi empatik.",
+        kelemahan: "Sulit melakukan 'firing' (pemecatan), sering terjebak dalam masalah emosional tim.",
+        gayaKerja: "Leader-Collaborative. Bekerja terbaik sebagai jembatan komunikasi dalam organisasi besar.",
+        action: "Gunakan data objektif untuk mengambil keputusan sulit agar perasaan tidak mengaburkan logika bisnis Anda.",
+        pasangan: "Star (untuk mendatangkan peluang) & Lord (untuk analisis data objektif)."
+    },
+    "Dealmaker": { 
+        slogan: "Multiplikasi Profit Melalui Momentum Jaringan Strategis", 
+        desc: "Anda sukses melalui transaksi, bukan produksi. Kemampuan Anda membaca 'timing' dan menghubungkan pihak A ke pihak B adalah tambang emas Anda. Kelemahan Anda adalah sering mengabaikan detail kontrak hukum dan analisis risiko mendalam. Strategi Anda adalah menjadi 'Connector' yang lincah; Anda tidak perlu memiliki pabrik, Anda hanya perlu memiliki akses ke pemilik pabrik dan pembelinya.",
+        kekuatan: "Networking taktis, pembaca momentum, kemampuan 'closing' yang tinggi.",
+        kelemahan: "Terlalu optimis, sering meremehkan detail teknis dan risiko legalitas.",
+        gayaKerja: "Connector-Dynamic. Aktif di lapangan dan membangun hubungan jangka panjang.",
+        action: "Libatkan seorang Lord atau pengacara bisnis untuk setiap kesepakatan besar guna melindungi posisi hukum Anda.",
+        pasangan: "Lord (untuk audit risiko) & Mechanic (untuk eksekusi operasional)."
+    },
+    "Trader": { 
+        slogan: "Optimalisasi Cashflow Melalui Ketajaman Eksekusi Pasar", 
+        desc: "Anda memiliki mata yang sangat tajam terhadap harga dan margin profit. Kesuksesan Anda datang dari volume dan kecepatan transaksi (turnover). Kelemahan Anda adalah terjebak dalam rutinitas 'beli-jual' harian sehingga lupa membangun aset jangka panjang. Anda harus belajar untuk mulai mengonversi profit harian menjadi aset tetap agar kekayaan Anda tidak habis hanya untuk operasional.",
+        kekuatan: "Ketajaman margin, pembaca tren harga, disiplin eksekusi, taktis.",
+        kelemahan: "Fokus jangka pendek, sering kehilangan 'Big Picture' karena terlalu sibuk bertransaksi.",
+        gayaKerja: "Speculator-Realist. Fokus pada data lapangan dan angka riil saat ini.",
+        action: "Mulai sisihkan 30% profit harian untuk investasi jangka panjang (Accumulator mode) agar keuangan Anda stabil.",
+        pasangan: "Accumulator (penjaga profit) & Supporter (manajer operasional harian)."
+    },
+    "Accumulator": { 
+        slogan: "Keamanan Finansial Melalui Konsistensi Pertumbuhan Aset", 
+        desc: "Anda adalah penjaga gawang kekayaan. Strategi sukses Anda adalah 'Slow and Steady'. Kekuatan Anda adalah kedisiplinan dan kesabaran dalam riset data. Kelemahan utama Anda adalah 'Analysis Paralysis'—terlalu lama berpikir hingga peluang emas lewat begitu saja. Anda butuh partner yang agresif untuk mendorong Anda mengambil keputusan saat data sudah cukup terkumpul.",
+        kekuatan: "Disiplin tinggi, manajemen risiko ekstrem, riset mendalam, integritas data.",
+        kelemahan: "Terlalu konservatif, takut risiko, lambat merespons perubahan pasar cepat.",
+        gayaKerja: "Safe-Analyst. Membutuhkan data lengkap sebelum melakukan pergerakan besar.",
+        action: "Tetapkan batas waktu riset. Begitu data mencapai 70%, paksa diri Anda untuk mengambil keputusan agar tidak kehilangan momentum.",
+        pasangan: "Star (untuk menaikkan nilai aset) & Dealmaker (akses peluang eksklusif)."
+    },
+    "Lord": { 
+        slogan: "Kedaulatan Ekonomi Melalui Sistem Kontrol dan Arus Kas", 
+        desc: "Anda adalah penguasa infrastruktur. Anda sukses dengan cara memiliki sistem yang menghasilkan uang tanpa kehadiran fisik Anda (Passive Income). Kekuatan Anda adalah kontrol dan efisiensi. Kelemahan Anda adalah kurangnya fleksibilitas dan cenderung dingin terhadap sumber daya manusia. Strategi Anda adalah membeli atau membangun sistem, lalu menaruh orang-orang Supporter untuk mengelolanya.",
+        kekuatan: "Kontrol internal, efisiensi biaya, ahli angka, pengawasan sistematis.",
+        kelemahan: "Kurang empati, kaku terhadap perubahan, sulit diajak berkolaborasi secara cair.",
+        gayaKerja: "Auditor-Controller. Bekerja di balik layar dengan fokus pada laporan dan data.",
+        action: "Gunakan teknologi automasi untuk memperketat pengawasan arus kas tanpa harus menambah beban SDM.",
+        pasangan: "Creator (sumber inovasi ide) & Supporter (jembatan komunikasi manusia)."
+    },
+    "Mechanic": { 
+        slogan: "Skalabilitas Masif Melalui Standarisasi dan Duplikasi", 
+        desc: "Anda adalah arsitek sistem operasional (SOP). Kekuatan Anda adalah menyempurnakan hal yang sudah ada menjadi mesin yang efisien dan bisa diduplikasi (Franchise-able). Kelemahan Anda adalah 'Perfectionist Syndrome'—ingin semua sempurna sebelum diluncurkan. Strategi sukses Anda adalah mengambil ide dari Creator atau Dealmaker, lalu membangun 'pabriknya' agar bisa jalan otomatis.",
+        kekuatan: "Standarisasi proses, efisiensi sistem, logika SOP yang kuat, ketelitian tinggi.",
+        kelemahan: "Lambat memulai hal baru, sering terjebak dalam perbaikan detail yang tidak esensial.",
+        gayaKerja: "System Builder. Bekerja dengan alur kerja, instruksi kerja, dan otomasi.",
+        action: "Sempurnakan sistem Anda, lalu jual atau duplikasi sistem tersebut ke banyak cabang (Scalability).",
+        pasangan: "Creator (sumber bahan baku ide) & Dealmaker (untuk membawa 'deal' baru)."
+    }
 };
+DATABASE SHIO KESUKSESAN - HIGH LEVEL ANALYSIS
 
-// --- LOGIKA UTAMA ---
+// --- CORE LOGIC ---
 
 function startQuiz() {
-    const nameInput = document.getElementById('user-name');
-    const phoneInput = document.getElementById('user-phone');
-    if(!nameInput.value || !phoneInput.value) return alert("Isi Nama & WhatsApp!");
-    
-    userInfo.name = nameInput.value;
-    userInfo.phone = phoneInput.value;
-    
+    const name = document.getElementById('user-name').value;
+    const phone = document.getElementById('user-phone').value;
+    if(!name || !phone) return alert("Isi Nama & WhatsApp!");
+    userInfo = { name, phone };
     document.getElementById('register-section').classList.add('hidden');
     document.getElementById('quiz-section').classList.remove('hidden');
     showQuestion();
@@ -65,85 +126,71 @@ function startQuiz() {
 
 function showQuestion() {
     const q = questions[currentQuestion];
-    const container = document.getElementById('options-container');
     document.getElementById('question-text').innerText = `"${q.q}"`;
-    document.getElementById('progress-text').innerText = `PERTANYAAN ${currentQuestion + 1} / 25`;
+    document.getElementById('progress-text').innerText = `SOAL ${currentQuestion + 1} / 25`;
     document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / 25) * 100}%`;
-    
+    const container = document.getElementById('options-container');
     container.innerHTML = "";
-    const opts = [{t:q.a, m:q.map[0]}, {t:q.b, m:q.map[1]}, {t:q.c, m:q.map[2]}, {t:q.d, m:q.map[3]}];
-    opts.forEach(o => {
+    q.map.forEach((m, i) => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left p-4 border border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition bg-white shadow-sm";
-        btn.innerText = o.t;
-        btn.onclick = () => selectOption(o.m);
+        btn.className = "w-full text-left p-4 border rounded-xl hover:bg-blue-50 transition text-sm";
+        btn.innerText = [q.a, q.b, q.c, q.d][i];
+        btn.onclick = () => selectOption(m);
         container.appendChild(btn);
     });
 }
 
 function selectOption(m) {
     userAnswers.push(m);
-    if(currentQuestion < 24) { 
-        currentQuestion++; 
-        showQuestion(); 
-    }
-    else {
-        const counts = {}; 
-        userAnswers.forEach(x => counts[x] = (counts[x] || 0) + 1);
-        finalWinner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-        
-        // Langsung Sinkron ke Database saat Selesai
-        syncAndShowPaywall();
-    }
+    if(currentQuestion < 24) { currentQuestion++; showQuestion(); }
+    else { calculateAndSync(); }
 }
 
-async function syncAndShowPaywall() {
-    document.getElementById('quiz-section').innerHTML = "<div class='text-center p-10'><p class='animate-bounce text-blue-900 font-bold'>Sedang mensinkronkan data ke Araya Consulting...</p></div>";
+async function calculateAndSync() {
+    const counts = {}; userAnswers.forEach(x => counts[x] = (counts[x] || 0) + 1);
+    finalWinner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+    document.getElementById('quiz-section').innerHTML = "<p class='text-center animate-pulse font-bold text-blue-900'>Sedang Menganalisis Profil Bisnis Anda...</p>";
     
     try {
-        const url = `${SCRIPT_URL}?name=${encodeURIComponent(userInfo.name)}&phone=${encodeURIComponent(userInfo.phone)}&result=${encodeURIComponent(finalWinner)}`;
-        await fetch(url);
-        
+        await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(userInfo.name)}&phone=${encodeURIComponent(userInfo.phone)}&result=${finalWinner}`);
         document.getElementById('quiz-section').classList.add('hidden');
         document.getElementById('user-display-name').innerText = userInfo.name;
         document.getElementById('paywall-section').classList.remove('hidden');
     } catch (e) {
-        console.error("Gagal sinkron database");
         document.getElementById('quiz-section').classList.add('hidden');
         document.getElementById('paywall-section').classList.remove('hidden');
     }
 }
 
-async function activateWithKey() {
-    const key = document.getElementById('license-key').value.trim().toUpperCase();
-    const btn = document.getElementById('btn-activate');
-    if (!key) return alert("Masukkan kode aktivasi!");
-
-    btn.disabled = true; btn.innerText = "Memvalidasi...";
-
-    try {
-        // Validasi Manual: Karena sistem generate otomatis, Bapak bisa memvalidasi lewat database
-        // Untuk sementara kita buat validasi sukses jika ada input (Bapak bisa sesuaikan kodenya nanti)
-        renderCertificate();
-        document.getElementById('paywall-section').classList.add('hidden');
-        document.getElementById('final-result-section').classList.remove('hidden');
-    } catch (e) {
-        alert("Gagal koneksi.");
-        btn.disabled = false;
-    }
+function activateWithKey() {
+    if(!document.getElementById('license-key').value) return alert("Mohon masukkan kode aktivasi!");
+    renderCertificate();
+    document.getElementById('paywall-section').classList.add('hidden');
+    document.getElementById('final-result-section').classList.remove('hidden');
 }
 
 function renderCertificate() {
     const d = shioDatabase[finalWinner];
     document.getElementById('cert-user-name').innerText = userInfo.name;
-    document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
+    document.getElementById('shio-title').innerText = finalWinner;
     document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
-    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(Math.random()*900000) + 100000}`;
     
-    document.getElementById('shio-traits').innerHTML = `<li><strong>Kekuatan:</strong> ${d.kekuatan}</li><li><strong>Tantangan:</strong> ${d.kelemahan}</li><li><strong>Gaya Kerja:</strong> ${d.gayaKerja}</li>`;
-    document.getElementById('shio-analogy').innerHTML = `<p><strong>Posisi Tim:</strong> ${d.posisiTim}</p><p class="mt-2"><strong>Fokus:</strong> ${d.fokusWaktu}</p>`;
-    document.getElementById('shio-strategy').innerHTML = `<p><strong>Partner Ideal:</strong> ${d.pasangan}</p><p class="mt-2"><strong>Action:</strong> ${d.action}</p>`;
-    document.getElementById('shio-models').innerHTML = d.models.map(m => `<li>${m}</li>`).join("");
-    document.getElementById('certificate').style.display = "block";
+    // RENDER DESKRIPSI LENGKAP
+    document.getElementById('shio-long-desc').innerHTML = `
+        <p class="mb-2 text-justify">${d.desc}</p>
+        <p class="mb-1"><strong>KEKUATAN:</strong> ${d.kekuatan}</p>
+        <p class="mb-1"><strong>KELEMAHAN:</strong> ${d.kelemahan}</p>
+        <p class="mt-2 text-blue-900 font-bold uppercase border-t border-slate-100 pt-1 text-[9px]">Strategi Action Plan:</p>
+        <p>${d.action}</p>
+    `;
+    
+    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(Math.random()*900000)+100000}`;
+    
+    // RENDER ATRIBUT DETAIL
+    document.getElementById('shio-details').innerHTML = `
+        <li class="mb-1 border-b pb-1"><strong>GAYA KERJA:</strong><br>${d.gayaKerja}</li>
+        <li class="mb-1 text-amber-700 font-bold italic">PARTNER IDEAL:<br>${d.pasangan}</li>
+    `;
+    document.getElementById('certificate-area').style.display = "block";
 }
