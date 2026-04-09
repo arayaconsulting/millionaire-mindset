@@ -202,24 +202,33 @@ function activateWithKey() {
 function renderCertificate() {
     const d = shioDatabase[finalWinner];
     
-    // Header & Info Umum
+    // Isi data ke elemen sertifikat
     document.getElementById('cert-user-name').innerText = userInfo.name;
-    document.getElementById('shio-title').innerText = finalWinner;
+    document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
     document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
+    document.getElementById('shio-long-desc').innerHTML = `<p>${d.desc}</p><p style="margin-top:10px"><strong>ACTION:</strong> ${d.action}</p>`;
     
-    // Laporan Deskripsi (Lebih Padat & Panjang)
-    document.getElementById('shio-long-desc').innerText = d.desc;
-    document.getElementById('shio-plus').innerText = d.kekuatan;
-    document.getElementById('shio-minus').innerText = d.kelemahan;
-    document.getElementById('shio-action').innerText = d.action;
+    // Atribut Karakter (Bullet points)
+    document.getElementById('shio-details').innerHTML = `
+        <li style="margin-bottom:5px"><strong>KEKUATAN:</strong> ${d.kekuatan}</li>
+        <li style="margin-bottom:5px"><strong>KELEMAHAN:</strong> ${d.kelemahan}</li>
+        <li style="margin-bottom:5px"><strong>GAYA KERJA:</strong> ${d.gayaKerja}</li>
+        <li style="margin-bottom:5px"><strong>PARTNER:</strong> ${d.pasangan}</li>
+    `;
+
+    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    // PENTING: Jangan ubah display: block di sini secara permanen agar tidak muncul di bawah tombol.
+    // Tampilan sertifikat akan otomatis diatur oleh @media print saat tombol download diklik.
+}
+
+// Fungsi download yang baru
+function downloadPDF() {
+    // Jalankan render dulu untuk memastikan data terbaru sudah masuk
+    renderCertificate();
     
-    // Atribut Detail
-    document.getElementById('shio-gaya').innerText = d.gayaKerja;
-    document.getElementById('shio-partner').innerText = d.pasangan;
-    
-    // Footer & ID
-    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });
-    document.getElementById('cert-id').innerText = `ARAYA-SHIO-${Math.floor(Math.random()*9000)+1000}`;
-    
-    document.getElementById('certificate-area').style.display = "block";
+    // Panggil jendela print browser
+    // Pastikan di pengaturan browser user memilih "Save as PDF" dan "Landscape"
+    window.print();
 }
