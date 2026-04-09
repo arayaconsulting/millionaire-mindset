@@ -192,45 +192,52 @@ function activateWithKey() {
     document.getElementById('final-result-section').classList.remove('hidden');
 }
 
-// LOGIKA DOWNLOAD PDF OTOMATIS (MODE DIRECT DOWNLOAD)
-function downloadPDF() {
-    // 1. Jalankan pengisian data ke elemen sertifikat tersembunyi
+function renderCertificate() {
     const d = shioDatabase[finalWinner];
+    
     document.getElementById('cert-user-name').innerText = userInfo.name;
     document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
     document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
-    document.getElementById('shio-long-desc').innerHTML = `<p>${d.desc}</p><p style="margin-top:10px"><strong>ACTION:</strong> ${d.action}</p>`;
-    document.getElementById('shio-details').innerHTML = `
-        <li style="margin-bottom:8px"><strong>KEKUATAN:</strong> ${d.kekuatan}</li>
-        <li style="margin-bottom:8px"><strong>KELEMAHAN:</strong> ${d.kelemahan}</li>
-        <li style="margin-bottom:8px"><strong>GAYA KERJA:</strong> ${d.gayaKerja}</li>
-        <li style="margin-bottom:8px"><strong>PARTNER IDEAL:</strong> ${d.pasangan}</li>
+    
+    // Perbaikan Deskripsi: Gabungkan narasi dan Action di satu tempat agar rapi
+    document.getElementById('shio-long-desc').innerHTML = `
+        <p style="margin-bottom: 8px;">${d.desc}</p>
+        <p style="color: #1e3a8a; font-weight: bold; margin-top: 10px;">ACTION PLAN:</p>
+        <p>${d.action}</p>
     `;
+    
+    document.getElementById('shio-details').innerHTML = `
+        <li style="margin-bottom: 6px;"><strong>KEKUATAN:</strong> ${d.kekuatan}</li>
+        <li style="margin-bottom: 6px;"><strong>KELEMAHAN:</strong> ${d.kelemahan}</li>
+        <li style="margin-bottom: 6px;"><strong>GAYA KERJA:</strong> ${d.gayaKerja}</li>
+        <li style="margin-bottom: 6px;"><strong>PARTNER IDEAL:</strong> ${d.pasangan}</li>
+    `;
+
     document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
     document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
+}
 
-    // 2. TARGET ELEMEN SPESIFIK & KONFIGURASI PRESISI
-    // Pastikan kita hanya mengambil elemen 'certificate-area', bukan pembungkus luarnya
+function downloadPDF() {
+    renderCertificate();
+
     const element = document.getElementById('certificate-area');
     const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
     
     const opt = {
         margin: 0,
         filename: filename,
-        image: { type: 'jpeg', quality: 1 }, // Kualitas maksimal
+        image: { type: 'jpeg', quality: 1 },
+        // PENTING: scale dinaikkan ke 3 agar tajam dan pas halaman
         html2canvas: { 
-            scale: 2, 
+            scale: 3, 
             useCORS: true, 
-            logging: false,
-            letterRendering: true,
+            scrollY: 0, 
             scrollX: 0,
-            scrollY: 0,
-            windowWidth: 1122, // Paksa lebar internal (297mm dalam pixel 96dpi)
-            windowHeight: 794  // Paksa tinggi internal (210mm dalam pixel 96dpi)
+            windowWidth: element.scrollWidth,
+            windowHeight: element.scrollHeight
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
-    // 3. Jalankan Download menggunakan library html2pdf
     html2pdf().set(opt).from(element).save();
 }
