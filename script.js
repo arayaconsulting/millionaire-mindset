@@ -76,7 +76,7 @@ const shioDatabase = {
     "Trader": { 
         slogan: "Optimalisasi Cashflow Melalui Ketajaman Eksekusi Pasar", 
         desc: "Anda memiliki mata yang sangat tajam terhadap harga dan margin profit. Kesuksesan Anda datang dari volume dan kecepatan transaksi (turnover). Kelemahan Anda adalah terjebak dalam rutinitas 'beli-jual' harian sehingga lupa membangun aset jangka panjang. Anda harus belajar untuk mulai mengonversi profit harian menjadi aset tetap agar kekayaan Anda tidak habis hanya untuk operasional.",
-        kekuatan: "Ketajaman margin, pembaca tren harga, disiplin eksekusi, taktis.",
+        kekuatan: "Ketajaman margin, pembaca tren harga, disiplis eksekusi, taktis.",
         kelemahan: "Fokus jangka pendek, sering kehilangan 'Big Picture' karena terlalu sibuk bertransaksi.",
         gayaKerja: "Speculator-Realist. Fokus pada data lapangan dan angka riil saat ini.",
         action: "Mulai sisihkan 30% profit harian untuk investasi jangka panjang (Accumulator mode) agar keuangan Anda stabil.",
@@ -114,34 +114,43 @@ const shioDatabase = {
 // --- CORE LOGIC ---
 
 function startQuiz() {
-    // 1. Ambil elemen input
+    // 1. Ambil elemen input secara spesifik
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
     
-    // 2. Validasi input agar tidak kosong
-    if (!nameEl || !phoneEl || !nameEl.value.trim() || !phoneEl.value.trim()) {
+    // 2. Pastikan elemen ditemukan sebelum mengambil nilainya
+    if (!nameEl || !phoneEl) {
+        console.error("Elemen input tidak ditemukan di HTML!");
+        return;
+    }
+
+    const nameValue = nameEl.value.trim();
+    const phoneValue = phoneEl.value.trim();
+    
+    // 3. Validasi: Jangan biarkan kosong
+    if (nameValue === "" || phoneValue === "") {
         alert("Mohon isi Nama Lengkap dan Nomor WhatsApp untuk melanjutkan.");
         return;
     }
     
-    // 3. Simpan data ke variabel global userInfo
-    userInfo.name = nameEl.value.trim();
-    userInfo.phone = phoneEl.value.trim();
+    // 4. Simpan ke variabel Global userInfo
+    userInfo.name = nameValue;
+    userInfo.phone = phoneValue;
     
-    // 4. Proses perpindahan tampilan
+    // 5. Perpindahan Tampilan (Section Control)
     const regSection = document.getElementById('register-section');
     const quizSection = document.getElementById('quiz-section');
     
     if (regSection && quizSection) {
-        regSection.classList.add('hidden'); // Sembunyikan form pendaftaran
+        regSection.classList.add('hidden'); // Sembunyikan form
         quizSection.classList.remove('hidden'); // Tampilkan kuesioner
         
-        // 5. Reset dan jalankan soal pertama
+        // 6. Reset kuis ke awal dan tampilkan soal pertama
         currentQuestion = 0;
         userAnswers = [];
         showQuestion();
     } else {
-        console.error("Elemen section (register/quiz) tidak ditemukan di HTML!");
+        alert("Terjadi kesalahan sistem: Section tampilan tidak ditemukan.");
     }
 }
 
@@ -194,23 +203,23 @@ function renderCertificate() {
     const d = shioDatabase[finalWinner];
     
     // Header & Info Umum
-    [span_0](start_span)[span_0](start_span)document.getElementById('cert-user-name').innerText = userInfo.name;[span_0](end_span)[span_0](end_span)
-    [span_1](start_span)[span_1](start_span)document.getElementById('shio-title').innerText = finalWinner;[span_1](end_span)[span_1](end_span)
-    [span_2](start_span)[span_2](start_span)document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;[span_2](end_span)[span_2](end_span)
+    document.getElementById('cert-user-name').innerText = userInfo.name;
+    document.getElementById('shio-title').innerText = finalWinner;
+    document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
     
     // Laporan Deskripsi (Lebih Padat & Panjang)
-    [span_3](start_span)[span_3](start_span)document.getElementById('shio-long-desc').innerText = d.desc;[span_3](end_span)[span_3](end_span)
-    [span_4](start_span)[span_4](start_span)document.getElementById('shio-plus').innerText = d.kekuatan;[span_4](end_span)[span_4](end_span)
-    [span_5](start_span)[span_5](start_span)document.getElementById('shio-minus').innerText = d.kelemahan;[span_5](end_span)[span_5](end_span)
-    [span_6](start_span)[span_6](start_span)document.getElementById('shio-action').innerText = d.action;[span_6](end_span)[span_6](end_span)
+    document.getElementById('shio-long-desc').innerText = d.desc;
+    document.getElementById('shio-plus').innerText = d.kekuatan;
+    document.getElementById('shio-minus').innerText = d.kelemahan;
+    document.getElementById('shio-action').innerText = d.action;
     
     // Atribut Detail
-    [span_7](start_span)[span_7](start_span)document.getElementById('shio-gaya').innerText = d.gayaKerja;[span_7](end_span)[span_7](end_span)
-    [span_8](start_span)[span_8](start_span)document.getElementById('shio-partner').innerText = d.pasangan;[span_8](end_span)[span_8](end_span)
+    document.getElementById('shio-gaya').innerText = d.gayaKerja;
+    document.getElementById('shio-partner').innerText = d.pasangan;
     
     // Footer & ID
-    [span_9](start_span)[span_9](start_span)document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });[span_9](end_span)[span_9](end_span)
-    [span_10](start_span)[span_10](start_span)document.getElementById('cert-id').innerText = `ARAYA-SHIO-${Math.floor(Math.random()*9000)+1000}`;[span_10](end_span)[span_10](end_span)
+    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });
+    document.getElementById('cert-id').innerText = `ARAYA-SHIO-${Math.floor(Math.random()*9000)+1000}`;
     
-    [span_11](start_span)document.getElementById('certificate-area').style.display = "block";[span_11](end_span)
+    document.getElementById('certificate-area').style.display = "block";
 }
