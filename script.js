@@ -1,7 +1,13 @@
-// URL DATABASE GOOGLE APPS SCRIPT
+// CONFIG DATABASE
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWkeAOVXyqa9M4L7Od6DLDR2MvQiiQqFVXJktPjlRmmCCDLwqRKTWoqaE42CFJ8MfT/exec";
 
-// DATABASE PERTANYAAN (25 SOAL ORIGINAL DARI BUKU "TAJIR MELINTIR")
+// GLOBAL STATE
+let currentQuestion = 0;
+let userAnswers = [];
+let userInfo = { name: "", phone: "" };
+let finalWinner = "";
+
+// DATABASE PERTANYAAN (25 SOAL ORIGINAL BUKU TAJIR MELINTIR)
 const questions = [
     { q: "Pilih satu dari kata berikut ini yang mencerminkan diri Anda dibanding yang lain!", a: "Kreatif", b: "Penuh cinta", c: "Berhati-hati", d: "Detail", map: ["Creator", "Supporter", "Accumulator", "Lord"] },
     { q: "Bagaimana Anda ingin dilihat oleh orang lain?", a: "Bersahabat", b: "Dapat diandalkan", c: "Bisa memutuskan", d: "Dinamis", map: ["Supporter", "Accumulator", "Lord", "Star"] },
@@ -30,67 +36,48 @@ const questions = [
     { q: "Ketika menyelesaikan sebuah proyek, apa yang paling Anda nikmati?", a: "Merayakan keberhasilan", b: "Memberi selamat pada tim", c: "Menyelesaikan laporan", d: "Memulai proyek berikutnya", map: ["Star", "Supporter", "Lord", "Creator"] }
 ];
 
-// DATABASE SHIO KESUKSESAN
+[span_2](start_span)// DATA SHIO[span_2](end_span)
 const shioDatabase = {
-    "Creator": { slogan: "Menciptakan Produk yang Inovatif", kekuatan: "Pemikir visi besar, inovatif, melompat antar ide.", kelemahan: "Sering bukan manajer andal, tidak suka rutinitas.", gayaKerja: "Visioner / Individual Player.", posisiTim: "Striker / Penyerang (Mencetak Gol)", fokusWaktu: "Masa Depan (Future)", pasangan: "Mechanic & Supporter", action: "Delegasikan operasional rutin segera agar fokus pada inovasi.", models: ["Walt Disney", "Bill Gates"] },
-    "Star": { slogan: "Membangun Merek yang Kuat", kekuatan: "Personal branding kuat, mampu bersinar, magnet massa.", kelemahan: "Lemah dalam detail operasional dan manajemen rumit.", gayaKerja: "Promotor / Individual Player.", posisiTim: "Winger (Penarik Perhatian)", fokusWaktu: "Masa Depan (Future)", pasangan: "Lord & Accumulator", action: "Gunakan karisma Anda untuk menarik peluang besar.", models: ["Oprah Winfrey", "Anthony Robbins"] },
-    "Supporter": { slogan: "Membangun Tim Performa Tinggi", kekuatan: "Leadership kuat, motivator handal, komunikatif.", kelemahan: "Sulit menciptakan sistem mandiri dari nol.", gayaKerja: "Team Player / Leader.", posisiTim: "Kapten Tim / Gelandang Bertahan", fokusWaktu: "Masa Kini (Now)", pasangan: "Star & Lord", action: "Fokus pada manajemen orang dan budaya tim.", models: ["Jack Welch", "Steve Case"] },
-    "Dealmaker": { slogan: "Menemukan Deal yang Menguntungkan", kekuatan: "Negosiator ulung, networking luas, paham momentum.", kelemahan: "Sering terjebak detail panjang yang menunda peluang.", gayaKerja: "Connector / Individual Player.", posisiTim: "Playmaker (Pengatur Serangan)", fokusWaktu: "Masa Kini (Now)", pasangan: "Lord & Mechanic", action: "Perbanyak networking, delegasikan audit teknis.", models: ["Donald Trump", "Sandiaga Uno"] },
-    "Trader": { slogan: "Jual Beli di Waktu yang Tepat", kekuatan: "Peka tren pasar, pedagang alami, efisien.", kelemahan: "Gagal jika dipermainkan pasar atau lupa waktu.", gayaKerja: "Speculator / Individual Player.", posisiTim: "Defensive Midfielder (Penjaga Profit)", fokusWaktu: "Masa Kini (Now)", pasangan: "Accumulator & Supporter", action: "Manfaatkan volatilitas pasar untuk profit cepat.", models: ["George Soros", "Jim Rogers"] },
-    "Accumulator": { slogan: "Membeli dan Koleksi Aset", kekuatan: "Sangat sabar, disiplin, mementingkan keamanan.", kelemahan: "Lambat membuat keputusan, sering menunda.", gayaKerja: "Safe Player / Individual Player.", posisiTim: "Goal Keeper (Penjaga Gawang)", fokusWaktu: "Masa Lalu / Data (Past)", pasangan: "Star & Dealmaker", action: "Tumpuk aset aman secara konsisten.", models: ["Warren Buffett", "Paul Allen"] },
-    "Lord": { slogan: "Menghasilkan Uang dari Aset", kekuatan: "Pengendali belakang layar, cermat, ahli angka.", kelemahan: "Mementingkan angka daripada hubungan manusia.", gayaKerja: "Auditor / Individual Player.", posisiTim: "Central Back (Bek Tengah)", fokusWaktu: "Masa Lalu / Data (Past)", pasangan: "Creator & Supporter", action: "Kontrol arus kas ketat dengan sistem.", models: ["Rockefeller", "Sergei Brin"] },
-    "Mechanic": { slogan: "Membuat Sistem Terduplikasi", kekuatan: "Ahli SOP, penyempurna jaringan, teratur.", kelemahan: "Lambat memulai inovasi benar-benar baru.", gayaKerja: "System Builder / Individual Player.", posisiTim: "Full Back (Penyempurna)", fokusWaktu: "Masa Lalu / Data (Past)", pasangan: "Creator & Dealmaker", action: "Sempurnakan sistem agar bisnis jalan tanpa Anda.", models: ["Henry Ford", "Ray Kroc"] }
+    "Creator": { slogan: "Menciptakan Produk yang Inovatif", kekuatan: "Visi besar, inovatif, melompat antar ide.", kelemahan: "Kurang detail pada rutinitas.", gayaKerja: "Visioner / Individual Player.", posisiTim: "Striker / Penyerang", fokusWaktu: "Masa Depan (Future)", pasangan: "Mechanic & Supporter", action: "Delegasikan operasional rutin segera.", models: ["Bill Gates", "Walt Disney"] },
+    "Star": { slogan: "Membangun Merek yang Kuat", kekuatan: "Personal branding kuat, magnet massa.", kelemahan: "Lemah dalam detail operasional.", gayaKerja: "Promotor / Individual Player.", posisiTim: "Winger (Penarik Perhatian)", fokusWaktu: "Masa Depan (Future)", pasangan: "Lord & Accumulator", action: "Gunakan karisma untuk menarik peluang.", models: ["Oprah Winfrey", "Anthony Robbins"] },
+    "Supporter": { slogan: "Membangun Tim Performa Tinggi", kekuatan: "Leadership kuat, motivator handal.", kelemahan: "Sulit membuat sistem mandiri.", gayaKerja: "Team Player / Leader.", posisiTim: "Kapten Tim", fokusWaktu: "Masa Kini (Now)", pasangan: "Star & Lord", action: "Fokus pada budaya tim.", models: ["Jack Welch", "Steve Case"] },
+    "Dealmaker": { slogan: "Menemukan Deal Menguntungkan", kekuatan: "Negosiator ulung, networking luas.", kelemahan: "Terjebak detail panjang.", gayaKerja: "Connector / Individual Player.", posisiTim: "Playmaker", fokusWaktu: "Masa Kini (Now)", pasangan: "Lord & Mechanic", action: "Perbanyak networking.", models: ["Donald Trump", "Sandiaga Uno"] },
+    "Trader": { slogan: "Jual Beli di Waktu yang Tepat", kekuatan: "Peka tren pasar, taktis.", kelemahan: "Gagal jika lupa waktu.", gayaKerja: "Speculator / Individual Player.", posisiTim: "Defensive Midfielder", fokusWaktu: "Masa Kini (Now)", pasangan: "Accumulator & Supporter", action: "Manfaatkan volatilitas pasar.", models: ["George Soros", "Jim Rogers"] },
+    "Accumulator": { slogan: "Membeli dan Koleksi Aset", kekuatan: "Sangat sabar, mementingkan keamanan.", kelemahan: "Lambat membuat keputusan.", gayaKerja: "Safe Player / Individual Player.", posisiTim: "Goal Keeper", fokusWaktu: "Masa Lalu (Past)", pasangan: "Star & Dealmaker", action: "Tumpuk aset secara konsisten.", models: ["Warren Buffett", "Paul Allen"] },
+    "Lord": { slogan: "Menghasilkan Uang dari Aset", kekuatan: "Pengendali belakang layar, cermat.", kelemahan: "Kurang empati pada manusia.", gayaKerja: "Auditor / Individual Player.", posisiTim: "Central Back", fokusWaktu: "Masa Lalu (Past)", pasangan: "Creator & Supporter", action: "Kontrol arus kas ketat.", models: ["Rockefeller", "Sergei Brin"] },
+    "Mechanic": { slogan: "Membuat Sistem Terduplikasi", kekuatan: "Ahli SOP, rapi, teratur.", kelemahan: "Lambat memulai inovasi baru.", gayaKerja: "System Builder / Individual Player.", posisiTim: "Full Back", fokusWaktu: "Masa Lalu (Past)", pasangan: "Creator & Dealmaker", action: "Sempurnakan sistem bisnis.", models: ["Henry Ford", "Ray Kroc"] }
 };
 
-let currentQuestion = 0;
-let userAnswers = [];
-let userInfo = { name: "", phone: "" };
-let finalWinner = "";
-
-// LOGIKA NAVIGASI
+// CORE FUNCTIONS
 function startQuiz() {
     const nameInput = document.getElementById('user-name');
     const phoneInput = document.getElementById('user-phone');
     
-    // Validasi Input
     if(!nameInput.value || !phoneInput.value) {
-        return alert("Mohon lengkapi Nama dan Nomor WhatsApp!");
+        alert("Mohon lengkapi Nama dan WhatsApp!");
+        return;
     }
     
-    // Simpan Info User
     userInfo.name = nameInput.value;
     userInfo.phone = phoneInput.value;
     
-    // Pindah Tampilan
     document.getElementById('register-section').classList.add('hidden');
     document.getElementById('quiz-section').classList.remove('hidden');
     
-    // Mulai Tampilkan Soal
     showQuestion();
 }
 
 function showQuestion() {
     const q = questions[currentQuestion];
-    const questionTextEl = document.getElementById('question-text');
-    const progressTextEl = document.getElementById('progress-text');
-    const progressBarEl = document.getElementById('progress-bar');
     const container = document.getElementById('options-container');
     
-    if(!questionTextEl || !container) return;
-
-    questionTextEl.innerText = `"${q.q}"`;
-    progressTextEl.innerText = `PERTANYAAN ${currentQuestion + 1} / 25`;
-    progressBarEl.style.width = `${((currentQuestion + 1) / 25) * 100}%`;
+    document.getElementById('question-text').innerText = `"${q.q}"`;
+    document.getElementById('progress-text').innerText = `PERTANYAAN ${currentQuestion + 1} / 25`;
+    document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / 25) * 100}%`;
     
     container.innerHTML = "";
+    const opts = [{t: q.a, m: q.map[0]}, {t: q.b, m: q.map[1]}, {t: q.c, m: q.map[2]}, {t: q.d, m: q.map[3]}];
     
-    const opts = [
-        {t: q.a, m: q.map[0]}, 
-        {t: q.b, m: q.map[1]}, 
-        {t: q.c, m: q.map[2]}, 
-        {t: q.d, m: q.map[3]}
-    ];
-
     opts.forEach(o => {
         const btn = document.createElement('button');
         btn.className = "w-full text-left p-4 border border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition bg-white shadow-sm";
@@ -100,89 +87,57 @@ function showQuestion() {
     });
 }
 
-function selectOption(shio) {
-    userAnswers.push(shio);
-    if(currentQuestion < 24) { 
-        currentQuestion++; 
-        showQuestion(); 
+function selectOption(m) {
+    userAnswers.push(m);
+    if(currentQuestion < 24) {
+        currentQuestion++;
+        showQuestion();
     } else {
-        processResults();
+        const counts = {};
+        userAnswers.forEach(x => counts[x] = (counts[x] || 0) + 1);
+        finalWinner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        
+        document.getElementById('quiz-section').classList.add('hidden');
+        document.getElementById('user-display-name').innerText = userInfo.name;
+        document.getElementById('paywall-section').classList.remove('hidden');
     }
 }
 
-function processResults() {
-    // Hitung Pemenang
-    const counts = {}; 
-    userAnswers.forEach(x => counts[x] = (counts[x] || 0) + 1);
-    finalWinner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-    
-    // Pindah ke Paywall
-    document.getElementById('quiz-section').classList.add('hidden');
-    document.getElementById('user-display-name').innerText = userInfo.name;
-    document.getElementById('paywall-section').classList.remove('hidden');
-}
-
 async function activateWithKey() {
-    const keyInput = document.getElementById('license-key');
-    const key = keyInput.value.trim().toUpperCase();
+    const key = document.getElementById('license-key').value.trim().toUpperCase();
     const btn = document.getElementById('btn-activate');
+    if (!key) return alert("Masukkan kode!");
     
-    if (!key) return alert("Masukkan kode aktivasi!");
-    
-    btn.disabled = true; 
-    btn.innerText = "Memvalidasi...";
-
+    btn.disabled = true; btn.innerText = "Memvalidasi...";
     try {
         const valRes = await fetch(`${SCRIPT_URL}?action=validate&code=${key}`);
         const status = await valRes.text();
-        
         if (status === "VALID") {
-            // Simpan ke Google Sheet
             await fetch(`${SCRIPT_URL}?action=save&name=${encodeURIComponent(userInfo.name)}&phone=${userInfo.phone}&result=${finalWinner}&code=${key}`);
-            
             renderCertificate();
             document.getElementById('paywall-section').classList.add('hidden');
             document.getElementById('final-result-section').classList.remove('hidden');
         } else {
-            alert("Kode tidak valid atau sudah digunakan.");
-            btn.disabled = false; 
-            btn.innerText = "BUKA AKSES SERTIFIKAT";
+            alert("Kode salah/terpakai.");
+            btn.disabled = false; btn.innerText = "BUKA AKSES";
         }
-    } catch (e) {
-        alert("Gagal terhubung ke database. Silakan coba lagi.");
-        btn.disabled = false; 
-        btn.innerText = "BUKA AKSES SERTIFIKAT";
+    } catch(e) {
+        alert("Gagal koneksi.");
+        btn.disabled = false;
     }
 }
 
 function renderCertificate() {
     const d = shioDatabase[finalWinner];
-    const nameEl = document.getElementById('cert-user-name');
-    const titleEl = document.getElementById('shio-title');
-    const sloganEl = document.getElementById('shio-slogan');
-    const dateEl = document.getElementById('cert-date');
-    const idEl = document.getElementById('cert-id');
-
-    if(nameEl) nameEl.innerText = userInfo.name;
-    if(titleEl) titleEl.innerText = finalWinner.toUpperCase();
-    if(sloganEl) sloganEl.innerText = `"${d.slogan}"`;
-    if(dateEl) dateEl.innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-    if(idEl) idEl.innerText = `ARY-SHI-${Math.floor(Math.random()*900000) + 100000}`;
+    document.getElementById('cert-user-name').innerText = userInfo.name;
+    document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
+    document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
+    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(Math.random()*900000) + 100000}`;
     
-    document.getElementById('shio-traits').innerHTML = `
-        <li><strong>Kekuatan:</strong> ${d.kekuatan}</li>
-        <li><strong>Tantangan:</strong> ${d.kelemahan}</li>
-        <li><strong>Gaya Kerja:</strong> ${d.gayaKerja}</li>
-    `;
-    document.getElementById('shio-analogy').innerHTML = `
-        <p><strong>Posisi Tim:</strong><br>${d.posisiTim}</p>
-        <p class="mt-3"><strong>Fokus Waktu:</strong><br>${d.fokusWaktu}</p>
-    `;
-    document.getElementById('shio-strategy').innerHTML = `
-        <p><strong>Pasangan Ideal:</strong><br>${d.pasangan}</p>
-        <p class="mt-3"><strong>Action Plan:</strong><br>${d.action}</p>
-    `;
+    document.getElementById('shio-traits').innerHTML = `<li><strong>Kekuatan:</strong> ${d.kekuatan}</li><li><strong>Tantangan:</strong> ${d.kelemahan}</li><li><strong>Gaya Kerja:</strong> ${d.gayaKerja}</li>`;
+    document.getElementById('shio-analogy').innerHTML = `<p><strong>Posisi Tim:</strong> ${d.posisiTim}</p><p class="mt-2"><strong>Fokus:</strong> ${d.fokusWaktu}</p>`;
+    document.getElementById('shio-strategy').innerHTML = `<p><strong>Partner:</strong> ${d.pasangan}</p><p class="mt-2"><strong>Action:</strong> ${d.action}</p>`;
     document.getElementById('shio-models').innerHTML = d.models.map(m => `<li>${m}</li>`).join("");
-    
     document.getElementById('certificate').style.display = "block";
 }
