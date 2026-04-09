@@ -36,7 +36,7 @@ const questions = [
     { q: "Ketika menyelesaikan sebuah proyek, apa yang paling Anda nikmati?", a: "Merayakan keberhasilan", b: "Memberi selamat pada tim", c: "Menyelesaikan laporan", d: "Memulai proyek berikutnya", map: ["Star", "Supporter", "Lord", "Creator"] }
 ];
 
-// const shioDatabase = {
+const shioDatabase = {
     "Creator": { 
         slogan: "Inovasi Strategis Melalui Visi Disrupsi Masa Depan", 
         desc: "Anda memiliki profil 'disruptor' yang mampu melihat celah pasar sebelum orang lain menyadarinya. Kekuatan Anda bukan pada manajemen, melainkan pada penciptaan nilai (Value Creation). Kelemahan utama Anda adalah 'Shiny Object Syndrome'—terlalu cepat berpindah ide sebelum ide sebelumnya matang. Strategi sukses Anda adalah fokus pada R&D dan desain produk, namun Anda wajib memiliki operasional yang ketat di bawah kendali seorang Mechanic.",
@@ -110,18 +110,39 @@ const questions = [
         pasangan: "Creator (sumber bahan baku ide) & Dealmaker (untuk membawa 'deal' baru)."
     }
 };
-DATABASE SHIO KESUKSESAN - HIGH LEVEL ANALYSIS
 
 // --- CORE LOGIC ---
 
 function startQuiz() {
-    const name = document.getElementById('user-name').value;
-    const phone = document.getElementById('user-phone').value;
-    if(!name || !phone) return alert("Isi Nama & WhatsApp!");
-    userInfo = { name, phone };
-    document.getElementById('register-section').classList.add('hidden');
-    document.getElementById('quiz-section').classList.remove('hidden');
-    showQuestion();
+    // 1. Ambil elemen
+    const nameEl = document.getElementById('user-name');
+    const phoneEl = document.getElementById('user-phone');
+    
+    // 2. Validasi
+    if (!nameEl.value.trim() || !phoneEl.value.trim()) {
+        alert("Mohon isi Nama Lengkap dan Nomor WhatsApp untuk melanjutkan.");
+        return;
+    }
+    
+    // 3. Simpan data ke variabel Global
+    userInfo.name = nameEl.value.trim();
+    userInfo.phone = phoneEl.value.trim();
+    
+    // 4. Pindah Section
+    const regSection = document.getElementById('register-section');
+    const quizSection = document.getElementById('quiz-section');
+    
+    if (regSection && quizSection) {
+        regSection.classList.add('hidden');
+        quizSection.classList.remove('hidden');
+        
+        // 5. Mulai soal pertama
+        currentQuestion = 0;
+        userAnswers = [];
+        showQuestion();
+    } else {
+        console.error("Elemen section tidak ditemukan!");
+    }
 }
 
 function showQuestion() {
