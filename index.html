@@ -12,8 +12,8 @@
 
     <div id="app-container" class="max-w-2xl mx-auto min-h-screen flex flex-col p-4">
         <header class="text-center py-10">
-            <img src="logo.png" alt="Logo Araya Consulting" class="h-20 mx-auto mb-6">
-            <h1 class="font-serif text-2xl text-blue-900 uppercase tracking-wide">Shio Kesuksesan</h1>
+            <img src="logo.png" alt="Logo Araya Consulting" class="h-20 mx-auto mb-4">
+            <h1 class="font-serif text-2xl text-blue-900 uppercase tracking-widest">Shio Kesuksesan</h1>
         </header>
 
         <section id="register-section" class="card">
@@ -27,7 +27,7 @@
 
         <section id="quiz-section" class="card hidden">
             <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
-                <span id="progress-text" class="text-xs font-bold text-blue-800 uppercase tracking-tighter">Pertanyaan 1 / 25</span>
+                <span id="progress-text" class="text-xs font-bold text-blue-800 uppercase">Pertanyaan 1 / 25</span>
                 <div class="w-32 h-2.5 bg-slate-100 rounded-full overflow-hidden">
                     <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-300" style="width: 4%"></div>
                 </div>
@@ -41,14 +41,14 @@
             <p class="text-slate-600 mb-8">Halo <span id="user-display-name" class="font-bold"></span>, peta spektrum kesuksesan Anda telah terpetakan.</p>
             
             <div class="bg-white p-6 rounded-xl shadow-inner mb-8 border border-slate-100">
-                <h3 class="font-bold text-blue-900 mb-4 uppercase text-sm tracking-widest">Sertifikat Analisis Anda Sudah Siap!</h3>
+                <h3 class="font-bold text-blue-900 mb-4 uppercase text-sm tracking-widest text-center">Sertifikat Analisis Anda Sudah Siap!</h3>
                 <p class="text-xs text-slate-500 mb-6 leading-relaxed">Silakan masukkan Kode Aktivasi untuk membuka akses download sertifikat premium.</p>
                 <input type="text" id="license-key" class="input-field text-center font-mono uppercase tracking-widest" placeholder="Kode Aktivasi">
                 <button id="btn-activate" onclick="activateWithKey()" class="btn-primary mt-4">BUKA AKSES SERTIFIKAT</button>
             </div>
 
             <p class="text-[10px] text-slate-400 mb-4 uppercase tracking-widest">Belum punya kode? Silakan klaim melalui:</p>
-            <a href="https://wa.me/6285232526003" target="_blank" class="btn-whatsapp inline-flex items-center gap-2">
+            <a href="https://wa.me/6285232526003" target="_blank" class="btn-whatsapp inline-flex items-center gap-2 mx-auto">
                 Beli Kode via WhatsApp
             </a>
         </section>
@@ -59,7 +59,6 @@
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 </div>
                 <h2 class="text-2xl font-bold text-slate-900">Akses Terbuka!</h2>
-                <p class="text-slate-500 text-sm mt-2">Sertifikat Anda telah berhasil diverifikasi.</p>
             </div>
             <button onclick="window.print()" class="btn-primary">DOWNLOAD SERTIFIKAT (PDF)</button>
         </section>
@@ -127,9 +126,6 @@
         </div>
     </div>
 
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWkeAOVXyqa9M4L7Od6DLDR2MvQiiQqFVXJktPjlRmmCCDLwqRKTWoqaE42CFJ8MfT/exec";
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
