@@ -15,10 +15,9 @@
         .btn-primary { width: 100%; background: #1e3a8a; color: white; padding: 1rem; border-radius: 0.75rem; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
         .btn-primary:hover { background: #172554; transform: translateY(-2px); }
         
-        /* Menyembunyikan sertifikat dari layar aplikasi utama */
+        /* RESET UNTUK PDF PORTRAIT AGAR PAS */
         #certificate-area { display: none; }
 
-        /* Pengaturan Khusus Cetak PDF (Landscape) */
         @media print {
             body * { visibility: hidden; }
             #certificate-area, #certificate-area * { visibility: visible; }
@@ -27,16 +26,37 @@
                 position: absolute; 
                 left: 0; 
                 top: 0; 
-                width: 297mm; 
-                height: 209mm; 
+                width: 210mm; /* Lebar A4 Standar */
+                height: 297mm; /* Tinggi A4 Standar */
                 background: white;
+                padding: 0;
+                margin: 0;
             }
-            @page { size: landscape; margin: 0; }
+            @page { size: portrait; margin: 0; }
         }
 
-        .cert-border-outer { border: 12px solid #1e3a8a; height: 100%; padding: 4px; box-sizing: border-box; }
-        .cert-border-inner { border: 2px solid #b45309; height: 100%; padding: 40px; position: relative; box-sizing: border-box; background: #fff; }
-        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.04; width: 50%; z-index: 0; }
+        /* DESAIN FRAME ELEGAN */
+        .cert-wrapper { 
+            border: 20px solid #1e3a8a; 
+            height: 100%; 
+            box-sizing: border-box; 
+            padding: 5px;
+        }
+        .cert-inner { 
+            border: 2px solid #b45309; 
+            height: 100%; 
+            padding: 60px; 
+            position: relative; 
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        .watermark-bg { 
+            position: absolute; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); 
+            opacity: 0.03; width: 80%; z-index: 0; 
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -101,55 +121,65 @@
     </div>
 
     <div id="certificate-area">
-        <div class="cert-border-outer">
-            <div class="cert-border-inner">
-                <img src="logo.png" class="watermark">
+        <div class="cert-wrapper">
+            <div class="cert-inner">
+                <img src="logo.png" class="watermark-bg">
                 
-                <div class="flex justify-between items-start relative z-10">
-                    <img src="logo.png" class="h-16">
+                <div class="flex justify-between items-center relative z-10 mb-10">
+                    <img src="logo.png" style="height: 80px;">
                     <div class="text-right">
-                        <h1 class="font-serif text-3xl text-blue-900 uppercase font-bold tracking-tight">Certificate of Analysis</h1>
-                        <p class="text-amber-700 font-bold text-[10px] uppercase tracking-[0.4em]">The Millionaire Mindset Spectrum</p>
+                        <h1 class="font-serif text-2xl text-blue-900 font-bold uppercase leading-tight">Certificate of Analysis</h1>
+                        <p class="text-amber-700 font-bold text-[10px] tracking-[0.3em] uppercase">Millionaire Mindset Spectrum</p>
                     </div>
                 </div>
 
-                <div class="text-center mt-8 relative z-10">
-                    <p class="font-serif italic text-slate-500 text-sm">Sertifikat eksklusif ini secara resmi diberikan kepada:</p>
-                    <h2 id="cert-user-name" class="text-4xl font-serif text-slate-900 my-2 border-b-2 border-slate-900 inline-block px-12 pb-1 uppercase tracking-wider font-bold"></h2>
-                    <p class="text-slate-400 text-[9px] uppercase tracking-[0.2em] mt-2">Atas keberhasilan dalam pemetaan profil Wealth & Shio Kesuksesan</p>
+                <div class="text-center relative z-10 mb-8">
+                    <p class="font-serif italic text-slate-500 text-sm">Sertifikat ini secara resmi diberikan kepada:</p>
+                    <h2 id="cert-user-name" class="text-4xl font-serif text-slate-900 my-2 border-b-2 border-slate-900 inline-block px-10 pb-1 uppercase font-bold"></h2>
                 </div>
 
-                <div class="mt-6 bg-blue-900 text-white p-6 rounded-br-[40px] relative z-10 flex justify-between items-center shadow-xl">
-                    <div>
-                        <p class="text-amber-400 text-[10px] uppercase font-bold tracking-[0.3em] mb-1">Hasil Profil Dominan:</p>
-                        <h3 id="shio-title" class="text-5xl font-serif uppercase tracking-widest font-bold"></h3>
-                    </div>
-                    <p id="shio-slogan" class="text-right italic text-blue-100 text-sm max-w-sm leading-relaxed"></p>
+                <div class="bg-blue-900 text-white p-6 rounded-xl relative z-10 shadow-lg mb-8">
+                    <p class="text-amber-400 text-[10px] uppercase font-bold tracking-widest mb-1 text-center">Tipe Profil Dominan:</p>
+                    <h3 id="shio-title" class="text-5xl font-serif text-center uppercase tracking-widest font-bold"></h3>
+                    <p id="shio-slogan" class="text-center italic text-blue-100 text-sm mt-3 border-t border-blue-800 pt-3"></p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-10 mt-8 relative z-10">
-                    <div class="text-[10px] leading-relaxed text-slate-700 text-justify">
-                        <h4 class="text-blue-900 font-bold uppercase border-b border-slate-200 pb-1 mb-2 tracking-widest">Laporan Strategis Bisnis</h4>
-                        <div id="shio-long-desc" class="space-y-2"></div>
+                <div class="relative z-10 space-y-6 text-justify">
+                    <div class="border-l-4 border-amber-700 pl-4">
+                        <h4 class="text-blue-900 font-bold uppercase text-xs mb-1">Karakteristik Strategis Bisnis:</h4>
+                        <p id="shio-long-desc" class="text-[12px] leading-relaxed text-slate-700"></p>
                     </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="text-[10px]">
-                            <h4 class="text-blue-900 font-bold uppercase border-b border-slate-200 pb-1 mb-2 tracking-tighter">Atribut Karakter Sukses</h4>
-                            <ul id="shio-details" class="space-y-1 list-none p-0"></ul>
+
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-blue-900 font-bold uppercase text-[10px] border-b pb-1 mb-2">Kekuatan & Potensi:</h4>
+                            <p id="shio-plus" class="text-[11px] text-slate-600 leading-snug"></p>
                         </div>
-                        
-                        <div class="text-center flex flex-col justify-end">
-                            <img src="ttd.png" class="h-14 mx-auto mb-1 opacity-90 grayscale contrast-125">
-                            <div class="w-32 h-px bg-slate-900 mx-auto"></div>
-                            <p class="font-bold text-[10px] mt-1 text-slate-900 uppercase">Ali Mahfud</p>
-                            <p class="text-[8px] text-slate-400 uppercase tracking-tighter">Founder Araya Consulting</p>
-                            
-                            <div class="mt-4 text-[7px] text-slate-300 font-mono italic">
-                                <p>SERIAL ID: <span id="cert-id"></span></p>
-                                <p>DATE: <span id="cert-date"></span></p>
-                            </div>
+                        <div>
+                            <h4 class="text-blue-900 font-bold uppercase text-[10px] border-b pb-1 mb-2 text-red-800">Area Pengembangan (Kelemahan):</h4>
+                            <p id="shio-minus" class="text-[11px] text-slate-600 leading-snug"></p>
                         </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                        <h4 class="text-blue-900 font-bold uppercase text-[10px] mb-2">Strategi Action Plan & Rekomendasi:</h4>
+                        <p id="shio-action" class="text-[11px] text-slate-700 leading-relaxed italic"></p>
+                    </div>
+
+                    <div id="shio-details-portrait" class="grid grid-cols-2 gap-8 italic text-slate-500 text-[11px]">
+                        </div>
+                </div>
+
+                <div class="mt-auto flex justify-between items-end relative z-10">
+                    <div class="text-[10px] text-slate-400 font-mono">
+                        <p>SERIAL ID: <span id="cert-id"></span></p>
+                        <p>ISSUED DATE: <span id="cert-date"></span></p>
+                    </div>
+                    <div class="text-center">
+                        <img src="ttd.png" style="height: 75px; margin-bottom: -10px;" class="mx-auto opacity-95 grayscale contrast-125">
+                        <div class="w-48 h-px bg-slate-900 mx-auto"></div>
+                        <p class="font-bold text-sm mt-2 uppercase text-slate-900">Ali Mahfud</p>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Founder Araya Consulting</p>
                     </div>
                 </div>
             </div>
