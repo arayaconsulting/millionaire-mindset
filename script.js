@@ -114,34 +114,34 @@ const shioDatabase = {
 // --- CORE LOGIC ---
 
 function startQuiz() {
-    // 1. Ambil elemen
+    // 1. Ambil elemen input
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
     
-    // 2. Validasi
-    if (!nameEl.value.trim() || !phoneEl.value.trim()) {
+    // 2. Validasi input agar tidak kosong
+    if (!nameEl || !phoneEl || !nameEl.value.trim() || !phoneEl.value.trim()) {
         alert("Mohon isi Nama Lengkap dan Nomor WhatsApp untuk melanjutkan.");
         return;
     }
     
-    // 3. Simpan data ke variabel Global
+    // 3. Simpan data ke variabel global userInfo
     userInfo.name = nameEl.value.trim();
     userInfo.phone = phoneEl.value.trim();
     
-    // 4. Pindah Section
+    // 4. Proses perpindahan tampilan
     const regSection = document.getElementById('register-section');
     const quizSection = document.getElementById('quiz-section');
     
     if (regSection && quizSection) {
-        regSection.classList.add('hidden');
-        quizSection.classList.remove('hidden');
+        regSection.classList.add('hidden'); // Sembunyikan form pendaftaran
+        quizSection.classList.remove('hidden'); // Tampilkan kuesioner
         
-        // 5. Mulai soal pertama
+        // 5. Reset dan jalankan soal pertama
         currentQuestion = 0;
         userAnswers = [];
         showQuestion();
     } else {
-        console.error("Elemen section tidak ditemukan!");
+        console.error("Elemen section (register/quiz) tidak ditemukan di HTML!");
     }
 }
 
@@ -194,23 +194,23 @@ function renderCertificate() {
     const d = shioDatabase[finalWinner];
     
     // Header & Info Umum
-    [span_0](start_span)document.getElementById('cert-user-name').innerText = userInfo.name;[span_0](end_span)
-    [span_1](start_span)document.getElementById('shio-title').innerText = finalWinner;[span_1](end_span)
-    [span_2](start_span)document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;[span_2](end_span)
+    [span_0](start_span)[span_0](start_span)document.getElementById('cert-user-name').innerText = userInfo.name;[span_0](end_span)[span_0](end_span)
+    [span_1](start_span)[span_1](start_span)document.getElementById('shio-title').innerText = finalWinner;[span_1](end_span)[span_1](end_span)
+    [span_2](start_span)[span_2](start_span)document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;[span_2](end_span)[span_2](end_span)
     
     // Laporan Deskripsi (Lebih Padat & Panjang)
-    [span_3](start_span)document.getElementById('shio-long-desc').innerText = d.desc;[span_3](end_span)
-    [span_4](start_span)document.getElementById('shio-plus').innerText = d.kekuatan;[span_4](end_span)
-    [span_5](start_span)document.getElementById('shio-minus').innerText = d.kelemahan;[span_5](end_span)
-    [span_6](start_span)document.getElementById('shio-action').innerText = d.action;[span_6](end_span)
+    [span_3](start_span)[span_3](start_span)document.getElementById('shio-long-desc').innerText = d.desc;[span_3](end_span)[span_3](end_span)
+    [span_4](start_span)[span_4](start_span)document.getElementById('shio-plus').innerText = d.kekuatan;[span_4](end_span)[span_4](end_span)
+    [span_5](start_span)[span_5](start_span)document.getElementById('shio-minus').innerText = d.kelemahan;[span_5](end_span)[span_5](end_span)
+    [span_6](start_span)[span_6](start_span)document.getElementById('shio-action').innerText = d.action;[span_6](end_span)[span_6](end_span)
     
     // Atribut Detail
-    [span_7](start_span)document.getElementById('shio-gaya').innerText = d.gayaKerja;[span_7](end_span)
-    [span_8](start_span)document.getElementById('shio-partner').innerText = d.pasangan;[span_8](end_span)
+    [span_7](start_span)[span_7](start_span)document.getElementById('shio-gaya').innerText = d.gayaKerja;[span_7](end_span)[span_7](end_span)
+    [span_8](start_span)[span_8](start_span)document.getElementById('shio-partner').innerText = d.pasangan;[span_8](end_span)[span_8](end_span)
     
     // Footer & ID
-    [span_9](start_span)document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });[span_9](end_span)
-    [span_10](start_span)document.getElementById('cert-id').innerText = `ARAYA-SHIO-${Math.floor(Math.random()*9000)+1000}`;[span_10](end_span)
+    [span_9](start_span)[span_9](start_span)document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });[span_9](end_span)[span_9](end_span)
+    [span_10](start_span)[span_10](start_span)document.getElementById('cert-id').innerText = `ARAYA-SHIO-${Math.floor(Math.random()*9000)+1000}`;[span_10](end_span)[span_10](end_span)
     
     [span_11](start_span)document.getElementById('certificate-area').style.display = "block";[span_11](end_span)
 }
