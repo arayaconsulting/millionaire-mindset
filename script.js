@@ -209,15 +209,25 @@ function downloadPDF() {
     document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
     document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    // 2. Konfigurasi Otomatis Download PDF (Sama seperti DISC)
+    // 2. TARGET ELEMEN SPESIFIK & KONFIGURASI PRESISI
+    // Pastikan kita hanya mengambil elemen 'certificate-area', bukan pembungkus luarnya
     const element = document.getElementById('certificate-area');
     const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
     
     const opt = {
         margin: 0,
         filename: filename,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        image: { type: 'jpeg', quality: 1 }, // Kualitas maksimal
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true, 
+            logging: false,
+            letterRendering: true,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: 1122, // Paksa lebar internal (297mm dalam pixel 96dpi)
+            windowHeight: 794  // Paksa tinggi internal (210mm dalam pixel 96dpi)
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
