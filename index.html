@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araya Shio Kesuksesan - Millionaire Mindset Assessment</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="app-container" class="max-w-2xl mx-auto min-h-screen flex flex-col p-4">
+        <header class="text-center py-10">
+            <div class="mb-4">
+                <span class="text-2xl font-bold text-blue-900 tracking-tighter italic">ARAYA</span>
+                <span class="text-xs block text-slate-400 tracking-[0.3em] uppercase">Consulting</span>
+            </div>
+            <h1 class="font-serif text-3xl text-blue-900">SHIO KESUKSESAN</h1>
+        </header>
+
+        <section id="register-section" class="card">
+            <h2 class="text-xl font-bold mb-2">Mulai Asesmen</h2>
+            <p class="text-sm text-slate-500 mb-6">Lengkapi data diri Anda untuk memulai pemetaan Millionaire Mindset.</p>
+            <input type="text" id="user-name" class="input-field" placeholder="Nama Lengkap">
+            <input type="tel" id="user-phone" class="input-field mt-4" placeholder="Nomor WhatsApp">
+            <button onclick="startQuiz()" class="btn-primary mt-6 uppercase">Mulai Tes Sekarang</button>
+        </section>
+
+        <section id="quiz-section" class="card hidden">
+            <div class="flex justify-between items-center mb-8">
+                <span id="progress-text" class="text-xs font-bold text-blue-800 uppercase tracking-widest">Pertanyaan 1 / 25</span>
+                <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-300" style="width: 4%"></div>
+                </div>
+            </div>
+            <h3 id="question-text" class="text-lg font-medium leading-relaxed mb-10 text-slate-900"></h3>
+            <div id="options-container" class="space-y-4"></div>
+        </section>
+
+        <section id="paywall-section" class="card hidden text-center border-dashed border-2 border-blue-200">
+            <h2 class="text-2xl font-bold text-blue-900 mb-2 underline decoration-blue-200">Hasil Anda Sudah Siap!</h2>
+            <p class="text-slate-600 mb-8">Halo <span id="user-display-name" class="font-bold"></span>, peta spektrum kesuksesan Anda telah terpetakan.</p>
+            
+            <div class="bg-white p-6 rounded-xl shadow-inner mb-8">
+                <h3 class="font-bold text-blue-900 mb-4 uppercase text-sm tracking-widest">Sertifikat Analisis Anda Sudah Siap!</h3>
+                <p class="text-xs text-slate-500 mb-6 leading-relaxed">Silakan masukkan Kode Aktivasi untuk membuka akses download sertifikat premium.</p>
+                <input type="text" id="license-key" class="input-field text-center font-mono uppercase tracking-widest" placeholder="Kode Aktivasi">
+                <button onclick="activateWithKey()" class="btn-primary mt-4">BUKA AKSES SERTIFIKAT</button>
+            </div>
+
+            <p class="text-[10px] text-slate-400 mb-4 uppercase tracking-widest">Belum punya kode? Silakan klaim melalui:</p>
+            <a href="https://wa.me/6285232526003" target="_blank" class="btn-whatsapp inline-flex items-center gap-2 mx-auto">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Beli Kode via WhatsApp
+            </a>
+        </section>
+
+        <section id="final-result-section" class="card hidden text-center">
+            <div class="mb-6">
+                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Akses Terbuka!</h2>
+                <p class="text-sm text-slate-500">Hasil Shio Kesuksesan Anda telah siap diunduh.</p>
+            </div>
+            <button onclick="window.print()" class="btn-primary flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                DOWNLOAD SERTIFIKAT (PDF)
+            </button>
+        </section>
+
+        <footer class="py-10 text-center text-[10px] text-slate-400 uppercase tracking-widest">
+            © 2026 ARAYA CONSULTING - TUBA, INDONESIA
+        </footer>
+    </div>
+
+    <div id="certificate" class="certificate-landscape">
+        <div class="watermark-logo">ARAYA</div>
+        <div class="cert-border">
+            <div class="cert-content">
+                <header class="flex justify-between items-start mb-10">
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-bold text-blue-900 italic tracking-tighter">ARAYA</span>
+                        <span class="text-[8px] uppercase tracking-widest text-slate-400">Consulting - Tuban</span>
+                    </div>
+                    <div class="text-right">
+                        <h1 class="text-2xl font-serif text-blue-900 tracking-wider">CERTIFICATE OF ANALYSIS</h1>
+                        <p class="text-[9px] tracking-[0.3em] text-[#c29d51] uppercase font-bold">Shio Kesuksesan | Millionaire Mindset</p>
+                    </div>
+                </header>
+
+                <div class="text-center mb-10">
+                    <p class="italic text-slate-500 text-xs mb-1">Sertifikat ini diberikan kepada:</p>
+                    <h2 id="cert-user-name" class="text-4xl font-serif font-bold text-slate-900 border-b border-slate-900 inline-block px-12 pb-1 uppercase tracking-tight"></h2>
+                </div>
+
+                <div class="shio-result-box text-center py-4 bg-slate-50 border-y border-slate-100">
+                    <p class="text-[10px] uppercase font-bold text-blue-900 tracking-[0.2em] mb-1">Profil Utama Anda Adalah</p>
+                    <h1 id="shio-title" class="text-5xl font-serif text-blue-950 uppercase tracking-wide"></h1>
+                    <p id="shio-slogan" class="italic text-slate-600 text-xs mt-1"></p>
+                </div>
+
+                <div class="grid grid-cols-4 gap-6 mt-10 py-6">
+                    <div>
+                        <h4 class="cert-section-title">Karakter Bisnis (Core)</h4>
+                        <ul id="shio-traits" class="cert-list text-[10px]"></ul>
+                    </div>
+                    <div>
+                        <h4 class="cert-section-title">Analogi Peran</h4>
+                        <div id="shio-analogy" class="cert-text text-[10px] space-y-3"></div>
+                    </div>
+                    <div>
+                        <h4 class="cert-section-title">Saran Kolaborasi</h4>
+                        <div id="shio-strategy" class="cert-text text-[10px] space-y-3"></div>
+                    </div>
+                    <div>
+                        <h4 class="cert-section-title">Social Proof</h4>
+                        <p class="text-[8px] italic text-slate-400 mb-2">Tokoh dengan profil serupa:</p>
+                        <ul id="shio-models" class="cert-list text-[10px] font-bold text-blue-900"></ul>
+                    </div>
+                </div>
+
+                <footer class="mt-auto flex justify-between items-end border-t border-slate-100 pt-6">
+                    <div class="text-[8px] text-slate-400 font-mono leading-relaxed uppercase">
+                        <p>ID: <span id="cert-id" class="text-slate-600 font-bold"></span></p>
+                        <p>Date: <span id="cert-date" class="text-slate-600 font-bold"></span></p>
+                        <p>Metodologi: Millionaire Mindset - Bossman Mardigu</p>
+                    </div>
+                    <div class="text-center relative">
+                        <div class="w-12 h-12 bg-slate-100 mb-2 mx-auto flex items-center justify-center text-[6px] text-slate-300 border border-slate-200">QR VERIFY</div>
+                        <div class="signature-area h-12 flex items-center justify-center">
+                            <span class="font-serif italic text-blue-900 text-lg opacity-80">Ali Mahfud</span>
+                        </div>
+                        <p class="font-bold text-[9px] uppercase border-t border-slate-900 pt-0.5">Ali Mahfud</p>
+                        <p class="text-[6px] uppercase tracking-widest text-slate-400">Founder Araya Consulting</p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
