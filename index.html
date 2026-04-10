@@ -54,7 +54,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: auto; /* Memaksa ke dasar kolom kanan */
+            margin-top: auto; 
             padding-bottom: 5px;
         }
     </style>
@@ -113,7 +113,7 @@
             <h2 class="text-2xl font-bold mb-2 text-slate-900 uppercase">Verifikasi Berhasil</h2>
             <p class="text-slate-500 text-sm mb-8">Laporan Analisis Premium Anda siap diunduh dalam format PDF.</p>
             <button onclick="downloadPDF()" class="btn-primary uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 Download Sertifikat (PDF)
             </button>
             <p class="text-[9px] text-slate-400 mt-8 uppercase italic opacity-50">© 2026 Araya Consulting - All Rights Reserved</p>
@@ -155,15 +155,15 @@
                                 <div id="shio-long-desc" class="analysis-text"></div>
                             </div>
                             
-                            <div style="display: flex; flex-direction: column;">
-                                <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Atribut Karakter Sukses</h4>
-                                <ul id="shio-details" class="attribute-list"></ul>
+                            <div style="display: flex; flex-direction: column; height: 100%;">
+                                <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 12px; font-weight: 700;">Atribut Karakter Sukses</h4>
+                                <ul id="shio-details" class="attribute-list" style="margin-bottom: 20px;"></ul>
 
-                                <div class="signature-container">
-                                    <img src="ttd.png" style="height: 70px; margin-bottom: -15px;">
-                                    <div style="width: 180px; height: 1.2px; background: #1e3a8a;"></div>
-                                    <p style="font-weight: 800; font-size: 10pt; margin: 5px 0 0 0; color: #1e3a8a;">ALI MAHFUD</p>
-                                    <p style="font-size: 8pt; color: #64748b; margin: 0; font-weight: 600;">Founder Araya Consulting</p>
+                                <div style="margin-top: auto; display: flex; flex-direction: column; align-items: center; width: 100%;">
+                                    <img src="ttd.png" style="height: 75px; margin-bottom: -15px; position: relative; z-index: 2;">
+                                    <div style="width: 160px; height: 1.5px; background: #1e3a8a;"></div>
+                                    <p style="font-weight: 800; font-size: 11pt; margin: 8px 0 0 0; color: #1e3a8a; text-transform: uppercase;">ALI MAHFUD</p>
+                                    <p style="font-size: 8pt; color: #64748b; margin: 2px 0 0 0; font-weight: 600; text-transform: uppercase;">Founder Araya Consulting</p>
                                 </div>
                             </div>
                         </div>
