@@ -47,7 +47,7 @@ const shioDatabase = {
         pasangan: "Mechanic (untuk standarisasi) & Supporter (untuk manajemen manusia)."
     },
     "Star": { 
-        slogan: "Akselerasi Bisnis Melalui Otoritas dan Personal Branding", 
+        slogan: "Akselerasi Bisesis Melalui Otoritas dan Personal Branding", 
         desc: "Kekuatan ekonomi Anda terletak pada persona dan kepercayaan publik. Anda sukses dengan cara 'menjadi wajah' dari bisnis Anda. Kelemahan terbesar Anda adalah ketergantungan pada ego dan kelelahan jika harus mengurus detail teknis sendirian. Strategi Anda adalah membangun ekosistem di mana orang lain mengelola produk, sementara Anda fokus menjadi magnet peluang dan pembuka pintu-pintu kerja sama besar.",
         kekuatan: "Otoritas publik, karisma persuasif, kemampuan negosiasi panggung.",
         kelemahan: "Kurang fokus pada detail internal, sangat terpengaruh oleh opini publik.",
@@ -237,16 +237,22 @@ function downloadPDF() {
     const opt = {
         margin: 0,
         filename: filename,
-        image: { type: 'jpeg', quality: 1 },
+        image: { type: 'jpeg', quality: 1.0 },
         html2canvas: { 
-            scale: 3, // Skala tinggi untuk kualitas tajam seperti DISC
+            scale: 4, // Meningkatkan resolusi agar teks tajam
             useCORS: true, 
-            scrollY: 0, 
-            scrollX: 0,
-            windowWidth: 1122, // Standar pixel A4 Landscape
-            windowHeight: 794
+            logging: false,
+            letterRendering: true,
+            // Mengunci tangkapan pada ukuran elemen asli
+            width: 1122, // 297mm @ 96dpi
+            height: 794  // 210mm @ 96dpi
         },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        jsPDF: { 
+            unit: 'mm', 
+            format: 'a4', 
+            orientation: 'landscape',
+            compress: true 
+        }
     };
 
     // 4. Jalankan download dan kembalikan status tersembunyi setelah selesai
