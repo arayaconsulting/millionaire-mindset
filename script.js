@@ -195,17 +195,19 @@ function activateWithKey() {
 function renderCertificate() {
     const d = shioDatabase[finalWinner];
     
+    // Header & Nama
     document.getElementById('cert-user-name').innerText = userInfo.name;
     document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
     document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
     
-    // Perbaikan Deskripsi: Gabungkan narasi dan Action di satu tempat agar rapi
+    // Deskripsi Terpadu (Menghilangkan Action Plan ganda)
     document.getElementById('shio-long-desc').innerHTML = `
         <p style="margin-bottom: 8px;">${d.desc}</p>
         <p style="color: #1e3a8a; font-weight: bold; margin-top: 10px;">ACTION PLAN:</p>
         <p>${d.action}</p>
     `;
     
+    // Atribut Detail
     document.getElementById('shio-details').innerHTML = `
         <li style="margin-bottom: 6px;"><strong>KEKUATAN:</strong> ${d.kekuatan}</li>
         <li style="margin-bottom: 6px;"><strong>KELEMAHAN:</strong> ${d.kelemahan}</li>
@@ -213,31 +215,43 @@ function renderCertificate() {
         <li style="margin-bottom: 6px;"><strong>PARTNER IDEAL:</strong> ${d.pasangan}</li>
     `;
 
-    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    // Metadata Footer
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', options);
     document.getElementById('cert-id').innerText = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
 }
 
 function downloadPDF() {
+    // 1. Isi data terlebih dahulu
     renderCertificate();
 
+    // 2. Ambil elemen target
     const element = document.getElementById('certificate-area');
+    const wrapper = document.getElementById('certificate-wrapper');
     const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
-    
+
+    // 3. Tampilkan sementara agar html2pdf bisa membacanya
+    wrapper.style.left = "0";
+    wrapper.style.position = "static";
+
     const opt = {
         margin: 0,
         filename: filename,
         image: { type: 'jpeg', quality: 1 },
-        // PENTING: scale dinaikkan ke 3 agar tajam dan pas halaman
         html2canvas: { 
-            scale: 3, 
+            scale: 3, // Skala tinggi untuk kualitas tajam seperti DISC
             useCORS: true, 
             scrollY: 0, 
             scrollX: 0,
-            windowWidth: element.scrollWidth,
-            windowHeight: element.scrollHeight
+            windowWidth: 1122, // Standar pixel A4 Landscape
+            windowHeight: 794
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
-    html2pdf().set(opt).from(element).save();
+    // 4. Jalankan download dan kembalikan status tersembunyi setelah selesai
+    html2pdf().set(opt).from(element).save().then(() => {
+        wrapper.style.left = "-9999px";
+        wrapper.style.position = "absolute";
+    });
 }
