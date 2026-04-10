@@ -39,16 +39,16 @@ const questions = [
 const shioDatabase = {
     "Creator": { 
         slogan: "Inovasi Strategis Melalui Visi Disrupsi Masa Depan", 
-        [span_5](start_span)desc: "Anda memiliki profil 'disruptor' yang mampu melihat celah pasar sebelum orang lain menyadarinya. Kekuatan Anda bukan pada manajemen, melainkan pada penciptaan nilai (Value Creation)[span_5](end_span). [span_6](start_span)Kelemahan utama Anda adalah terlalu cepat berpindah ide sebelum ide sebelumnya matang[span_6](end_span). [span_7](start_span)Strategi sukses Anda adalah fokus pada riset dan desain produk[span_7](end_span).",
-        [span_8](start_span)kekuatan: "Visi tingkat tinggi, inovasi radikal, pemecah masalah kompleks[span_8](end_span).",
-        [span_9](start_span)kelemahan: "Buruk dalam rutinitas, mudah bosan, mengabaikan profit jangka pendek[span_9](end_span).",
+        desc: "Anda memiliki profil 'disruptor' yang mampu melihat celah pasar sebelum orang lain menyadarinya. Kekuatan Anda bukan pada manajemen, melainkan pada penciptaan nilai (Value Creation). Kelemahan utama Anda adalah terlalu cepat berpindah ide sebelum ide sebelumnya matang. Strategi sukses Anda adalah fokus pada riset dan desain produk.",
+        kekuatan: "Visi tingkat tinggi, inovasi radikal, pemecah masalah kompleks.",
+        kelemahan: "Buruk dalam rutinitas, mudah bosan, mengabaikan profit jangka pendek.",
         gayaKerja: "Visioner-Strategis. Membutuhkan ruang kreatif tanpa gangguan administratif.",
-        action: "Bangun sistem delegasi total untuk urusan teknis dan admin. [span_10](start_span)Fokus menjadi 'Arsitek' bisnis, bukan 'Kuli' bisnis[span_10](end_span).",
-        [span_11](start_span)pasangan: "Mechanic (standarisasi) & Supporter (manajemen manusia)[span_11](end_span)."
+        action: "Bangun sistem delegasi total untuk urusan teknis dan admin. Fokus menjadi 'Arsitek' bisnis, bukan 'Kuli' bisnis.",
+        pasangan: "Mechanic (standarisasi) & Supporter (manajemen manusia)."
     },
     "Star": { 
         slogan: "Akselerasi Bisnis Melalui Otoritas dan Personal Branding", 
-        desc: "Kekuatan ekonomi Anda terletak pada persona dan kepercayaan publik. Anda sukses dengan cara 'menjadi wajah' dari bisnis Anda. Kelemahan terbesar adalah ketergantungan pada ego dan kelelahan jika mengurus detail teknis sendirian.",
+        desc: "Kekuatan ekonomi Anda terletak pada persona dan kepercayaan publik. Anda sukses dengan cara 'menjadi wajah' dari bisnis Anda. Kelemahan terbesar adalah ketergantungan pada ego dan kelelahan jika harus mengurus detail teknis sendirian.",
         kekuatan: "Otoritas publik, karisma persuasif, negosiasi panggung.",
         kelemahan: "Kurang fokus pada detail internal, terpengaruh opini publik.",
         gayaKerja: "Promotor-Magnetis. Unggul dalam membangun jaringan dan memengaruhi opini pasar.",
@@ -57,21 +57,21 @@ const shioDatabase = {
     },
     "Supporter": { 
         slogan: "Leadership Performa Tinggi Melalui Harmoni Ekosistem", 
-        [span_12](start_span)desc: "Anda adalah tipe pemimpin yang mampu menyatukan berbagai talenta menjadi mesin yang solid[span_12](end_span). [span_13](start_span)Kekuatan Anda bukan pada produk, tapi pada 'budaya'[span_13](end_span). [span_14](start_span)Kelemahan Anda adalah kecenderungan untuk terlalu kompromis demi menghindari konflik[span_14](end_span).",
-        [span_15](start_span)kekuatan: "Manajemen konflik, motivasi tim, loyalitas tinggi, komunikasi empatik[span_15](end_span).",
-        [span_16](start_span)kelemahan: "Sulit melakukan pemecatan (firing), sering terjebak dalam masalah emosional tim[span_16](end_span).",
-        gayaKerja: "Leader-Collaborative. [span_17](start_span)Bekerja terbaik sebagai jembatan komunikasi[span_17](end_span).",
-        [span_18](start_span)action: "Gunakan data objektif untuk mengambil keputusan sulit agar perasaan tidak mengaburkan logika bisnis Anda[span_18](end_span).",
-        [span_19](start_span)pasangan: "Star (pembuka peluang) & Lord (analisis data objektif)[span_19](end_span)."
+        desc: "Anda adalah tipe pemimpin yang mampu menyatukan berbagai talenta menjadi mesin yang solid. Kekuatan Anda bukan pada produk, tapi pada 'budaya'. Kelemahan Anda adalah kecenderungan untuk terlalu kompromis demi menghindari konflik.",
+        kekuatan: "Manajemen konflik, motivasi tim, loyalitas tinggi, komunikasi empatik.",
+        kelemahan: "Sulit melakukan pemecatan (firing), sering terjebak dalam masalah emosional tim.",
+        gayaKerja: "Leader-Collaborative. Bekerja terbaik sebagai jembatan komunikasi.",
+        action: "Gunakan data objektif untuk mengambil keputusan sulit agar perasaan tidak mengaburkan logika bisnis Anda.",
+        pasangan: "Star (pembuka peluang) & Lord (analisis data objektif)."
     },
     "Dealmaker": { 
         slogan: "Multiplikasi Profit Melalui Momentum Jaringan Strategis", 
-        [span_20](start_span)desc: "Anda sukses melalui transaksi, bukan produksi[span_20](end_span). [span_21](start_span)Kemampuan Anda membaca momentum dan menghubungkan antar pihak adalah tambang emas Anda[span_21](end_span). [span_22](start_span)Kelemahan Anda adalah sering mengabaikan detail kontrak hukum[span_22](end_span).",
-        [span_23](start_span)kekuatan: "Networking taktis, pembaca momentum, kemampuan 'closing' yang tinggi[span_23](end_span).",
-        [span_24](start_span)kelemahan: "Terlalu optimis, meremehkan detail teknis dan risiko legalitas[span_24](end_span).",
-        gayaKerja: "Connector-Dynamic. [span_25](start_span)Aktif di lapangan dan membangun hubungan jangka panjang[span_25](end_span).",
-        [span_26](start_span)action: "Libatkan seorang pengacara bisnis untuk setiap kesepakatan besar guna melindungi posisi hukum Anda[span_26](end_span).",
-        [span_27](start_span)pasangan: "Lord (audit risiko) & Mechanic (eksekusi operasional)[span_27](end_span)."
+        desc: "Anda sukses melalui transaksi, bukan produksi. Kemampuan Anda membaca momentum dan menghubungkan antar pihak adalah tambang emas Anda. Kelemahan Anda adalah sering mengabaikan detail kontrak hukum.",
+        kekuatan: "Networking taktis, pembaca momentum, kemampuan 'closing' yang tinggi.",
+        kelemahan: "Terlalu optimis, meremehkan detail teknis dan risiko legalitas.",
+        gayaKerja: "Connector-Dynamic. Aktif di lapangan dan membangun hubungan jangka panjang.",
+        action: "Libatkan seorang pengacara bisnis untuk setiap kesepakatan besar guna melindungi posisi hukum Anda.",
+        pasangan: "Lord (audit risiko) & Mechanic (eksekusi operasional)."
     },
     "Trader": { 
         slogan: "Optimalisasi Cashflow Melalui Ketajaman Eksekusi Pasar", 
@@ -116,17 +116,29 @@ const shioDatabase = {
 function startQuiz() {
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
-    if (!nameEl || !phoneEl) return;
+    
+    // Validasi apakah elemen ada di HTML
+    if (!nameEl || !phoneEl) {
+        console.error("Elemen input tidak ditemukan!");
+        return;
+    }
+
     const nameValue = nameEl.value.trim();
     const phoneValue = phoneEl.value.trim();
+    
     if (nameValue === "" || phoneValue === "") {
         alert("Mohon isi Nama Lengkap dan Nomor WhatsApp untuk melanjutkan.");
         return;
     }
+    
+    // Simpan ke Global State
     userInfo.name = nameValue;
     userInfo.phone = phoneValue;
+    
+    // Pindah ke Quiz Section
     const regSection = document.getElementById('register-section');
     const quizSection = document.getElementById('quiz-section');
+    
     if (regSection && quizSection) {
         regSection.classList.add('hidden');
         quizSection.classList.remove('hidden');
@@ -165,9 +177,9 @@ async function calculateAndSync() {
     
     document.getElementById('quiz-section').innerHTML = "<p class='text-center animate-pulse font-bold text-blue-900'>Sedang Menganalisis Profil Bisnis Anda...</p>";
     
-    [span_28](start_span)const reportId = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;[span_28](end_span)
+    const reportId = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
     
-    [span_29](start_span)[span_30](start_span)// Auto-update WhatsApp link[span_29](end_span)[span_30](end_span)
+    // Auto-update WhatsApp link
     const waMessage = `Halo Mas Ali, saya sudah selesai tes Shio Kesuksesan. Mohon kode aktivasi sertifikat.\n\nNama: *${userInfo.name}*\nID Saya: *${reportId}*`;
     const waUrl = `https://wa.me/6285232526003?text=${encodeURIComponent(waMessage)}`;
     const waBtn = document.getElementById('wa-admin-btn');
