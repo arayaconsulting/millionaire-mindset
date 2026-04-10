@@ -36,7 +36,7 @@ const questions = [
     { q: "Ketika menyelesaikan sebuah proyek, apa yang paling Anda nikmati?", a: "Merayakan keberhasilan", b: "Memberi selamat pada tim", c: "Menyelesaikan laporan", d: "Memulai proyek berikutnya", map: ["Star", "Supporter", "Lord", "Creator"] }
 ];
 
-// DATABASE SHIO (TELAH DIPERBAIKI TYPO DAN SINGKATANNYA)
+// DATABASE SHIO DENGAN KOREKSI TYPO & SINGKATAN
 const shioDatabase = {
     "Creator": { 
         slogan: "Inovasi Strategis Melalui Visi Disrupsi Masa Depan", 
@@ -202,10 +202,12 @@ function renderCertificate() {
 
 function downloadPDF() {
     renderCertificate();
+
     const element = document.getElementById('certificate-area');
     const wrapper = document.getElementById('certificate-wrapper');
     const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
     
+    // Tampilkan secara instan untuk snapshot
     wrapper.style.left = "0";
     wrapper.style.position = "static";
 
@@ -216,10 +218,12 @@ function downloadPDF() {
         html2canvas: { 
             scale: 4, 
             useCORS: true, 
-            logging: false,
             letterRendering: true,
-            width: 1122, 
-            height: 794  
+            scrollY: 0,
+            scrollX: 0,
+            // PAKSA UKURAN UNTUK MENGHILANGKAN HALAMAN 2
+            width: 1122, // 297mm presisi
+            height: 794  // 210mm presisi
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape', compress: true }
     };
