@@ -36,79 +36,78 @@ const questions = [
     { q: "Ketika menyelesaikan sebuah proyek, apa yang paling Anda nikmati?", a: "Merayakan keberhasilan", b: "Memberi selamat pada tim", c: "Menyelesaikan laporan", d: "Memulai proyek berikutnya", map: ["Star", "Supporter", "Lord", "Creator"] }
 ];
 
-// DATABASE SHIO (TELAH DIPERBAIKI TYPO DAN SINGKATANNYA)
 const shioDatabase = {
     "Creator": { 
         slogan: "Inovasi Strategis Melalui Visi Disrupsi Masa Depan", 
-        desc: "Anda memiliki profil 'disruptor' yang mampu melihat celah pasar sebelum orang lain menyadarinya. Kekuatan Anda bukan pada manajemen, melainkan pada penciptaan nilai (Value Creation). Kelemahan utama Anda adalah terlalu cepat berpindah ide sebelum ide sebelumnya matang.",
-        kekuatan: "Visi tingkat tinggi, inovasi radikal, pemecah masalah kompleks.",
-        kelemahan: "Buruk dalam rutinitas, mudah bosan, mengabaikan profit jangka pendek.",
+        desc: "Anda memiliki profil 'disruptor' yang mampu melihat celah pasar sebelum orang lain menyadarinya. Kekuatan Anda bukan pada manajemen, melainkan pada penciptaan nilai (Value Creation). Kelemahan utama Anda adalah 'Shiny Object Syndrome'âterlalu cepat berpindah ide sebelum ide sebelumnya matang. Strategi sukses Anda adalah fokus pada R&D dan desain produk, namun Anda wajib memiliki operasional yang ketat di bawah kendali seorang Mechanic.",
+        kekuatan: "High-level vision, inovasi radikal, kemampuan memecahkan masalah kompleks.",
+        kelemahan: "Buruk dalam rutinitas, mudah bosan, seringkali mengabaikan profitabilitas jangka pendek.",
         gayaKerja: "Visioner-Strategis. Membutuhkan ruang kreatif tanpa gangguan administratif.",
-        action: "Bangun sistem delegasi total untuk urusan teknis dan admin. Fokus menjadi 'Arsitek' bisnis, bukan 'Kuli' bisnis.",
-        pasangan: "Mechanic (standarisasi) & Supporter (manajemen manusia)."
+        action: "Segera bangun sistem delegasi total untuk urusan teknis dan admin. Fokuslah menjadi 'Arsitek' bisnis, bukan 'Kuli' bisnis.",
+        pasangan: "Mechanic (untuk standarisasi) & Supporter (untuk manajemen manusia)."
     },
     "Star": { 
         slogan: "Akselerasi Bisnis Melalui Otoritas dan Personal Branding", 
-        desc: "Kekuatan ekonomi Anda terletak pada persona dan kepercayaan publik. Anda sukses dengan cara 'menjadi wajah' dari bisnis Anda. Kelemahan terbesar adalah ketergantungan pada ego dan kelelahan jika harus mengurus detail teknis sendirian.",
-        kekuatan: "Otoritas publik, karisma persuasif, negosiasi panggung.",
-        kelemahan: "Kurang fokus pada detail internal, terpengaruh opini publik.",
+        desc: "Kekuatan ekonomi Anda terletak pada persona dan kepercayaan publik. Anda sukses dengan cara 'menjadi wajah' dari bisnis Anda. Kelemahan terbesar Anda adalah ketergantungan pada ego dan kelelahan jika harus mengurus detail teknis sendirian. Strategi Anda adalah membangun ekosistem di mana orang lain mengelola produk, sementara Anda fokus menjadi magnet peluang dan pembuka pintu-pintu kerja sama besar.",
+        kekuatan: "Otoritas publik, karisma persuasif, kemampuan negosiasi panggung.",
+        kelemahan: "Kurang fokus pada detail internal, sangat terpengaruh oleh opini publik.",
         gayaKerja: "Promotor-Magnetis. Unggul dalam membangun jaringan dan memengaruhi opini pasar.",
-        action: "Berhenti mencoba menjadi ahli teknis. Fokus pada Public Relations, Marketing, dan menjaga kualitas personal branding Anda.",
-        pasangan: "Lord (pengontrol arus kas) & Accumulator (penjaga aset)."
+        action: "Berhenti mencoba menjadi ahli teknis. Fokuslah pada PR, Marketing, dan menjaga kualitas branding Anda di mata publik.",
+        pasangan: "Lord (pengontrol arus kas) & Accumulator (penjaga keamanan aset)."
     },
     "Supporter": { 
         slogan: "Leadership Performa Tinggi Melalui Harmoni Ekosistem", 
-        desc: "Anda adalah tipe pemimpin yang mampu menyatukan berbagai talenta menjadi mesin yang solid. Kekuatan Anda bukan pada produk, tapi pada 'budaya'. Kelemahan Anda adalah kecenderungan untuk terlalu kompromis demi menghindari konflik.",
+        desc: "Anda adalah tipe pemimpin yang mampu menyatukan berbagai talenta menjadi mesin yang solid. Kekuatan Anda bukan pada produk, tapi pada 'budaya'. Kelemahan Anda adalah kecenderungan untuk terlalu kompromis demi menghindari konflik, yang terkadang menghambat ketegasan bisnis. Kesuksesan Anda datang dari pemilihan tim yang tepat dan menjaga moral organisasi agar tetap di level tertinggi.",
         kekuatan: "Manajemen konflik, motivasi tim, loyalitas tinggi, komunikasi empatik.",
-        kelemahan: "Sulit melakukan pemecatan (firing), sering terjebak dalam masalah emosional tim.",
+        kelemahan: "Sulit melakukan 'firing' (pemecatan), sering terjebak dalam masalah emosional tim.",
         gayaKerja: "Leader-Collaborative. Bekerja terbaik sebagai jembatan komunikasi dalam organisasi besar.",
         action: "Gunakan data objektif untuk mengambil keputusan sulit agar perasaan tidak mengaburkan logika bisnis Anda.",
-        pasangan: "Star (pembuka peluang) & Lord (analisis data objektif)."
+        pasangan: "Star (untuk mendatangkan peluang) & Lord (untuk analisis data objektif)."
     },
     "Dealmaker": { 
         slogan: "Multiplikasi Profit Melalui Momentum Jaringan Strategis", 
-        desc: "Anda sukses melalui transaksi, bukan produksi. Kemampuan Anda membaca momentum dan menghubungkan antar pihak adalah tambang emas Anda. Kelemahan Anda adalah sering mengabaikan detail kontrak hukum dan analisis risiko.",
+        desc: "Anda sukses melalui transaksi, bukan produksi. Kemampuan Anda membaca 'timing' dan menghubungkan pihak A ke pihak B adalah tambang emas Anda. Kelemahan Anda adalah sering mengabaikan detail kontrak hukum dan analisis risiko mendalam. Strategi Anda adalah menjadi 'Connector' yang lincah; Anda tidak perlu memiliki pabrik, Anda hanya perlu memiliki akses ke pemilik pabrik dan pembelinya.",
         kekuatan: "Networking taktis, pembaca momentum, kemampuan 'closing' yang tinggi.",
-        kelemahan: "Terlalu optimis, meremehkan detail teknis dan risiko legalitas.",
+        kelemahan: "Terlalu optimis, sering meremehkan detail teknis dan risiko legalitas.",
         gayaKerja: "Connector-Dynamic. Aktif di lapangan dan membangun hubungan jangka panjang.",
-        action: "Libatkan seorang pengacara bisnis untuk setiap kesepakatan besar guna melindungi posisi hukum Anda.",
-        pasangan: "Lord (audit risiko) & Mechanic (eksekusi operasional)."
+        action: "Libatkan seorang Lord atau pengacara bisnis untuk setiap kesepakatan besar guna melindungi posisi hukum Anda.",
+        pasangan: "Lord (untuk audit risiko) & Mechanic (untuk eksekusi operasional)."
     },
     "Trader": { 
         slogan: "Optimalisasi Cashflow Melalui Ketajaman Eksekusi Pasar", 
-        desc: "Anda memiliki mata yang sangat tajam terhadap harga dan margin profit. Kesuksesan Anda datang dari volume dan kecepatan transaksi. Kelemahan Anda adalah terjebak dalam rutinitas beli-jual sehingga lupa membangun aset tetap jangka panjang.",
-        kekuatan: "Ketajaman margin, pembaca tren harga, disiplin eksekusi.",
-        kelemahan: "Fokus jangka pendek, sering kehilangan gambaran besar (Big Picture).",
+        desc: "Anda memiliki mata yang sangat tajam terhadap harga dan margin profit. Kesuksesan Anda datang dari volume dan kecepatan transaksi (turnover). Kelemahan Anda adalah terjebak dalam rutinitas 'beli-jual' harian sehingga lupa membangun aset jangka panjang. Anda harus belajar untuk mulai mengonversi profit harian menjadi aset tetap agar kekayaan Anda tidak habis hanya untuk operasional.",
+        kekuatan: "Ketajaman margin, pembaca tren harga, disiplis eksekusi, taktis.",
+        kelemahan: "Fokus jangka pendek, sering kehilangan 'Big Picture' karena terlalu sibuk bertransaksi.",
         gayaKerja: "Speculator-Realist. Fokus pada data lapangan dan angka riil saat ini.",
-        action: "Mulai sisihkan 30% profit harian untuk investasi aset tetap agar keuangan Anda stabil jangka panjang.",
-        pasangan: "Accumulator (penjaga profit) & Supporter (manajer operasional)."
+        action: "Mulai sisihkan 30% profit harian untuk investasi jangka panjang (Accumulator mode) agar keuangan Anda stabil.",
+        pasangan: "Accumulator (penjaga profit) & Supporter (manajer operasional harian)."
     },
     "Accumulator": { 
         slogan: "Keamanan Finansial Melalui Konsistensi Pertumbuhan Aset", 
-        desc: "Anda adalah penjaga gawang kekayaan. Strategi sukses Anda adalah konsistensi dan pertumbuhan bertahap. Kekuatan Anda adalah kedisiplinan dan riset data. Kelemahan utama adalah terlalu lama berpikir hingga peluang emas terlewat.",
-        kekuatan: "Disiplin tinggi, manajemen risiko, riset mendalam, integritas data.",
-        kelemahan: "Terlalu konservatif, takut risiko, lambat merespons perubahan pasar.",
+        desc: "Anda adalah penjaga gawang kekayaan. Strategi sukses Anda adalah 'Slow and Steady'. Kekuatan Anda adalah kedisiplinan dan kesabaran dalam riset data. Kelemahan utama Anda adalah 'Analysis Paralysis'âterlalu lama berpikir hingga peluang emas lewat begitu saja. Anda butuh partner yang agresif untuk mendorong Anda mengambil keputusan saat data sudah cukup terkumpul.",
+        kekuatan: "Disiplin tinggi, manajemen risiko ekstrem, riset mendalam, integritas data.",
+        kelemahan: "Terlalu konservatif, takut risiko, lambat merespons perubahan pasar cepat.",
         gayaKerja: "Safe-Analyst. Membutuhkan data lengkap sebelum melakukan pergerakan besar.",
-        action: "Tetapkan batas waktu riset. Begitu data mencapai 70%, paksa diri Anda untuk mengambil keputusan.",
-        pasangan: "Star (menaikkan nilai aset) & Dealmaker (akses peluang eksklusive)."
+        action: "Tetapkan batas waktu riset. Begitu data mencapai 70%, paksa diri Anda untuk mengambil keputusan agar tidak kehilangan momentum.",
+        pasangan: "Star (untuk menaikkan nilai aset) & Dealmaker (akses peluang eksklusif)."
     },
     "Lord": { 
         slogan: "Kedaulatan Ekonomi Melalui Sistem Kontrol dan Arus Kas", 
-        desc: "Anda adalah penguasa infrastruktur. Anda sukses dengan cara memiliki sistem yang menghasilkan uang tanpa kehadiran fisik Anda. Kekuatan Anda adalah kontrol dan efisiensi. Kelemahan Anda adalah kurangnya fleksibilitas terhadap manusia.",
+        desc: "Anda adalah penguasa infrastruktur. Anda sukses dengan cara memiliki sistem yang menghasilkan uang tanpa kehadiran fisik Anda (Passive Income). Kekuatan Anda adalah kontrol dan efisiensi. Kelemahan Anda adalah kurangnya fleksibilitas dan cenderung dingin terhadap sumber daya manusia. Strategi Anda adalah membeli atau membangun sistem, lalu menaruh orang-orang Supporter untuk mengelolanya.",
         kekuatan: "Kontrol internal, efisiensi biaya, ahli angka, pengawasan sistematis.",
-        kelemahan: "Kurang empati, kaku terhadap perubahan, sulit berkolaborasi secara cair.",
+        kelemahan: "Kurang empati, kaku terhadap perubahan, sulit diajak berkolaborasi secara cair.",
         gayaKerja: "Auditor-Controller. Bekerja di balik layar dengan fokus pada laporan dan data.",
-        action: "Gunakan teknologi automasi untuk memperketat pengawasan arus kas tanpa menambah beban SDM.",
-        pasangan: "Creator (inovasi ide) & Supporter (jembatan komunikasi manusia)."
+        action: "Gunakan teknologi automasi untuk memperketat pengawasan arus kas tanpa harus menambah beban SDM.",
+        pasangan: "Creator (sumber inovasi ide) & Supporter (jembatan komunikasi manusia)."
     },
     "Mechanic": { 
         slogan: "Skalabilitas Masif Melalui Standarisasi dan Duplikasi", 
-        desc: "Anda adalah arsitek sistem operasional. Kekuatan Anda adalah menyempurnakan hal yang sudah ada menjadi mesin yang efisien dan bisa diduplikasi. Kelemahan Anda adalah ingin semua sempurna sebelum diluncurkan.",
-        kekuatan: "Standarisasi proses, efisiensi sistem, logika SOP yang kuat.",
-        kelemahan: "Lambat memulai hal baru, terjebak dalam perbaikan detail yang tidak esensial.",
+        desc: "Anda adalah arsitek sistem operasional (SOP). Kekuatan Anda adalah menyempurnakan hal yang sudah ada menjadi mesin yang efisien dan bisa diduplikasi (Franchise-able). Kelemahan Anda adalah 'Perfectionist Syndrome'âingin semua sempurna sebelum diluncurkan. Strategi sukses Anda adalah mengambil ide dari Creator atau Dealmaker, lalu membangun 'pabriknya' agar bisa jalan otomatis.",
+        kekuatan: "Standarisasi proses, efisiensi sistem, logika SOP yang kuat, ketelitian tinggi.",
+        kelemahan: "Lambat memulai hal baru, sering terjebak dalam perbaikan detail yang tidak esensial.",
         gayaKerja: "System Builder. Bekerja dengan alur kerja, instruksi kerja, dan otomasi.",
-        action: "Sempurnakan sistem Anda, lalu lakukan duplikasi sistem tersebut ke banyak cabang.",
-        pasangan: "Creator (bahan baku ide) & Dealmaker (untuk membawa kesepakatan baru)."
+        action: "Sempurnakan sistem Anda, lalu jual atau duplikasi sistem tersebut ke banyak cabang (Scalability).",
+        pasangan: "Creator (sumber bahan baku ide) & Dealmaker (untuk membawa 'deal' baru)."
     }
 };
 
@@ -117,23 +116,35 @@ const shioDatabase = {
 function startQuiz() {
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
-    if (!nameEl || !phoneEl) return;
+    
+    if (!nameEl || !phoneEl) {
+        console.error("Elemen input tidak ditemukan di HTML!");
+        return;
+    }
+
     const nameValue = nameEl.value.trim();
     const phoneValue = phoneEl.value.trim();
+    
     if (nameValue === "" || phoneValue === "") {
         alert("Mohon isi Nama Lengkap dan Nomor WhatsApp untuk melanjutkan.");
         return;
     }
+    
     userInfo.name = nameValue;
     userInfo.phone = phoneValue;
+    
     const regSection = document.getElementById('register-section');
     const quizSection = document.getElementById('quiz-section');
+    
     if (regSection && quizSection) {
         regSection.classList.add('hidden');
         quizSection.classList.remove('hidden');
+        
         currentQuestion = 0;
         userAnswers = [];
         showQuestion();
+    } else {
+        alert("Terjadi kesalahan sistem: Section tampilan tidak ditemukan.");
     }
 }
 
@@ -163,6 +174,7 @@ async function calculateAndSync() {
     const counts = {}; userAnswers.forEach(x => counts[x] = (counts[x] || 0) + 1);
     finalWinner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
     document.getElementById('quiz-section').innerHTML = "<p class='text-center animate-pulse font-bold text-blue-900'>Sedang Menganalisis Profil Bisnis Anda...</p>";
+    
     try {
         await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(userInfo.name)}&phone=${encodeURIComponent(userInfo.phone)}&result=${finalWinner}`);
         document.getElementById('quiz-section').classList.add('hidden');
@@ -188,7 +200,7 @@ function renderCertificate() {
     document.getElementById('shio-title').innerText = finalWinner.toUpperCase();
     document.getElementById('shio-slogan').innerText = `"${d.slogan}"`;
     
-    // Deskripsi Terpadu
+    // Deskripsi Terpadu (Menghilangkan Action Plan ganda)
     document.getElementById('shio-long-desc').innerHTML = `
         <p style="margin-bottom: 8px;">${d.desc}</p>
         <p style="color: #1e3a8a; font-weight: bold; margin-top: 10px;">ACTION PLAN:</p>
@@ -210,33 +222,34 @@ function renderCertificate() {
 }
 
 function downloadPDF() {
+    // 1. Isi data terlebih dahulu
     renderCertificate();
 
+    // 2. Ambil elemen target
     const element = document.getElementById('certificate-area');
     const wrapper = document.getElementById('certificate-wrapper');
     const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
-    
-    // Tampilkan secara instan untuk snapshot
+
+    // 3. Tampilkan sementara agar html2pdf bisa membacanya
     wrapper.style.left = "0";
     wrapper.style.position = "static";
 
     const opt = {
         margin: 0,
         filename: filename,
-        image: { type: 'jpeg', quality: 1.0 },
+        image: { type: 'jpeg', quality: 1 },
         html2canvas: { 
-            scale: 4, 
+            scale: 3, // Skala tinggi untuk kualitas tajam seperti DISC
             useCORS: true, 
-            letterRendering: true,
-            scrollY: 0,
+            scrollY: 0, 
             scrollX: 0,
-            // MENGUNCI UKURAN TANGKAPAN AGAR TIDAK ADA HALAMAN 2
-            width: 1122, 
-            height: 794  
+            windowWidth: 1122, // Standar pixel A4 Landscape
+            windowHeight: 794
         },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape', compress: true }
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
+    // 4. Jalankan download dan kembalikan status tersembunyi setelah selesai
     html2pdf().set(opt).from(element).save().then(() => {
         wrapper.style.left = "-9999px";
         wrapper.style.position = "absolute";
