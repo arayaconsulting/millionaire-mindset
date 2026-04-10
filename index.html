@@ -26,37 +26,52 @@
             top: 0;
         }
 
-        /* CSS KHUSUS DOWNLOAD - PAKSA A4 LANDSCAPE */
-        @media print {
-            @page { size: A4 landscape; margin: 0; }
-            body { margin: 0; padding: 0; }
-            #certificate-area {
-                width: 297mm;
-                height: 210mm;
-                display: flex !important;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 15mm; 
-                box-sizing: border-box;
-                overflow: hidden;
-            }
+        /* CSS KHUSUS DOWNLOAD - PRESISI LANDSCAPE */
+        #certificate-area {
+            width: 297mm;
+            height: 210mm;
+            background: white;
+            padding: 8mm; /* Margin putih tipis di tepi kertas agar elegan */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Memastikan tidak ada konten meluber ke halaman 2 */
         }
 
-        /* PENGATURAN KOMPOSISI HURUF SERTIFIKAT */
-        .cert-title { font-size: 24pt; letter-spacing: 2px; font-family: 'Playfair Display', serif; font-weight: 700; }
-        .cert-name { font-size: 32pt; border-bottom: 2px solid #1e3a8a; font-family: 'Playfair Display', serif; font-weight: 700; }
-        .shio-result-box { background: #1e3a8a; padding: 10px 20px; border-radius: 0 0 40px 0; }
-        .analysis-text { font-size: 9.5pt; line-height: 1.35; text-align: justify; color: #334155; }
-        .attribute-list { font-size: 9pt; line-height: 1.4; list-style: none; padding: 0; color: #475569; }
+        .cert-border-inner {
+            border: 1.5px solid #b45309;
+            height: 100%;
+            padding: 15px 35px; /* Padding vertikal diperkecil agar konten naik */
+            position: relative;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
 
-        /* POSISI TANDA TANGAN YANG TERKUNCI */
+        /* KOREKSI TANDA TANGAN & GARIS NAMA */
         .signature-container {
+            margin-top: auto; /* Memaksa posisi ke dasar kolom */
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: auto; 
+            width: 100%;
             padding-bottom: 5px;
         }
+        
+        .signature-line {
+            width: 180px; 
+            height: 1px;
+            background: #1e3a8a;
+            margin-top: -12px; /* Menempelkan garis ke tanda tangan */
+            margin-bottom: 5px;
+        }
+
+        /* PENGATURAN KOMPOSISI HURUF */
+        .cert-title { font-family: 'Playfair Display', serif; font-size: 22pt; color: #1e3a8a; margin: 0; text-transform: uppercase; font-weight: 700; }
+        .cert-name { font-family: 'Playfair Display', serif; font-size: 34pt; display: inline-block; padding: 0 40px; margin: 0; color: #1e3a8a; text-transform: uppercase; font-weight: 700; }
+        .analysis-text { font-size: 9.5pt; line-height: 1.35; text-align: justify; color: #334155; }
+        .attribute-list { font-size: 9pt; line-height: 1.4; list-style: none; padding: 0; color: #475569; }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -94,18 +109,6 @@
             <div id="options-container" class="grid gap-3"></div>
         </section>
 
-        <section id="paywall-section" class="card hidden text-center border-t-8 border-blue-900">
-            <h2 class="text-2xl font-bold text-blue-900 mb-2 tracking-tight">Analisis Selesai!</h2>
-            <p class="text-slate-500 mb-8 text-sm leading-relaxed">Halo <span id="user-display-name" class="font-bold text-blue-900"></span>, sistem kami telah memproses profil Millionaire Mindset Anda.</p>
-            <div class="bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-100">
-                <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Masukkan Kode Aktivasi Sertifikat</p>
-                <input type="text" id="license-key" class="input-field text-center font-mono text-xl mb-4 tracking-[0.2em]" placeholder="KODE-XXXX">
-                <button onclick="activateWithKey()" class="btn-primary uppercase">Buka Akses Sertifikat</button>
-            </div>
-            <p class="text-[9px] text-slate-400 mb-2 uppercase font-bold tracking-tighter">Belum memiliki kode? Klik tombol dibawah:</p>
-            <a href="https://wa.me/6285232526003" target="_blank" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full font-bold text-xs uppercase shadow-md hover:bg-green-700 transition">Hubungi Admin</a>
-        </section>
-
         <section id="final-result-section" class="card hidden text-center">
             <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -122,56 +125,55 @@
 
     <div id="certificate-wrapper">
         <div id="certificate-area">
-            <div class="cert-border-outer" style="border: 10px solid #1e3a8a; width: 100%; height: 100%; padding: 3px; box-sizing: border-box;">
-                <div class="cert-border-inner" style="border: 1.5px solid #b45309; height: 100%; padding: 25px; position: relative; background: white; display: flex; flex-direction: column; box-sizing: border-box;">
-                    
+            <div class="cert-border-outer" style="border: 10px solid #1e3a8a; height: 100%; padding: 3px; box-sizing: border-box;">
+                <div class="cert-border-inner">
                     <img src="logo.png" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; opacity: 0.05; z-index: 0;">
                     
                     <div style="position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%;">
                         <div style="display: flex; justify-content: space-between; align-items: start;">
                             <img src="logo.png" style="height: 60px;">
                             <div style="text-align: right;">
-                                <h1 class="cert-title" style="margin: 0; color: #1e3a8a; text-transform: uppercase;">Certificate of Analysis</h1>
-                                <p style="color: #b45309; font-weight: bold; font-size: 9pt; margin: 0; letter-spacing: 2px;">THE MILLIONAIRE MINDSET SPECTRUM</p>
+                                <h1 class="cert-title">Certificate of Analysis</h1>
+                                <p style="color: #b45309; font-weight: bold; font-size: 9pt; margin: 0;">THE MILLIONAIRE MINDSET SPECTRUM</p>
                             </div>
                         </div>
 
-                        <div style="text-align: center; margin: 20px 0;">
+                        <div style="text-align: center; margin: 15px 0;">
                             <p style="font-style: italic; font-size: 11pt; margin-bottom: 5px; color: #64748b;">Sertifikat ini secara resmi diberikan kepada:</p>
-                            <h2 id="cert-user-name" class="cert-name" style="display: inline-block; padding: 0 40px; margin: 0; color: #1e3a8a; text-transform: uppercase;"></h2>
+                            <h2 id="cert-user-name" class="cert-name"></h2>
                         </div>
 
-                        <div class="shio-result-box" style="display: flex; justify-content: space-between; align-items: center; color: white;">
+                        <div style="background: #1e3a8a; color: white; padding: 10px 25px; border-radius: 0 0 40px 0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <span style="color: #fbbf24; font-size: 8pt; text-transform: uppercase; font-weight: bold;">Hasil Profil Dominan:</span>
-                                <h3 id="shio-title" style="font-size: 28pt; margin: 0; letter-spacing: 2px; text-transform: uppercase;"></h3>
+                                <h3 id="shio-title" style="font-size: 26pt; margin: 0; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;"></h3>
                             </div>
-                            <p id="shio-slogan" style="font-style: italic; font-size: 10pt; max-width: 350px; text-align: right; margin: 0;"></p>
+                            <p id="shio-slogan" style="font-style: italic; font-size: 10pt; max-width: 380px; text-align: right; margin: 0; line-height: 1.3;"></p>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; margin-top: 20px; flex-grow: 1;">
-                            <div style="display: flex; flex-direction: column;">
+                        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; flex-grow: 1;">
+                            <div>
                                 <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Analisis Strategis Bisnis</h4>
                                 <div id="shio-long-desc" class="analysis-text"></div>
                             </div>
                             
-                            <div style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+                            <div style="display: flex; flex-direction: column; justify-content: space-between;">
                                 <div>
-                                    <h4 style="color: #1e3a8a; border-bottom: 1px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 10px; font-weight: 700;">Atribut Karakter Sukses</h4>
-                                    <ul id="shio-details" class="attribute-list" style="margin-bottom: 10px;"></ul>
+                                    <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Atribut Karakter Sukses</h4>
+                                    <ul id="shio-details" class="attribute-list"></ul>
                                 </div>
 
-                                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 10px;">
-                                    <img src="ttd.png" style="height: 70px; margin-bottom: -15px; position: relative; z-index: 2;">
-                                    <div style="width: 180px; height: 1px; background: #1e3a8a; margin-bottom: 5px;"></div>
+                                <div class="signature-container">
+                                    <img src="ttd.png" style="height: 70px; margin-bottom: -5px; position: relative; z-index: 2;">
+                                    <div class="signature-line"></div>
                                     <p style="font-weight: 800; font-size: 11pt; margin: 0; color: #1e3a8a; text-transform: uppercase;">Ali Mahfud</p>
-                                    <p style="font-size: 8pt; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Founder Araya Consulting</p>
+                                    <p style="font-size: 8pt; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase;">Founder Araya Consulting</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 7pt; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 5px; margin-top: 10px;">
-                            <span>ID: <span id="cert-id"></span></span>
+                        <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 7pt; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 6px; margin-top: 5px;">
+                            <span>VERIFIED ID: <span id="cert-id"></span></span>
                             <span>TANGGAL: <span id="cert-date"></span></span>
                         </div>
                     </div>
