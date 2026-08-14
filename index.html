@@ -19,18 +19,21 @@
         
         .no-print { display: block; }
 
-        /* KONTTAINER DOWNLOAD - MENGUNCI A4 LANDSCAPE */
+        /* KONTANER DOWNLOAD - MENGUNCI A4 LANDSCAPE EXACT */
         #certificate-wrapper {
             position: absolute;
             left: -9999px;
             top: 0;
+            width: 1122px;
+            height: 794px;
+            overflow: hidden;
         }
 
         #certificate-area {
-            width: 297mm;
-            height: 210mm;
+            width: 1122px;
+            height: 794px;
             background: white;
-            padding: 8mm; 
+            padding: 25px; 
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -40,7 +43,7 @@
         .cert-border-inner {
             border: 1.5px solid #b45309;
             height: 100%;
-            padding: 15px 35px;
+            padding: 20px 35px;
             position: relative;
             background: white;
             display: flex;
