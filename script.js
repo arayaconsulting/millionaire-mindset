@@ -117,7 +117,7 @@ function startQuiz() {
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
     
-    // Validasi keberadaan elemen
+    // Validasi apakah elemen ada di HTML
     if (!nameEl || !phoneEl) {
         console.error("Elemen input tidak ditemukan!");
         return;
@@ -135,7 +135,7 @@ function startQuiz() {
     userInfo.name = nameValue;
     userInfo.phone = phoneValue;
     
-    // Pindah Tampilan ke Quiz
+    // Pindah ke Quiz Section
     const regSection = document.getElementById('register-section');
     const quizSection = document.getElementById('quiz-section');
     
@@ -179,7 +179,7 @@ async function calculateAndSync() {
     
     const reportId = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
     
-    // Auto-update WhatsApp Link
+    // Auto-update WhatsApp link
     const waMessage = `Halo Mas Ali, saya sudah selesai tes Shio Kesuksesan. Mohon kode aktivasi sertifikat.\n\nNama: *${userInfo.name}*\nID Saya: *${reportId}*`;
     const waUrl = `https://wa.me/6285232526003?text=${encodeURIComponent(waMessage)}`;
     const waBtn = document.getElementById('wa-admin-btn');
@@ -224,17 +224,16 @@ function renderCertificate() {
 
 function downloadPDF() {
     renderCertificate();
-
     const element = document.getElementById('certificate-area');
     const wrapper = document.getElementById('certificate-wrapper');
     const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
     
-    // Tampilkan wrapper sementara untuk proses rendering html2pdf
+    // Tampilkan wrapper sementara agar elemen dapat di-render dengan utuh
     wrapper.style.left = "0";
     wrapper.style.position = "static";
 
     const opt = {
-        margin:       0, // MARGIN NOL AGAR BORDER MENEMPEL RAPI DI TEPI KERTAS
+        margin:       0, // Tanpa margin kertas agar border menempel sempurna
         filename:     filename,
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { 
@@ -242,15 +241,14 @@ function downloadPDF() {
             useCORS: true, 
             scrollY: 0,
             scrollX: 0,
-            width: 1120, // KUNCI UKURAN BERSAMA CSS
-            height: 790
+            windowWidth: 1122, // Ukuran lebar standar A4 Landscape (px)
+            windowHeight: 794
         },
-        jsPDF:        { unit: 'px', format: [1120, 790], orientation: 'landscape', compress: true }
+        // MENGEMBALIKAN KE FORMAT A4 LANDSCAPE DENGAN UNIT MM (MENGHILANGKAN POTONGAN POSISI)
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape', compress: true }
     };
 
-    // Eksekusi Download PDF
     html2pdf().set(opt).from(element).save().then(() => {
-        // Kembalikan ke posisi tersembunyi
         wrapper.style.left = "-9999px";
         wrapper.style.position = "absolute";
     });
