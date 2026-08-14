@@ -59,30 +59,32 @@
             box-sizing: border-box;
         }
 
-        /* PROPORSIONAL TANDA TANGAN */
+        /* PERBAIKAN UTAMA: TANDA TANGAN PROPORSIONAL & MANTAP */
         .signature-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
             width: 100%;
-            margin-top: 10px;
+            margin-top: auto;
+            padding-bottom: 5px;
         }
         
         .signature-img {
-            height: 80px;
+            height: 125px; /* Ditingkatkan dari 80px agar jauh lebih tegas dan proporsional */
             width: auto;
+            max-width: 240px;
             object-fit: contain;
-            margin-bottom: -8px;
+            margin-bottom: -18px; /* Tumpang tindih secara alami dengan garis bawah */
             position: relative;
             z-index: 2;
         }
 
         .signature-line {
-            width: 190px;
+            width: 220px; /* Garis disesuaikan lebih lebar agar seimbang dengan TTD */
             height: 1.5px;
             background: #1e3a8a;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
     </style>
 </head>
@@ -196,12 +198,12 @@
                                     <ul id="shio-details" style="font-size: 8.5pt; line-height: 1.4; list-style: none; padding: 0; color: #475569;"></ul>
                                 </div>
 
-                                <!-- Signature Section -->
+                                <!-- Signature Section Proporsional -->
                                 <div class="signature-container">
                                     <img src="ttd.png" crossorigin="anonymous" alt="Tanda Tangan" class="signature-img">
                                     <div class="signature-line"></div>
-                                    <p style="font-weight: 800; font-size: 10.5pt; margin: 0; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px;">Ali Mahfud</p>
-                                    <p style="font-size: 7.5pt; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Founder Araya Consulting</p>
+                                    <p style="font-weight: 800; font-size: 11pt; margin: 0; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px;">Ali Mahfud</p>
+                                    <p style="font-size: 8pt; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Founder Araya Consulting</p>
                                 </div>
                             </div>
                         </div>
