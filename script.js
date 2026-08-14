@@ -228,28 +228,31 @@ function downloadPDF() {
     const wrapper = document.getElementById('certificate-wrapper');
     const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
     
-    // Tampilkan wrapper sementara agar elemen dapat di-render dengan utuh
+    // Kunci posisi persis di (0,0) viewport untuk mencegah geser/off-center di iPad/Safari
     wrapper.style.left = "0";
-    wrapper.style.position = "static";
+    wrapper.style.top = "0";
+    wrapper.style.position = "fixed";
+    wrapper.style.zIndex = "9999";
 
     const opt = {
-        margin:       0, // Tanpa margin kertas agar border menempel sempurna
+        margin:       0,
         filename:     filename,
-        image:        { type: 'jpeg', quality: 0.98 },
+        image:        { type: 'jpeg', quality: 1.0 },
         html2canvas:  { 
             scale: 2, 
             useCORS: true, 
             scrollY: 0,
             scrollX: 0,
-            windowWidth: 1122, // Ukuran lebar standar A4 Landscape (px)
+            windowWidth: 1122,
             windowHeight: 794
         },
-        // MENGEMBALIKAN KE FORMAT A4 LANDSCAPE DENGAN UNIT MM (MENGHILANGKAN POTONGAN POSISI)
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape', compress: true }
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
+        // Kembalikan ke posisi tersembunyi setelah eksekusi
         wrapper.style.left = "-9999px";
         wrapper.style.position = "absolute";
+        wrapper.style.zIndex = "auto";
     });
 }
