@@ -117,7 +117,6 @@ function startQuiz() {
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
     
-    // Validasi apakah elemen ada di HTML
     if (!nameEl || !phoneEl) {
         console.error("Elemen input tidak ditemukan!");
         return;
@@ -131,11 +130,9 @@ function startQuiz() {
         return;
     }
     
-    // Simpan ke Global State
     userInfo.name = nameValue;
     userInfo.phone = phoneValue;
     
-    // Pindah ke Quiz Section
     const regSection = document.getElementById('register-section');
     const quizSection = document.getElementById('quiz-section');
     
@@ -157,6 +154,7 @@ function showQuestion() {
     container.innerHTML = "";
     q.map.forEach((m, i) => {
         const btn = document.createElement('button');
+        btn.type = "button";
         btn.className = "w-full text-left p-4 border rounded-xl hover:bg-blue-50 transition text-sm";
         btn.innerText = [q.a, q.b, q.c, q.d][i];
         btn.onclick = () => selectOption(m);
@@ -166,8 +164,12 @@ function showQuestion() {
 
 function selectOption(m) {
     userAnswers.push(m);
-    if(currentQuestion < 24) { currentQuestion++; showQuestion(); }
-    else { calculateAndSync(); }
+    if(currentQuestion < 24) { 
+        currentQuestion++; 
+        showQuestion(); 
+    } else { 
+        calculateAndSync(); 
+    }
 }
 
 async function calculateAndSync() {
@@ -179,7 +181,6 @@ async function calculateAndSync() {
     
     const reportId = `ARY-SHI-${Math.floor(100000 + Math.random() * 900000)}`;
     
-    // Auto-update WhatsApp link
     const waMessage = `Halo Mas Ali, saya sudah selesai tes Shio Kesuksesan. Mohon kode aktivasi sertifikat.\n\nNama: *${userInfo.name}*\nID Saya: *${reportId}*`;
     const waUrl = `https://wa.me/6285232526003?text=${encodeURIComponent(waMessage)}`;
     const waBtn = document.getElementById('wa-admin-btn');
@@ -222,37 +223,26 @@ function renderCertificate() {
     document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
+// UPDATE FUNGSIONALITAS DOWNLOAD PDF Sesuai Permintaan
 function downloadPDF() {
     renderCertificate();
-    const element = document.getElementById('certificate-area');
-    const wrapper = document.getElementById('certificate-wrapper');
-    const filename = `Sertifikat_Shio_${userInfo.name.replace(/\s+/g, '_')}.pdf`;
     
-    // Kunci posisi persis di (0,0) viewport untuk mencegah geser/off-center di iPad/Safari
-    wrapper.style.left = "0";
-    wrapper.style.top = "0";
-    wrapper.style.position = "fixed";
-    wrapper.style.zIndex = "9999";
-
+    const element = document.getElementById('certificate-area'); // Ambil certificate-area langsung
+    const userNameFormatted = userInfo.name ? userInfo.name.replace(/\s+/g, '_') : 'Peserta';
+    
     const opt = {
-        margin:       0,
-        filename:     filename,
-        image:        { type: 'jpeg', quality: 1.0 },
+        margin:       0, // Set margin ke 0 agar html2pdf tidak menambah offset otomatis
+        filename:     `Sertifikat_Shio_${userNameFormatted}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { 
             scale: 2, 
-            useCORS: true, 
-            scrollY: 0,
+            useCORS: true,
+            logging: false,
             scrollX: 0,
-            windowWidth: 1122,
-            windowHeight: 794
+            scrollY: 0
         },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape', compress: true }
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
-    html2pdf().set(opt).from(element).save().then(() => {
-        // Kembalikan ke posisi tersembunyi setelah eksekusi
-        wrapper.style.left = "-9999px";
-        wrapper.style.position = "absolute";
-        wrapper.style.zIndex = "auto";
-    });
+    html2pdf().set(opt).from(element).save();
 }
