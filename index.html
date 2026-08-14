@@ -56,39 +56,45 @@
             display: block; 
         }
 
-        /* KONTAINER DOWNLOAD - MENGUNCI A4 LANDSCAPE EXACT (PRESISI MM) */
+        /* KONTAINER DOWNLOAD - FIX CENTER & DIMENSI KETAT A4 LANDSCAPE */
         #certificate-wrapper {
             position: absolute;
             left: -9999px;
             top: 0;
             width: 297mm;
             height: 210mm;
-            overflow: hidden;
+            box-sizing: border-box;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
         }
 
         #certificate-area {
-            width: 297mm;
-            height: 210mm;
+            width: 285mm; /* Presisi sedikit lebih kecil dari A4 untuk mencegah bleed/margin overflow */
+            height: 198mm;
             background: white;
-            padding: 8mm; 
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            margin: auto;
         }
 
         .cert-border-outer {
-            border: 10px solid #1e3a8a; 
+            border: 8px solid #1e3a8a; 
             width: 100%; 
             height: 100%; 
-            padding: 3px; 
+            padding: 4px; 
             box-sizing: border-box;
         }
 
         .cert-border-inner {
             border: 1.5px solid #b45309;
             height: 100%;
-            padding: 20px 35px;
+            padding: 24px 36px;
             position: relative;
             background: white;
             display: flex;
@@ -96,22 +102,31 @@
             box-sizing: border-box;
         }
 
-        /* TANDA TANGAN PROPORSIONAL */
+        /* PERBAIKAN PROPORSIONAL TANDA TANGAN */
         .signature-container {
-            margin-top: auto; 
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-end;
             width: 100%;
-            padding-bottom: 5px;
+            margin-top: 10px;
         }
         
+        .signature-img {
+            height: 85px; /* Memperbesar gambar TTD */
+            width: auto;
+            max-width: 180px;
+            object-fit: contain;
+            margin-bottom: -10px;
+            position: relative;
+            z-index: 2;
+        }
+
         .signature-line {
-            width: 180px; 
-            height: 1px;
+            width: 200px; /* Garis lebih lebar */
+            height: 1.5px;
             background: #1e3a8a;
-            margin-top: -12px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
     </style>
 </head>
@@ -178,67 +193,69 @@
         </section>
     </div>
 
-    <!-- CERTIFICATE TEMPLATE FOR PDF GENERATION (A4 LANDSCAPE) -->
+    <!-- TEMPLATE SERTIFIKAT UNTUK PDF GENERATION -->
     <div id="certificate-wrapper">
         <div id="certificate-area">
             <div class="cert-border-outer">
                 <div class="cert-border-inner">
                     <!-- Watermark Logo -->
-                    <img src="logo.png" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; opacity: 0.05; z-index: 0;">
+                    <img src="logo.png" alt="" style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%); width: 420px; opacity: 0.05; z-index: 0; pointer-events: none;">
                     
-                    <div style="position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%;">
+                    <div style="position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+                        
                         <!-- Header Certificate -->
                         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <img src="logo.png" alt="Araya Logo" style="height: 60px; object-fit: contain;">
+                            <img src="logo.png" alt="Araya Logo" style="height: 55px; object-fit: contain;">
                             <div style="text-align: right;">
-                                <h1 style="font-family: 'Playfair Display', serif; font-size: 22pt; color: #1e3a8a; margin: 0; text-transform: uppercase; font-weight: 700;">Certificate of Analysis</h1>
-                                <p style="color: #b45309; font-weight: bold; font-size: 9pt; margin: 0;">THE MILLIONAIRE MINDSET SPECTRUM</p>
+                                <h1 style="font-family: 'Playfair Display', serif; font-size: 21pt; color: #1e3a8a; margin: 0; text-transform: uppercase; font-weight: 700;">Certificate of Analysis</h1>
+                                <p style="color: #b45309; font-weight: 700; font-size: 8.5pt; margin: 0; letter-spacing: 0.5px;">THE MILLIONAIRE MINDSET SPECTRUM</p>
                             </div>
                         </div>
 
                         <!-- Certificate Recipient -->
-                        <div style="text-align: center; margin: 15px 0;">
-                            <p style="font-style: italic; font-size: 11pt; margin-bottom: 5px; color: #64748b;">Sertifikat ini secara resmi diberikan kepada:</p>
-                            <h2 id="cert-user-name" style="font-family: 'Playfair Display', serif; font-size: 34pt; display: inline-block; padding: 0 40px; margin: 0; color: #1e3a8a; text-transform: uppercase; font-weight: 700;"></h2>
+                        <div style="text-align: center; margin: 10px 0;">
+                            <p style="font-style: italic; font-size: 10.5pt; margin-bottom: 4px; color: #64748b;">Sertifikat ini secara resmi diberikan kepada:</p>
+                            <h2 id="cert-user-name" style="font-family: 'Playfair Display', serif; font-size: 32pt; display: inline-block; padding: 0 30px; margin: 0; color: #1e3a8a; text-transform: uppercase; font-weight: 700;"></h2>
                         </div>
 
                         <!-- Dominant Result Banner -->
-                        <div style="background: #1e3a8a; color: white; padding: 10px 25px; border-radius: 0 0 40px 0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="background: #1e3a8a; color: white; padding: 10px 20px; border-radius: 0 0 35px 0; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <span style="color: #fbbf24; font-size: 8pt; text-transform: uppercase; font-weight: bold;">Hasil Profil Dominan:</span>
-                                <h3 id="shio-title" style="font-size: 26pt; margin: 0; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;"></h3>
+                                <span style="color: #fbbf24; font-size: 7.5pt; text-transform: uppercase; font-weight: 700; tracking-wide;">Hasil Profil Dominan:</span>
+                                <h3 id="shio-title" style="font-size: 24pt; margin: 0; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;"></h3>
                             </div>
-                            <p id="shio-slogan" style="font-style: italic; font-size: 10pt; max-width: 380px; text-align: right; margin: 0; line-height: 1.3;"></p>
+                            <p id="shio-slogan" style="font-style: italic; font-size: 9.5pt; max-width: 360px; text-align: right; margin: 0; line-height: 1.3; opacity: 0.95;"></p>
                         </div>
 
                         <!-- Content Grid: Analysis & Attributes -->
-                        <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; flex-grow: 1;">
+                        <div style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 25px; flex-grow: 1; align-items: start;">
                             <div>
-                                <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Analisis Strategis Bisnis</h4>
-                                <div id="shio-long-desc" style="font-size: 9.5pt; line-height: 1.35; text-align: justify; color: #334155;"></div>
+                                <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 4px; font-size: 9.5pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Analisis Strategis Bisnis</h4>
+                                <div id="shio-long-desc" style="font-size: 9pt; line-height: 1.4; text-align: justify; color: #334155;"></div>
                             </div>
                             
-                            <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
                                 <div>
-                                    <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Atribut Karakter Sukses</h4>
-                                    <ul id="shio-details" style="font-size: 9pt; line-height: 1.4; list-style: none; padding: 0; color: #475569;"></ul>
+                                    <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 4px; font-size: 9.5pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Atribut Karakter Sukses</h4>
+                                    <ul id="shio-details" style="font-size: 8.5pt; line-height: 1.4; list-style: none; padding: 0; color: #475569;"></ul>
                                 </div>
 
-                                <!-- Signature Section -->
+                                <!-- Signature Section Proporsional -->
                                 <div class="signature-container">
-                                    <img src="ttd.png" alt="Tanda Tangan" style="height: 70px; margin-bottom: -5px; position: relative; z-index: 2; object-fit: contain;">
+                                    <img src="ttd.png" alt="Tanda Tangan" class="signature-img">
                                     <div class="signature-line"></div>
-                                    <p style="font-weight: 800; font-size: 11pt; margin: 0; color: #1e3a8a; text-transform: uppercase;">Ali Mahfud</p>
-                                    <p style="font-size: 8pt; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase;">Founder Araya Consulting</p>
+                                    <p style="font-weight: 800; font-size: 10.5pt; margin: 0; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px;">Ali Mahfud</p>
+                                    <p style="font-size: 7.5pt; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Founder Araya Consulting</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Certificate Footer Metadata -->
-                        <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 7pt; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 6px; margin-top: 5px;">
+                        <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 7pt; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 6px; margin-top: 4px;">
                             <span>VERIFIED ID: <span id="cert-id"></span></span>
                             <span>TANGGAL: <span id="cert-date"></span></span>
                         </div>
+
                     </div>
                 </div>
             </div>
