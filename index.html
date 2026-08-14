@@ -3,23 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Araya Shio Kesuksesan</title>
+    <title>Araya Shio Kesuksesan - Millionaire Mindset Spectrum</title>
+    <!-- Dependencies External -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         /* TAMPILAN APLIKASI UTAMA */
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .font-serif { font-family: 'Playfair Display', serif; }
-        .card { background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
-        .input-field { width: 100%; padding: 0.85rem; border: 1px solid #e2e8f0; border-radius: 0.75rem; outline: none; transition: all 0.2s; }
-        .input-field:focus { border-color: #1e3a8a; box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1); }
-        .btn-primary { width: 100%; background: #1e3a8a; color: white; padding: 1rem; border-radius: 0.75rem; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
-        .btn-primary:hover { background: #172554; transform: translateY(-2px); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc; 
+        }
+        .font-serif { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .card { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 1.5rem; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); 
+        }
+        .input-field { 
+            width: 100%; 
+            padding: 0.85rem; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 0.75rem; 
+            outline: none; 
+            transition: all 0.2s; 
+        }
+        .input-field:focus { 
+            border-color: #1e3a8a; 
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1); 
+        }
+        .btn-primary { 
+            width: 100%; 
+            background: #1e3a8a; 
+            color: white; 
+            padding: 1rem; 
+            border-radius: 0.75rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border: none; 
+            transition: all 0.3s; 
+        }
+        .btn-primary:hover { 
+            background: #172554; 
+            transform: translateY(-2px); 
+        }
         
-        .no-print { display: block; }
+        .no-print { 
+            display: block; 
+        }
 
-        /* KONTANER DOWNLOAD - MENGUNCI A4 LANDSCAPE EXACT (PRESISI MM) */
+        /* KONTAINER DOWNLOAD - MENGUNCI A4 LANDSCAPE EXACT (PRESISI MM) */
         #certificate-wrapper {
             position: absolute;
             left: -9999px;
@@ -38,6 +75,14 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+        }
+
+        .cert-border-outer {
+            border: 10px solid #1e3a8a; 
+            width: 100%; 
+            height: 100%; 
+            padding: 3px; 
+            box-sizing: border-box;
         }
 
         .cert-border-inner {
@@ -72,28 +117,31 @@
 </head>
 <body class="bg-slate-50">
 
+    <!-- APLIKASI UTAMA (INTERFAKS USER) -->
     <div id="app-container" class="max-w-xl mx-auto min-h-screen flex flex-col p-6 no-print">
         <header class="text-center py-10">
-            <img src="logo.png" alt="Logo Araya" class="h-24 mx-auto mb-4">
+            <img src="logo.png" alt="Logo Araya Consulting" class="h-24 mx-auto mb-4 object-contain">
             <h1 class="font-serif text-3xl text-blue-900 uppercase tracking-widest font-bold">Shio Kesuksesan</h1>
             <p class="text-[10px] text-slate-400 tracking-[0.4em] uppercase mt-2 font-semibold">Millionaire Mindset Spectrum</p>
         </header>
 
+        <!-- SECTION 1: REGISTRASI -->
         <section id="register-section" class="card">
             <h2 class="text-xl font-bold mb-6 text-slate-800 border-l-4 border-blue-900 pl-4">Identitas Peserta</h2>
             <div class="space-y-5">
                 <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase ml-1 tracking-widest">Nama Lengkap</label>
+                    <label for="user-name" class="text-[10px] font-bold text-slate-400 uppercase ml-1 tracking-widest">Nama Lengkap</label>
                     <input type="text" id="user-name" class="input-field mt-1" placeholder="Masukkan nama Anda">
                 </div>
                 <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase ml-1 tracking-widest">Nomor WhatsApp</label>
+                    <label for="user-phone" class="text-[10px] font-bold text-slate-400 uppercase ml-1 tracking-widest">Nomor WhatsApp</label>
                     <input type="tel" id="user-phone" class="input-field mt-1" placeholder="Contoh: 085232526003">
                 </div>
-                <button onclick="startQuiz()" class="btn-primary uppercase tracking-widest mt-2 shadow-lg">Mulai Analisis</button>
+                <button type="button" onclick="startQuiz()" class="btn-primary uppercase tracking-widest mt-2 shadow-lg">Mulai Analisis</button>
             </div>
         </section>
 
+        <!-- SECTION 2: QUIZ -->
         <section id="quiz-section" class="card hidden">
             <div class="flex justify-between items-center mb-8">
                 <span id="progress-text" class="text-xs font-bold text-blue-900 uppercase tracking-widest">Soal 1 / 25</span>
@@ -105,49 +153,56 @@
             <div id="options-container" class="grid gap-3"></div>
         </section>
 
+        <!-- SECTION 3: PAYWALL / ACTIVATION CODE -->
         <section id="paywall-section" class="card hidden text-center border-t-8 border-blue-900">
             <h2 class="text-2xl font-bold text-blue-900 mb-2 tracking-tight">Analisis Selesai!</h2>
             <p class="text-slate-500 mb-8 text-sm leading-relaxed">Halo <span id="user-display-name" class="font-bold text-blue-900"></span>, sistem kami telah memproses profil Millionaire Mindset Anda.</p>
             <div class="bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-100">
-                <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Masukkan Kode Aktivasi Sertifikat</p>
+                <label for="license-key" class="block text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Masukkan Kode Aktivasi Sertifikat</label>
                 <input type="text" id="license-key" class="input-field text-center font-mono text-xl mb-4 tracking-[0.2em]" placeholder="KODE-XXXX">
-                <button onclick="activateWithKey()" class="btn-primary uppercase">Buka Akses Sertifikat</button>
+                <button type="button" onclick="activateWithKey()" class="btn-primary uppercase">Buka Akses Sertifikat</button>
             </div>
             <p class="text-[9px] text-slate-400 mb-2 uppercase font-bold tracking-tighter">Belum memiliki kode? Klik tombol dibawah:</p>
-            <a id="wa-admin-btn" href="#" target="_blank" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full font-bold text-xs uppercase shadow-md hover:bg-green-700 transition">Hubungi Admin via WhatsApp</a>
+            <a id="wa-admin-btn" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full font-bold text-xs uppercase shadow-md hover:bg-green-700 transition">Hubungi Admin via WhatsApp</a>
         </section>
 
+        <!-- SECTION 4: FINAL RESULT & DOWNLOAD -->
         <section id="final-result-section" class="card hidden text-center">
             <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
             <h2 class="text-2xl font-bold mb-2 text-slate-900 uppercase">Verifikasi Berhasil</h2>
             <p class="text-slate-500 text-sm mb-8">Laporan Analisis Premium Anda siap diunduh dalam format PDF.</p>
-            <button onclick="downloadPDF()" class="btn-primary uppercase tracking-widest shadow-xl">Download Sertifikat (PDF)</button>
+            <button type="button" onclick="downloadPDF()" class="btn-primary uppercase tracking-widest shadow-xl">Download Sertifikat (PDF)</button>
             <p class="text-[9px] text-slate-400 mt-8 uppercase italic opacity-50">© 2026 Araya Consulting - All Rights Reserved</p>
         </section>
     </div>
 
+    <!-- CERTIFICATE TEMPLATE FOR PDF GENERATION (A4 LANDSCAPE) -->
     <div id="certificate-wrapper">
         <div id="certificate-area">
-            <div class="cert-border-outer" style="border: 10px solid #1e3a8a; width: 100%; height: 100%; padding: 3px; box-sizing: border-box;">
+            <div class="cert-border-outer">
                 <div class="cert-border-inner">
-                    <img src="logo.png" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; opacity: 0.05; z-index: 0;">
+                    <!-- Watermark Logo -->
+                    <img src="logo.png" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; opacity: 0.05; z-index: 0;">
                     
                     <div style="position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%;">
-                        <div style="display: flex; justify-content: space-between; align-items: start;">
-                            <img src="logo.png" style="height: 60px;">
+                        <!-- Header Certificate -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <img src="logo.png" alt="Araya Logo" style="height: 60px; object-fit: contain;">
                             <div style="text-align: right;">
                                 <h1 style="font-family: 'Playfair Display', serif; font-size: 22pt; color: #1e3a8a; margin: 0; text-transform: uppercase; font-weight: 700;">Certificate of Analysis</h1>
                                 <p style="color: #b45309; font-weight: bold; font-size: 9pt; margin: 0;">THE MILLIONAIRE MINDSET SPECTRUM</p>
                             </div>
                         </div>
 
+                        <!-- Certificate Recipient -->
                         <div style="text-align: center; margin: 15px 0;">
                             <p style="font-style: italic; font-size: 11pt; margin-bottom: 5px; color: #64748b;">Sertifikat ini secara resmi diberikan kepada:</p>
                             <h2 id="cert-user-name" style="font-family: 'Playfair Display', serif; font-size: 34pt; display: inline-block; padding: 0 40px; margin: 0; color: #1e3a8a; text-transform: uppercase; font-weight: 700;"></h2>
                         </div>
 
+                        <!-- Dominant Result Banner -->
                         <div style="background: #1e3a8a; color: white; padding: 10px 25px; border-radius: 0 0 40px 0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <span style="color: #fbbf24; font-size: 8pt; text-transform: uppercase; font-weight: bold;">Hasil Profil Dominan:</span>
@@ -156,6 +211,7 @@
                             <p id="shio-slogan" style="font-style: italic; font-size: 10pt; max-width: 380px; text-align: right; margin: 0; line-height: 1.3;"></p>
                         </div>
 
+                        <!-- Content Grid: Analysis & Attributes -->
                         <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; flex-grow: 1;">
                             <div>
                                 <h4 style="color: #1e3a8a; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 5px; font-size: 10pt; text-transform: uppercase; margin-bottom: 8px; font-weight: 700;">Analisis Strategis Bisnis</h4>
@@ -168,8 +224,9 @@
                                     <ul id="shio-details" style="font-size: 9pt; line-height: 1.4; list-style: none; padding: 0; color: #475569;"></ul>
                                 </div>
 
+                                <!-- Signature Section -->
                                 <div class="signature-container">
-                                    <img src="ttd.png" style="height: 70px; margin-bottom: -5px; position: relative; z-index: 2;">
+                                    <img src="ttd.png" alt="Tanda Tangan" style="height: 70px; margin-bottom: -5px; position: relative; z-index: 2; object-fit: contain;">
                                     <div class="signature-line"></div>
                                     <p style="font-weight: 800; font-size: 11pt; margin: 0; color: #1e3a8a; text-transform: uppercase;">Ali Mahfud</p>
                                     <p style="font-size: 8pt; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase;">Founder Araya Consulting</p>
@@ -177,6 +234,7 @@
                             </div>
                         </div>
 
+                        <!-- Certificate Footer Metadata -->
                         <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 7pt; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 6px; margin-top: 5px;">
                             <span>VERIFIED ID: <span id="cert-id"></span></span>
                             <span>TANGGAL: <span id="cert-date"></span></span>
@@ -187,6 +245,7 @@
         </div>
     </div>
 
+    <!-- Script Logika Aplikasi -->
     <script src="script.js"></script>
 </body>
 </html>
