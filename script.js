@@ -117,10 +117,7 @@ function startQuiz() {
     const nameEl = document.getElementById('user-name');
     const phoneEl = document.getElementById('user-phone');
     
-    if (!nameEl || !phoneEl) {
-        console.error("Elemen input tidak ditemukan!");
-        return;
-    }
+    if (!nameEl || !phoneEl) return;
 
     const nameValue = nameEl.value.trim();
     const phoneValue = phoneEl.value.trim();
@@ -133,16 +130,11 @@ function startQuiz() {
     userInfo.name = nameValue;
     userInfo.phone = phoneValue;
     
-    const regSection = document.getElementById('register-section');
-    const quizSection = document.getElementById('quiz-section');
-    
-    if (regSection && quizSection) {
-        regSection.classList.add('hidden');
-        quizSection.classList.remove('hidden');
-        currentQuestion = 0;
-        userAnswers = [];
-        showQuestion();
-    }
+    document.getElementById('register-section').classList.add('hidden');
+    document.getElementById('quiz-section').classList.remove('hidden');
+    currentQuestion = 0;
+    userAnswers = [];
+    showQuestion();
 }
 
 function showQuestion() {
@@ -223,26 +215,37 @@ function renderCertificate() {
     document.getElementById('cert-date').innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-// UPDATE FUNGSIONALITAS DOWNLOAD PDF Sesuai Permintaan
-function downloadPDF() {
+// LOGIKA PRESISI DOWNLOAD PDF SEPERTI APLIKASI DISC (html2canvas + jsPDF)
+async function downloadPDF() {
+    const btn = document.getElementById('download-btn');
+    btn.disabled = true;
+    btn.innerText = "Mencetak PDF...";
+
     renderCertificate();
-    
-    const element = document.getElementById('certificate-area'); // Ambil certificate-area langsung
-    const userNameFormatted = userInfo.name ? userInfo.name.replace(/\s+/g, '_') : 'Peserta';
-    
-    const opt = {
-        margin:       0, // Set margin ke 0 agar html2pdf tidak menambah offset otomatis
-        filename:     `Sertifikat_Shio_${userNameFormatted}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { 
+
+    try {
+        const certElement = document.getElementById('cert-content');
+        
+        // Render Canvas persis seperti app DISC
+        const canvas = await html2canvas(certElement, { 
             scale: 2, 
             useCORS: true,
-            logging: false,
-            scrollX: 0,
-            scrollY: 0
-        },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-    };
+            logging: false
+        });
 
-    html2pdf().set(opt).from(element).save();
+        // Ekspor PDF via jsPDF landscape A4 murni
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('l', 'mm', 'a4');
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 297, 210);
+        
+        const userNameFormatted = userInfo.name ? userInfo.name.replace(/\s+/g, '_') : 'Peserta';
+        pdf.save(`Sertifikat_Shio_${userNameFormatted}.pdf`);
+
+    } catch (error) {
+        console.error("Gagal mencetak PDF:", error);
+        alert("Terjadi kesalahan saat mencetak PDF.");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "DOWNLOAD SERTIFIKAT (PDF)";
+    }
 }
